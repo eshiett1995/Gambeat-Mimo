@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "610752416549",
+    "firebase_url": "https://gambeat-46892.firebaseio.com",
+    "project_id": "gambeat-46892",
+    "storage_bucket": "gambeat-46892.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610752416549:android:d199e15a9329d370d668cc",
+        "android_client_info": {
+          "package_name": "com.gambeat.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610752416549-1j5l5thl6fceo2cr7sefhibqf5k1a41o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1U-dL3ciwb3JagIvhP-2b6vnwJIrPpNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610752416549-1j5l5thl6fceo2cr7sefhibqf5k1a41o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "610752416549-97oepg6qjtck7opq9jvurttrdlkqdf3n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gambeat.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
