@@ -47,6 +47,8 @@ public class Multiplayer : MonoBehaviour
     {
         GameCode.mp = this;
         Debug.Log("Initializing real-time multiplayer");
+
+      
         // setupFireBase();
         // retreiveLeaderboardData();
     }

@@ -14,16 +14,14 @@ public class UI : MonoBehaviour
     public Text scoreText, scoreText2, stakeText, statusText, internetText,
         p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText;
     private Texture2D[] lifeImages = new Texture2D[4];
-    public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile;
+    public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
     public GameObject border1, border2, border3, border4;
     public Button restart, menu, ok, back2;
     public bool startingGame, displayingMatchUp, isDraw, oppSpawned;
-    public Button single, multi, leaderboard, exit, start, plus, minus, back, cancel, rematch;
+    public Button single, multi, leaderboardButton, exit, start, plus, minus, back, cancel, rematch;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
     public GameObject menuPanel, gamePanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, multiPairPanel, tutorialPanel, userNamePanel, lbPanel;
-    public Text u1, u2, u3, u4, u5, u6, u7, u8, u9, u10, u11, u12, u13, u14, u15, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15;
-    public GameObject lv1, lv2, lv3, lv4, lv5, lv6, lv7, lv8, lv9, lv10, lv11, lv12, lv13, lv14, lv15;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -114,7 +112,7 @@ public class UI : MonoBehaviour
         exit.onClick.AddListener(() => quitGame());
         menu.onClick.AddListener(() => Menu());
         ok.onClick.AddListener(() => setUserID());
-        leaderboard.onClick.AddListener(() => displayLeaderBoard());
+        leaderboardButton.onClick.AddListener(() => displayLeaderBoard());
 
 
         Multiplayer.ui = this;
@@ -167,36 +165,21 @@ public class UI : MonoBehaviour
     {
         menuPanel.SetActive(false);
         lbPanel.SetActive(true);
+        FindObjectOfType<GameCode>().resetLeaderboard();
+      
         // GameCode.mp.retreiveLeaderboardData();
 
     }
 
     public void setLeaderBoardData()
     {
-        hasSetLeaderboard = true;
 
-        lv1.SetActive(false);
-        lv2.SetActive(false);
-        lv3.SetActive(false);
-        lv4.SetActive(false);
-        lv5.SetActive(false);
-        lv6.SetActive(false);
-        lv7.SetActive(false);
-        lv8.SetActive(false);
-        lv9.SetActive(false);
-        lv10.SetActive(false);
-        lv11.SetActive(false);
-        lv12.SetActive(false);
-        lv13.SetActive(false);
-        lv14.SetActive(false);
-        lv15.SetActive(false);
+        listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.height / 3.95f);
 
-
-
-        if (lbPanel.activeSelf)
+        if (lbPanel.activeSelf && FindObjectOfType<GameCode>().leaderboardItems.Count == 0)
         {
-            listView.GetComponent<VerticalLayoutGroup>().padding.top = (int)(Screen.height / 3.45f);
-
+            //hasSetLeaderboard = true;
+            Debug.Log("Setting Leaderboard data");
             string[] defNames = new string[Multiplayer.lbNames.Count];
             int[] defScores = new int[Multiplayer.lbScores.Count];
 
@@ -221,98 +204,13 @@ public class UI : MonoBehaviour
                 }
             }
 
-            if (Multiplayer.lbNames.Count > 14)
+            for (int i = 0; i < Multiplayer.lbNames.Count; i++)
             {
-                u15.text = Multiplayer.lbNames[14];
-                s15.text = Multiplayer.lbScores[14] + "";
-                lv15.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 13)
-            {
-                u14.text = Multiplayer.lbNames[13];
-                s14.text = Multiplayer.lbScores[13] + "";
-                lv14.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 12)
-            {
-                u13.text = Multiplayer.lbNames[12];
-                s13.text = Multiplayer.lbScores[12] + "";
-                lv13.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 11)
-            {
-                u12.text = Multiplayer.lbNames[11];
-                s12.text = Multiplayer.lbScores[11] + "";
-                lv12.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 10)
-            {
-                u11.text = Multiplayer.lbNames[10];
-                s11.text = Multiplayer.lbScores[10] + "";
-                lv11.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 9)
-            {
-                u10.text = Multiplayer.lbNames[9];
-                s10.text = Multiplayer.lbScores[9] + "";
-                lv10.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 8)
-            {
-                u9.text = Multiplayer.lbNames[8];
-                s9.text = Multiplayer.lbScores[8] + "";
-                lv9.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 7)
-            {
-                u8.text = Multiplayer.lbNames[7];
-                s8.text = Multiplayer.lbScores[7] + "";
-                lv8.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 6)
-            {
-                u7.text = Multiplayer.lbNames[6];
-                s7.text = Multiplayer.lbScores[6] + "";
-                lv7.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 5)
-            {
-                u6.text = Multiplayer.lbNames[5];
-                s6.text = Multiplayer.lbScores[5] + "";
-                lv6.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 4)
-            {
-                u5.text = Multiplayer.lbNames[4];
-                s5.text = Multiplayer.lbScores[4] + "";
-                lv5.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 3)
-            {
-                u4.text = Multiplayer.lbNames[3];
-                s4.text = Multiplayer.lbScores[3] + "";
-                lv4.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 2)
-            {
-                u3.text = Multiplayer.lbNames[2];
-                s3.text = Multiplayer.lbScores[2] + "";
-                lv3.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 1)
-            {
-                u2.text = Multiplayer.lbNames[1];
-                s2.text = Multiplayer.lbScores[1] + "";
-                lv2.SetActive(true);
-            }
-            if (Multiplayer.lbNames.Count > 0)
-            {
-                u1.text = Multiplayer.lbNames[0];
-                s1.text = Multiplayer.lbScores[0] + "";
-                lv1.SetActive(true);
+                Instantiate(listViewChild.gameObject, GameObject.FindGameObjectWithTag("ListView").transform);
             }
 
             Debug.Log(Multiplayer.lbNames.Count + " Names set on Leaderboard");
+            // hasSetLeaderboard = true;
         }
     }
 
@@ -603,6 +501,14 @@ public class UI : MonoBehaviour
             }
 
 
+        }
+        if (lbPanel.activeSelf)
+        {
+            RectTransform rectTransform = leaderboard.GetComponent<RectTransform>();
+            float newTop = ((Screen.height - 1280f) / 2) + 145;
+            float newBottom = ((Screen.height - 1280f) / 2) + 99;
+            rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, newBottom);
+            rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -newTop);
         }
 
     }

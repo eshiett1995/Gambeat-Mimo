@@ -19,6 +19,7 @@ public class GameCode : MonoBehaviour
     public static Multiplayer mp;
     public static GameCode game;
     public static int highScore;
+    public List<GameObject> leaderboardItems = new List<GameObject>();
 
     void Start()
     {
@@ -258,6 +259,15 @@ public class GameCode : MonoBehaviour
         // if(!setHighscore)
         //  mp.uploadHighScore();
         setHighscore = true;
+    }
+
+    public void resetLeaderboard()
+    {
+        for (int i = 0; i < leaderboardItems.Count; i++)
+        {
+            Destroy(leaderboardItems[i]);
+        }
+        leaderboardItems.Clear();
     }
 
     public void resetElements()
