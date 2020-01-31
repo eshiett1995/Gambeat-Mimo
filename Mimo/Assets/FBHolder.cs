@@ -23,10 +23,10 @@ public class FBHolder : MonoBehaviour
 
         if (FB.IsLoggedIn)
         {
-            //profilePanel.SetActive(true);
+            profilePanel.SetActive(true);
         }
         else {
-            //profilePanel.SetActive(false);
+            profilePanel.SetActive(false);
         }
     }
 
@@ -76,7 +76,16 @@ public class FBHolder : MonoBehaviour
         profilePanel.SetActive(true);
         nameText.text = "";
         nameText.text = result.ResultDictionary["first_name"].ToString() +" "+ result.ResultDictionary["last_name"].ToString();
+        PlayerPrefs.SetString("firstName", result.ResultDictionary["first_name"].ToString());
+        PlayerPrefs.SetString("lastName", result.ResultDictionary["last_name"].ToString());
 
+        FacebookLoginRequest facebookLoginRequest = new FacebookLoginRequest();
+        facebookLoginRequest.firstName = result.ResultDictionary["first_name"].ToString();
+        facebookLoginRequest.lastName = result.ResultDictionary["last_name"].ToString();
+        facebookLoginRequest.email = result.ResultDictionary["email"].ToString();
+        facebookLoginRequest.id = result.ResultDictionary["id"].ToString();
+
+        //StartCoroutine(Post("https://www.gambeat.com/auth/facebook", JsonUtility.ToJson(facebookLoginRequest)));
     }
 
     IEnumerator Post(string url, string bodyJsonString)
