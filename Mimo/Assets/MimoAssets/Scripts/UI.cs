@@ -21,7 +21,7 @@ public class UI : MonoBehaviour
     public Button single, multi, leaderboardButton, exit, start, plus, minus, back, cancel, rematch;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
-    public GameObject menuPanel, gamePanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, multiPairPanel, tutorialPanel, userNamePanel, lbPanel;
+    public GameObject menuPanel, gamePanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, multiPairPanel, tutorialPanel, lbPanel;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -77,7 +77,6 @@ public class UI : MonoBehaviour
         menuPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
         multiMenuPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
         multiPairPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
-        userNamePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
         tutorialPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
         lbPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
 
@@ -111,22 +110,11 @@ public class UI : MonoBehaviour
         rematch.onClick.AddListener(() => rematchOpponent());
         exit.onClick.AddListener(() => quitGame());
         menu.onClick.AddListener(() => Menu());
-        ok.onClick.AddListener(() => setUserID());
         leaderboardButton.onClick.AddListener(() => displayLeaderBoard());
 
 
         Multiplayer.ui = this;
 
-        if (PlayerPrefs.GetString("userName") == null || PlayerPrefs.GetString("userName").Trim().Equals(""))
-        {
-            Debug.Log("New Player");
-            userNamePanel.SetActive(true);
-        }
-        else
-        {
-            Debug.Log("Welcome " + PlayerPrefs.GetString("userName"));
-            Multiplayer.userName = PlayerPrefs.GetString("userName").ToLower();
-        }
     }
 
     void startSinglePlayer()
@@ -153,12 +141,6 @@ public class UI : MonoBehaviour
         Multiplayer.ready = false;
         Multiplayer.restarting = false;
         Multiplayer.winnerSet = false;
-    }
-
-    void setUserID()
-    {
-        PlayerPrefs.SetString("userName", userIDText.text);
-        userNamePanel.SetActive(false);
     }
 
     void displayLeaderBoard()

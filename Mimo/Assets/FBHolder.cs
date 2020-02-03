@@ -3,14 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FBHolder : MonoBehaviour
 {
 
     public GameObject profilePanel;
+    public static string userName, firstName, lastName, email;
+    public static int gamesPlayed, gamesWon, gamesDrawn;
+    public Text profile_name;
+    public static Texture2D profilePic;
 
-    public Text nameText;
+    void start()
+    {
+        Button profile = profilePanel.GetComponent<Button>();
+        profile.onClick.AddListener(() => openProfile());
+    }
+
+    public void openProfile()
+    {
+        Debug.Log("Opening Profile");
+        SceneManager.LoadScene("ProfileScene");
+    }
 
     private void Awake()
     {
@@ -26,7 +41,7 @@ public class FBHolder : MonoBehaviour
             profilePanel.SetActive(true);
         }
         else {
-            profilePanel.SetActive(false);
+            //profilePanel.SetActive(false);
         }
     }
 
@@ -53,6 +68,7 @@ public class FBHolder : MonoBehaviour
         if (FB.IsLoggedIn)
         {
             var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
+            Debug.Log("User Logged in");
             FetchFBProfile();
         }
         else
@@ -67,6 +83,7 @@ public class FBHolder : MonoBehaviour
         FB.API("/me?fields=first_name,last_name,email", HttpMethod.GET, FetchProfileCallback, new Dictionary<string, string>() { });
     }
 
+
     private void FetchProfileCallback(IGraphResult result)
     {
 
@@ -74,8 +91,17 @@ public class FBHolder : MonoBehaviour
         StartCoroutine(Post("https://webhook.site/11470d78-0e31-4dc1-8e06-ea94a6ee5086", result.ResultDictionary.ToJson()));
 
         profilePanel.SetActive(true);
-        nameText.text = "";
-        nameText.text = result.ResultDictionary["first_name"].ToString() +" "+ result.ResultDictionary["last_name"].ToString();
+
+        firstName = result.ResultDictionary["first_name"].ToString();
+        lastName = result.ResultDictionary["last_name"].ToString();
+        email = result.ResultDictionary["email"].ToString();
+
+        profilePanel.GetComponent<Image>().sprite = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
+        profile_name.text = firstName + " " + lastName;
+        profilePic = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2()).texture;
+
+        Debug.Log("Set user data");
+
         PlayerPrefs.SetString("firstName", result.ResultDictionary["first_name"].ToString());
         PlayerPrefs.SetString("lastName", result.ResultDictionary["last_name"].ToString());
 
