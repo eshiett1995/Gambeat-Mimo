@@ -13,12 +13,17 @@ public class FBHolder : MonoBehaviour
     public static string userName, firstName, lastName, email;
     public static int gamesPlayed, gamesWon, gamesDrawn;
     public Text profile_name;
+    public RawImage avatar;
     public static Texture2D profilePic;
+
 
     void start()
     {
         Button profile = profilePanel.GetComponent<Button>();
         profile.onClick.AddListener(() => openProfile());
+        profile_name.text = firstName;
+        avatar.texture = profilePic;
+        Debug.Log("Run FBHolder");
     }
 
     public void openProfile()
@@ -96,9 +101,9 @@ public class FBHolder : MonoBehaviour
         lastName = result.ResultDictionary["last_name"].ToString();
         email = result.ResultDictionary["email"].ToString();
 
-        profilePanel.GetComponent<Image>().sprite = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2());
-        profile_name.text = firstName + " " + lastName;
-        profilePic = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2()).texture;
+        profile_name.text = firstName;
+        avatar.texture = result.Texture;
+        profilePic = result.Texture;
 
         Debug.Log("Set user data");
 
