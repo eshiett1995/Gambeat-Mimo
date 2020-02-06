@@ -50,7 +50,7 @@ public class Multiplayer : MonoBehaviour
 
       
         // setupFireBase();
-        // retreiveLeaderboardData();
+        retreiveLeaderboardData();
     }
 
     void Update()
@@ -449,135 +449,17 @@ public class Multiplayer : MonoBehaviour
         winnerSet = true;
         Debug.Log("Winner set to " + winnerId);
     }
-
+    **/
     public void retreiveLeaderboardData()
     {
         lbNames.Clear();
         lbScores.Clear();
-
-        reference.Child("leaderboard")
-           .GetValueAsync().ContinueWith(task => {
-              if (task.IsFaulted)
-              {
-                  Debug.Log("Error retreiving Spawn objects");
-              }
-              else if (task.IsCompleted)
-              {
-                  DataSnapshot snapshot = task.Result;
-                  int count = (int)snapshot.ChildrenCount;
-                  Debug.Log("There are " + count + " Users on the leaderboard");
-                  
-                   for (int i = 0; i< count; i++)
-                   {
-                       lbNames.Add(snapshot.Child(i+"").Child("userName").GetValue(false).ToString());
-                       lbScores.Add(Convert.ToInt32(snapshot.Child(i+"").Child("score").GetValue(false).ToString()));
-                       Debug.Log("Index-" + i + " Name:" + lbNames[i] + " Score:" + lbScores[i]);
-                       
-                   }
-
-                   
-               }
-          });
-
-        
+        //Pull Leaderboard data from API
     }
 
     public void uploadHighScore()
     {
-        object room = null;
-        int minScore = 5000;
-        bool exists = false;
-        
-        string name = Multiplayer.userName;
-       
-        Debug.Log("Checking Leaderboard");
-
-        reference.Child("leaderboard")
-        .RunTransaction(mutableData => {
-            List<object> highScores = mutableData.Value as List<object>;
-
-
-            if (highScores == null)
-            {
-                highScores = new List<object>();
-            }
-            else if (mutableData.ChildrenCount > 0)
-            {
-                Debug.Log("There are "+highScores.Count+" names on the list");
-
-                foreach (var child in highScores)
-                {
-                    if (!(child is Dictionary<string, object>)) continue;
-
-                    string score = (string)
-                                ((Dictionary<string, object>)child)["score"];
-                    string childName = (string)
-                                ((Dictionary<string, object>)child)["userName"];
-
-                    if (name.Equals(childName))
-                    {
-                        exists = true;
-                        room = null;
-
-                        if (GameCode.highScore > Convert.ToInt32(score))
-                        {
-                            room = child;
-                            Debug.Log("New HighScore");
-                        }
-                        else
-                        {
-                            Debug.Log("Name: "+name+" ChildName: "+childName + ". Your HighScore is already on Leaderboard");
-                        }
-                    }
-
-                    if (Convert.ToInt32(score) < minScore && !exists)
-                    {
-                        minScore = Convert.ToInt32(score);
-                        room = child;
-                    }
-                }
-
-                if (GameCode.highScore > minScore && !exists)
-                {
-                    if(highScores.Count >= leaderBoardMax)
-                       highScores.Remove(room);
-                    Debug.Log("New User added to leaderboard");
-                }
-                else if(exists && room!=null)
-                    highScores.Remove(room);
-
-            }
-
-            // Add the new room
-            Dictionary<string, object> newHighScore =
-                             new Dictionary<string, object>();
-
-            newHighScore["userName"] = name;
-            newHighScore["score"] = ""+GameCode.highScore;
-
-        if (!exists) { 
-            if (highScores.Count < leaderBoardMax)
-            {
-                highScores.Add(newHighScore);
-                Debug.Log(name + " your Highscore has been added to leaderboard");
-            }
-            else
-            {
-                Debug.Log(name + " your Highscore not up to minimum");
-            }
-        }
-        else if ( exists && room != null)
-            {
-                highScores.Add(newHighScore);
-                Debug.Log(name + " your Highscore has been updated on leaderboard");
-            }
-
-            mutableData.Value = highScores;
-
-            return TransactionResult.Success(mutableData);
-
-        });
-
+        //Upload Highscore to database
     }
-    **/
+    
 }

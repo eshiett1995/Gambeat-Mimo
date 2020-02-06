@@ -16,12 +16,13 @@ public class UI : MonoBehaviour
     private Texture2D[] lifeImages = new Texture2D[4];
     public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
     public GameObject border1, border2, border3, border4;
-    public Button restart, menu, ok, back2;
+    public Button restart, menu, ok;
     public bool startingGame, displayingMatchUp, isDraw, oppSpawned;
-    public Button single, multi, leaderboardButton, exit, start, plus, minus, back, cancel, rematch;
+    public Button single, multi, leaderboardButton, exit, start, plus, minus, cancel, rematch;
+    public Button newRoyal;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
-    public GameObject menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, multiPairPanel, tutorialPanel, lbPanel;
+    public GameObject menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, OneVOnePanel, RoyalPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -78,6 +79,9 @@ public class UI : MonoBehaviour
         multiPairPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         tutorialPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         lbPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        OneVOnePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        RoyalPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        LeaguePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
 
         spikeY = spike.rectTransform.position.y;
         spike2Y = bottomSpike.rectTransform.position.y;
@@ -103,8 +107,6 @@ public class UI : MonoBehaviour
         start.onClick.AddListener(() => startMulti());
         plus.onClick.AddListener(() => increaseBet());
         minus.onClick.AddListener(() => reduceBet());
-        back.onClick.AddListener(() => mainMenu());
-        back2.onClick.AddListener(() => mainMenu());
         cancel.onClick.AddListener(() => Menu());
         rematch.onClick.AddListener(() => rematchOpponent());
         exit.onClick.AddListener(() => quitGame());
@@ -148,8 +150,7 @@ public class UI : MonoBehaviour
         lbPanel.SetActive(true);
         FindObjectOfType<GameCode>().resetLeaderboard();
       
-        // GameCode.mp.retreiveLeaderboardData();
-
+        GameCode.mp.retreiveLeaderboardData();
     }
 
     public void setLeaderBoardData()
@@ -205,7 +206,7 @@ public class UI : MonoBehaviour
     {
         Debug.Log("Starting Multiplayer");
         setMatchUpDisplay();
-        multiMenuPanel.SetActive(false);
+        OneVOnePanel.SetActive(false);
         multiPairPanel.SetActive(true);
         setLoading(true);
         Multiplayer.gameID = "mimo";
@@ -261,7 +262,7 @@ public class UI : MonoBehaviour
         info2.text = "(+10% bet fee = N" + Multiplayer.stake * 1.1 + ")";
     }
 
-    void mainMenu()
+    public void mainMenu()
     {
         multiMenuPanel.SetActive(false);
         lbPanel.SetActive(false);
@@ -269,6 +270,32 @@ public class UI : MonoBehaviour
         menuPanel.SetActive(true);
         Multiplayer.connection = Multiplayer.Connection.Offline;
     }
+    public void multiMenu()
+    {
+        
+        OneVOnePanel.SetActive(false);
+        RoyalPanel.SetActive(false);
+        LeaguePanel.SetActive(false);
+        multiMenuPanel.SetActive(true);
+        Debug.Log("Back to MultiMenu");
+    }
+
+    public void oneVOneMenu()
+    {
+        multiMenuPanel.SetActive(false);
+        OneVOnePanel.SetActive(true);
+    }
+    public void royalMenu()
+    {
+        multiMenuPanel.SetActive(false);
+        RoyalPanel.SetActive(true);
+    }
+    public void leagueMenu()
+    {
+        multiMenuPanel.SetActive(false);
+        LeaguePanel.SetActive(true);
+    }
+
     void Menu()
     {
         multiPairPanel.SetActive(false);

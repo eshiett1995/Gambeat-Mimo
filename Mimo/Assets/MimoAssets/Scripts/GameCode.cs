@@ -20,6 +20,7 @@ public class GameCode : MonoBehaviour
     public static GameCode game;
     public static int highScore;
     public List<GameObject> leaderboardItems = new List<GameObject>();
+    public List<GameObject> tournamentItems = new List<GameObject>();
 
     void Start()
     {
@@ -268,6 +269,14 @@ public class GameCode : MonoBehaviour
             Destroy(leaderboardItems[i]);
         }
         leaderboardItems.Clear();
+    }
+    public void resetTournmentData()
+    {
+        for (int i = 0; i < tournamentItems.Count; i++)
+        {
+            Destroy(tournamentItems[i]);
+        }
+        tournamentItems.Clear();
     }
 
     public void resetElements()

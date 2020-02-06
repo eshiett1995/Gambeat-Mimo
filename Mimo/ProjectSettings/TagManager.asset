@@ -12,6 +12,7 @@ TagManager:
   - ListView
   - Tyre
   - GamePanel
+  - RoyalView
   layers:
   - Default
   - TransparentFX
