@@ -35,18 +35,42 @@ public class RoyalRumbleScript : MonoBehaviour
         if (isFilter)
         {
             int filtered = 0;
-            for (int i = 0; i < tournaments.Count; i++)
+            if (Players[minPIndex] == 0)
+                Players[minPIndex] = 1000;
+            if (Players[maxPIndex] == 0)
+                Players[maxPIndex] = 1000;
+
+            List<Tournament> invalid = new List<Tournament>();
+
+            foreach (Tournament t in tournaments)
             {
-                if ((tournaments[i].maxPlayers < Players[minPIndex]) ||
-                    (tournaments[i].maxPlayers > Players[maxPIndex]) ||
-                    (tournaments[i].entryFee < entryFees[minEFIndex]) ||
-                    (tournaments[i].entryFee > entryFees[maxEFIndex])) 
+                if (t.totalPlayers == 0)
+                    t.totalPlayers = 1000;
+
+                if ((t.totalPlayers < Players[minPIndex]) ||
+                    (t.totalPlayers > Players[maxPIndex]) ||
+                    (t.entryFee < entryFees[minEFIndex]) ||
+                    (t.entryFee > entryFees[maxEFIndex])) 
                 {
-                    tournaments.Remove(tournaments[i]);
+                    invalid.Add(t);
                     filtered++;
                 }
+                else
+                {
+                    if (t.totalPlayers == 1000)
+                        t.totalPlayers = 0;
+                   
+                }
+            }
+            for(int i = 0; i < filtered; i++)
+            {
+                tournaments.Remove(invalid[i]);
             }
 
+            if (Players[minPIndex] == 1000)
+                Players[minPIndex] = 0;
+            if (Players[maxPIndex] == 1000)
+                Players[maxPIndex] = 0;
             Debug.Log("Filtered "+filtered+" Results");
         }
 
@@ -164,7 +188,7 @@ public class RoyalRumbleScript : MonoBehaviour
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
       
-        Tournament newTournament = new Tournament(text, Players[maxPlayersIndex], entryFees[entryFeeIndex], 0, Time.time.ToString());
+        Tournament newTournament = new Tournament(text, Players[maxPlayersIndex], entryFees[entryFeeIndex]);
         tournaments.Add(newTournament);
         isFilter = false;
         displayTournaments();
