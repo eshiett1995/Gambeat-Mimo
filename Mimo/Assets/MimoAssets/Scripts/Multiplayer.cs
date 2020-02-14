@@ -80,9 +80,16 @@ public class Multiplayer : MonoBehaviour
         StartCoroutine(HttpUtil.Get(HttpUtil.leaderBoardUrl, (response) =>
         {
             leaderBoardResponse = JsonUtility.FromJson<LeaderBoardResponse>(response.downloadHandler.text);
-            if (leaderBoardResponse.isSuccessful)
+            if (leaderBoardResponse.isSuccessful || leaderBoardResponse.successful)
             {
-                Debug.Log("Successfully gotten");
+                lbNames.Clear();
+                lbScores.Clear();
+                for (var index = 0; index < leaderBoardResponse.ranks.Count; index++)
+                {
+                    var rank = leaderBoardResponse.ranks[index];
+                    lbNames.Add(rank.email);
+                    lbScores.Add((int)rank.score);
+                }
             }
             else
             {
