@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,7 +25,10 @@ public class UI : MonoBehaviour
                               500,
                               1000,
                               2000,
-                              5000
+                              5000,
+                              10000,
+                              20000,
+                              50000
                                 };
     public GameObject opponent, listView;
     public static int index, matchTimer = -1;
@@ -156,7 +156,7 @@ public class UI : MonoBehaviour
     public void setLeaderBoardData()
     {
 
-        listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.height / 3.95f);
+        listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.width / 2.12f);
 
         if (lbPanel.activeSelf && FindObjectOfType<GameCode>().leaderboardItems.Count == 0)
         {
@@ -241,15 +241,31 @@ public class UI : MonoBehaviour
         internetText.text = "";
     }
 
+    public static string getNaira(double amount)
+    {
+        string number = amount.ToString();
+        string result = number;
+
+        if (number.Length > 3)
+        {
+            if (number.Length > 6)
+                result = number.Insert(number.Length - 6, ",");
+
+            result = result.Insert(result.Length - 3, ",");
+        }
+            
+            return "N"+result;
+    }
+
     void increaseBet()
     {
         if (index < amounts.Length - 1)
             index++;
 
         Multiplayer.stake = amounts[index];
-        stakeText.text = "N " + Multiplayer.stake;
-        info1.text = "to win N" + Multiplayer.stake * 2;
-        info2.text = "(+10% bet fee = N" + Multiplayer.stake * 1.1 + ")";
+        stakeText.text = getNaira(Multiplayer.stake);
+        info1.text = "to win " + getNaira(Multiplayer.stake * 2);
+        info2.text = "(+10% bet fee = " + getNaira(Multiplayer.stake * 1.1) + ")";
     }
     void reduceBet()
     {
@@ -257,9 +273,9 @@ public class UI : MonoBehaviour
             index--;
 
         Multiplayer.stake = amounts[index];
-        stakeText.text = "N " + Multiplayer.stake;
-        info1.text = "to win N" + Multiplayer.stake * 2;
-        info2.text = "(+10% bet fee = N" + Multiplayer.stake * 1.1 + ")";
+        stakeText.text = getNaira(Multiplayer.stake);
+        info1.text = "to win " + getNaira(Multiplayer.stake * 2);
+        info2.text = "(+10% bet fee = " + getNaira(Multiplayer.stake * 1.1) + ")";
     }
 
     public void mainMenu()

@@ -16,11 +16,11 @@ public class RoyalChild : MonoBehaviour
         int no = index + 1;
         indexText.text = no + ".";
         name.text = tournament.tournamentName;
-        players.text = tournament.currentPlayers+"/"+ tournament.totalPlayers +" Players";
+        players.text = tournament.getPlayerCount() +"/"+ tournament.totalPlayers +" Players";
         if (tournament.totalPlayers==0)
-            players.text = tournament.currentPlayers + "/00 Players";
-        entryFee.text = "Entry Fee : " + tournament.entryFee;
-        prize.text = "N" + tournament.getPrize();
+            players.text = tournament.getPlayerCount() + "/00 Players";
+        entryFee.text = "Entry Fee : " + UI.getNaira(tournament.entryFee);
+        prize.text = UI.getNaira(tournament.getPrize());
         timeLeft.text = tournament.getTime();
         FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);
     }

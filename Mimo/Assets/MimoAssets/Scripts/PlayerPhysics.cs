@@ -44,6 +44,11 @@ public class PlayerPhysics : MonoBehaviour
         {
            disableTutorials();
         }
+#elif UNITY_IOS
+        if (Input.touchCount > 0)
+        {
+           disableTutorials();
+        }
 #endif
 
         if (GameCode.running)
@@ -52,6 +57,8 @@ public class PlayerPhysics : MonoBehaviour
 #if UNITY_EDITOR
             setDesktopInput();
 #elif UNITY_ANDROID
+            setMobileInput();
+#elif UNITY_IOS
             setMobileInput();
 #endif
 

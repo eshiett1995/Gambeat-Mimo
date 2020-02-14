@@ -454,6 +454,10 @@ public class Multiplayer : MonoBehaviour
     {
         lbNames.Clear();
         lbScores.Clear();
+        lbNames.Add("Somtee");
+        lbNames.Add("BossMan");
+        lbScores.Add(189);
+        lbScores.Add(320);
         //Pull Leaderboard data from API
     }
 
