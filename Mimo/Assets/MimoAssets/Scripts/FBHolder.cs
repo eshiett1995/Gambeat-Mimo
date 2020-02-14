@@ -37,7 +37,8 @@ public class FBHolder : MonoBehaviour
         FB.Init(SetInit, OnHideUnity);
     }
 
-    private void SetInit() {
+    private void SetInit()
+    {
 
         Debug.Log("FB init done");
 
@@ -45,21 +46,24 @@ public class FBHolder : MonoBehaviour
         {
             profilePanel.SetActive(true);
         }
-        else {
+        else
+        {
             //profilePanel.SetActive(false);
         }
     }
 
-    private void OnHideUnity(bool isGameShown) {
+    private void OnHideUnity(bool isGameShown)
+    {
 
     }
 
-    public void FBLogin() {
+    public void FBLogin()
+    {
         var perms = new List<string>() { "public_profile", "email" };
         FB.LogInWithReadPermissions(perms, AuthCallback);
     }
 
-   
+
 
     private void AuthCallback(ILoginResult result)
     {
@@ -91,10 +95,6 @@ public class FBHolder : MonoBehaviour
 
     private void FetchProfileCallback(IGraphResult result)
     {
-
-        Debug.Log(result.RawResult);
-        StartCoroutine(Post("https://webhook.site/11470d78-0e31-4dc1-8e06-ea94a6ee5086", result.ResultDictionary.ToJson()));
-
         profilePanel.SetActive(true);
 
         firstName = result.ResultDictionary["first_name"].ToString();
@@ -105,10 +105,8 @@ public class FBHolder : MonoBehaviour
         avatar.texture = result.Texture;
         profilePic = result.Texture;
 
-        Debug.Log("Set user data");
-
-        PlayerPrefs.SetString("firstName", result.ResultDictionary["first_name"].ToString());
-        PlayerPrefs.SetString("lastName", result.ResultDictionary["last_name"].ToString());
+        PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), result.ResultDictionary["first_name"].ToString());
+        PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), result.ResultDictionary["last_name"].ToString());
 
         FacebookLoginRequest facebookLoginRequest = new FacebookLoginRequest();
         facebookLoginRequest.firstName = result.ResultDictionary["first_name"].ToString();
@@ -116,7 +114,21 @@ public class FBHolder : MonoBehaviour
         facebookLoginRequest.email = result.ResultDictionary["email"].ToString();
         facebookLoginRequest.id = result.ResultDictionary["id"].ToString();
 
-        //StartCoroutine(Post("https://www.gambeat.com/auth/facebook", JsonUtility.ToJson(facebookLoginRequest)));
+        StartCoroutine(HttpUtil.Post(HttpUtil.facebookAuthUrl, JsonUtility.ToJson(facebookLoginRequest), (response) =>
+        {
+            ResponseModel responseModel = new ResponseModel();
+            responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
+            Debug.Log(response.downloadHandler.text);
+            if (responseModel.isSuccessful || responseModel.successful)
+            {
+                Debug.Log("this is the message: " + responseModel.message);
+                Debug.Log("this is the auth: " + responseModel.jtwToken);
+            }
+            else
+            {
+                Debug.Log("this is the bad message: " + responseModel.message);
+            }
+        }));
     }
 
     IEnumerator Post(string url, string bodyJsonString)
