@@ -63,7 +63,7 @@ public class GameCode : MonoBehaviour
             lastUpdate = Time.time;
             UI.matchTimer--;
             PlayerPhysics.invincible--;
-            //Multiplayer.CheckForInternetConnection();
+            Multiplayer.CheckForInternetConnection();
             Multiplayer.ui.setLeaderBoardData();
 
             if (life <= 0 && Multiplayer.oppLife <= 0)
@@ -257,8 +257,8 @@ public class GameCode : MonoBehaviour
         }
 
         highscoreText.text = highScore + "";
-        // if(!setHighscore)
-        //  mp.uploadHighScore();
+        if(!setHighscore)
+          mp.uploadHighScore();
         setHighscore = true;
     }
 

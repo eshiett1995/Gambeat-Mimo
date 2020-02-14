@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class RoyalRumbleScript : MonoBehaviour
 {
     public GameObject newTournamentPanel, filterPanel, TournamentChild;
+    public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
     public static List<Tournament> tournaments = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
     public Text minEFText, maxEFText, minPText, maxPText;
@@ -26,6 +27,16 @@ public class RoyalRumbleScript : MonoBehaviour
 
     private void displayTournaments()
     {
+        listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.width / 2.12f);
+        if (FindObjectOfType<UI>().RoyalPanel.activeSelf)
+        {
+            RectTransform rectTransform = tournamentPanel.GetComponent<RectTransform>();
+            float newTop = ((Screen.height - 1280f) / 2) + 240;
+            float newBottom = ((Screen.height - 1280f) / 2) + 160;
+            rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, newBottom);
+            rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -newTop);
+        }
+
         Debug.Log("Displaying Royal Rumble Tournaments");
         //tournaments.Clear();
         FindObjectOfType<GameCode>().resetTournmentData();
@@ -76,7 +87,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
         for(int i=0; i < tournaments.Count; i++)
         {
-            Instantiate(TournamentChild.gameObject, GameObject.FindGameObjectWithTag("RoyalView").transform);
+            Instantiate(TournamentChild, GameObject.FindGameObjectWithTag("RoyalView").transform);
         }
         Debug.Log(tournaments.Count + " Tournaments displayed");
     }
@@ -88,21 +99,34 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         entryFeeIndex = 0;
         maxPlayersIndex = 0;
-        entryFeeText.text = "N" + entryFees[entryFeeIndex];
+        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
         maxPlayersText.text = "00";
+
+        resizeDialog(newTournamentDialog);
+
         newTournamentPanel.SetActive(true);
+    }
+    private void resizeDialog(GameObject dialog)
+    {
+        RectTransform rectTransform = dialog.GetComponent<RectTransform>();
+        float newTop = ((Screen.height - 1280f) / 2) + 353;
+        float newBottom = ((Screen.height - 1280f) / 2) + 467;
+        float newLeft = ((Screen.width - 720f) / 2) + 61;
+        float newRight = ((Screen.width - 720f) / 2) + 54;
+        rectTransform.offsetMin = new Vector2(newLeft, newBottom);
+        rectTransform.offsetMax = new Vector2(-newRight, -newTop);
     }
     public void increaseEntryFee()
     {
         if(entryFeeIndex < entryFees.Length-1)
             entryFeeIndex++;
-        entryFeeText.text = "N" + entryFees[entryFeeIndex];
+        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void decreaseEntryFee()
     {
         if (entryFeeIndex > 0)
             entryFeeIndex--;
-        entryFeeText.text = "N" + entryFees[entryFeeIndex];
+        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void increaseMaxPlayers()
     {
@@ -124,30 +148,30 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         if (minEFIndex < entryFees.Length - 1)
             minEFIndex++;
-        minEFText.text = "N" + entryFees[minEFIndex];
+        minEFText.text = UI.getNaira(entryFees[minEFIndex]);
     }
     public void decreaseMinEF()
     {
         if (minEFIndex > 0)
             minEFIndex--;
-        minEFText.text = "N" + entryFees[minEFIndex];
+        minEFText.text = UI.getNaira(entryFees[minEFIndex]);
     }
     public void increaseMaxEF()
     {
         if (maxEFIndex < entryFees.Length - 1)
             maxEFIndex++;
-        maxEFText.text = "N" + entryFees[maxEFIndex];
+        maxEFText.text = UI.getNaira(entryFees[maxEFIndex]);
     }
     public void decreaseMaxEF()
     {
         if (maxEFIndex > 0)
             maxEFIndex--;
-        maxEFText.text = "N" + entryFees[maxEFIndex];
+        maxEFText.text = UI.getNaira(entryFees[maxEFIndex]);
     }
 
     public void increaseMinP()
     {
-        if (minPIndex < entryFees.Length - 1)
+        if (minPIndex < Players.Length - 1)
             minPIndex++;
         minPText.text = "" + Players[minPIndex];
         if (minPText.text.Equals("0"))
@@ -163,7 +187,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void increaseMaxP()
     {
-        if (maxPIndex < entryFees.Length - 1)
+        if (maxPIndex < Players.Length - 1)
             maxPIndex++;
         maxPText.text = "" + Players[maxPIndex];
         if (maxPText.text.Equals("0"))
@@ -208,10 +232,13 @@ public class RoyalRumbleScript : MonoBehaviour
         maxEFIndex = 8;
         minPIndex = 1;
         maxPIndex = 0;
-        minEFText.text = "N" + entryFees[minEFIndex];
-        maxEFText.text = "N" + entryFees[maxEFIndex];
+        minEFText.text = UI.getNaira(entryFees[minEFIndex]);
+        maxEFText.text = UI.getNaira(entryFees[maxEFIndex]);
         minPText.text = "" + Players[minPIndex];
         maxPText.text = "00";
+
+        resizeDialog(filterDialog);
+
         filterPanel.SetActive(true);
     }
     public void filter()
@@ -221,6 +248,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
         closeFilterDialog();
     }
+
     public void closeFilterDialog()
     {
         filterPanel.SetActive(false);
@@ -228,6 +256,6 @@ public class RoyalRumbleScript : MonoBehaviour
 
     void Update()
     {
-        
+      
     }
 }

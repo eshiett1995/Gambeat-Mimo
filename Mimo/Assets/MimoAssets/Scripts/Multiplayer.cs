@@ -81,7 +81,7 @@ public class Multiplayer : MonoBehaviour
         {
             leaderBoardResponse = JsonUtility.FromJson<LeaderBoardResponse>(response.downloadHandler.text);
             if (leaderBoardResponse.isSuccessful)
-            {     
+            {
                 Debug.Log("Successfully gotten");
             }
             else

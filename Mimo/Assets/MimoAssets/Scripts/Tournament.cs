@@ -7,9 +7,9 @@ public class Tournament
 {
     public string tournamentName;
     public int totalPlayers;
-    public int currentPlayers;
     public int entryFee;
     public int hr, day;
+    private List<string> players = new List<string>();
 
     
     public Tournament(string name, int maxPlayers, int entryFee)
@@ -21,8 +21,16 @@ public class Tournament
         day = DateTime.Now.Day;
 
         updateDatabase();
-        Debug.Log("Tournament " + tournamentName + " Created on Hour:"+hr+" of Day "+day);
+        Debug.Log("Tournament '" + tournamentName + "' Created");
     }
+    public void addPlayer(string playerID)
+    {
+        if (players.Count < totalPlayers)
+            players.Add(playerID);
+        Debug.Log("Player " + playerID + " added to Tournament " + tournamentName);
+        updateDatabase();
+    }
+
     public string getTime()
     {
         int hrsLeft;
@@ -37,14 +45,21 @@ public class Tournament
         return hrsLeft + " Hrs Left";
     }
 
+    public int getPlayerCount()
+    {
+        return players.Count;
+    }
+
     public int getPrize()
     {
-        return entryFee * currentPlayers;
+        return entryFee * players.Count;
     }
 
     public void updateDatabase()
     {
         //Save Tournament to Database
+
+        Debug.Log("Tournament updated to Database");
     }
 
 }

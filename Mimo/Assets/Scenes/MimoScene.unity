@@ -5847,6 +5847,10 @@ MonoBehaviour:
   filterPanel: {fileID: 1356984898}
   TournamentChild: {fileID: 5989119236040433792, guid: dad36d4331de0014cbd168d13a100fd9,
     type: 3}
+  listView: {fileID: 193614394}
+  tournamentPanel: {fileID: 1582519561}
+  newTournamentDialog: {fileID: 2080710085}
+  filterDialog: {fileID: 1189524796}
   nameText: {fileID: 90813834}
   maxPlayersText: {fileID: 732719624}
   entryFeeText: {fileID: 440258278}
