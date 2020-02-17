@@ -38,7 +38,7 @@ public class RoyalRumbleScript : MonoBehaviour
         }
 
         Debug.Log("Displaying Royal Rumble Tournaments");
-        //tournaments.Clear();
+        tournaments.Clear();
         FindObjectOfType<GameCode>().resetTournmentData();
 
         retreiveTournamentData();
@@ -94,6 +94,7 @@ public class RoyalRumbleScript : MonoBehaviour
     public void retreiveTournamentData()
     {
         //Pull Data From API save to tournaments List
+        //e.g tournaments.Add( new Tournament(name, maxPlayers, entryFee, hr, day, playersIDs)
     }
     public void openNewTournamentDialog()
     {
@@ -213,7 +214,7 @@ public class RoyalRumbleScript : MonoBehaviour
             text = "New Tournament";
       
         Tournament newTournament = new Tournament(text, Players[maxPlayersIndex], entryFees[entryFeeIndex]);
-        tournaments.Add(newTournament);
+        //tournaments.Add(newTournament);
         isFilter = false;
         displayTournaments();
         closeNewTournamentDialog();

@@ -254,12 +254,13 @@ public class GameCode : MonoBehaviour
         {
             highScore = score;
             PlayerPrefs.SetInt(highscoreString, score);
+            if (!setHighscore)
+                mp.uploadHighScore();
+            setHighscore = true;
         }
 
         highscoreText.text = highScore + "";
-        if(!setHighscore)
-          mp.uploadHighScore();
-        setHighscore = true;
+        
     }
 
     public void resetLeaderboard()

@@ -9,7 +9,7 @@ public class Tournament
     public int totalPlayers;
     public int entryFee;
     public int hr, day;
-    private List<string> players = new List<string>();
+    private List<string> players;
 
     
     public Tournament(string name, int maxPlayers, int entryFee)
@@ -19,10 +19,24 @@ public class Tournament
         this.entryFee = entryFee;
         hr = DateTime.Now.Hour;
         day = DateTime.Now.Day;
+        players = new List<string>();
 
         updateDatabase();
         Debug.Log("Tournament '" + tournamentName + "' Created");
     }
+
+    public Tournament(string name, int maxPlayers, int entryFee, int hr, int day, List<string> playersIDs)
+    {
+        this.tournamentName = name;
+        this.totalPlayers = maxPlayers;
+        this.entryFee = entryFee;
+        this.hr = hr;
+        this.day = day;
+        players = playersIDs;
+
+        Debug.Log("Tournament '" + tournamentName + "' Retreived");
+    }
+
     public void addPlayer(string playerID)
     {
         if (players.Count < totalPlayers)
