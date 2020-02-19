@@ -99,7 +99,11 @@ public class Multiplayer : MonoBehaviour
 
     public void uploadHighScore()
     {
+        
+        int newHighScore = GameCode.highScore;
+
         //Upload Highscore to database
+
 
         Debug.Log("Uploading Highscore to database");
     }
