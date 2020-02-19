@@ -21,8 +21,8 @@ public class Tournament
         day = DateTime.Now.Day;
         players = new List<string>();
 
-        updateDatabase();
         Debug.Log("Tournament '" + tournamentName + "' Created");
+        updateDatabase();
     }
 
     public Tournament(string name, int maxPlayers, int entryFee, int hr, int day, List<string> playersIDs)

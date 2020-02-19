@@ -93,11 +93,15 @@ public class Multiplayer : MonoBehaviour
                 Debug.Log("this is the message: " + leaderBoardResponse.message);
             }
         }));
+
+        Debug.Log("Retreiving Leaderboard data");
     }
 
     public void uploadHighScore()
     {
         //Upload Highscore to database
+
+        Debug.Log("Uploading Highscore to database");
     }
 
 }

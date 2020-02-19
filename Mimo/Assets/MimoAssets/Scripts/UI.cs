@@ -32,7 +32,7 @@ public class UI : MonoBehaviour
                                 };
     public GameObject opponent, listView;
     public static int index, matchTimer = -1;
-    public bool isLoading, hasSetLeaderboard;
+    public bool isLoading;
 
     void Start()
     {
@@ -282,7 +282,6 @@ public class UI : MonoBehaviour
     {
         multiMenuPanel.SetActive(false);
         lbPanel.SetActive(false);
-        hasSetLeaderboard = false;
         menuPanel.SetActive(true);
         Multiplayer.connection = Multiplayer.Connection.Offline;
     }
