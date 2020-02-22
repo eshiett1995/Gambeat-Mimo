@@ -5,13 +5,14 @@ using System;
 
 public class Tournament
 {
+    public string id;
     public string tournamentName;
     public int totalPlayers;
     public int entryFee;
     public int hr, day;
     private List<string> players;
 
-    
+
     public Tournament(string name, int maxPlayers, int entryFee)
     {
         this.tournamentName = name;
@@ -25,8 +26,9 @@ public class Tournament
         updateDatabase();
     }
 
-    public Tournament(string name, int maxPlayers, int entryFee, int hr, int day, List<string> playersIDs)
+    public Tournament(string id, string name, int maxPlayers, int entryFee, int hr, int day, List<string> playersIDs)
     {
+        this.id = id;
         this.tournamentName = name;
         this.totalPlayers = maxPlayers;
         this.entryFee = entryFee;
@@ -71,7 +73,14 @@ public class Tournament
 
     public void updateDatabase()
     {
-        //Save Tournament to Database
+        if (id == null || id.Trim().Equals(""))
+        {
+            //Save New Tounament to Database
+        }
+        else
+        {
+            //Update Tournament on Database
+        }
 
         Debug.Log("Tournament updated to Database");
     }

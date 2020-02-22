@@ -94,7 +94,7 @@ public class RoyalRumbleScript : MonoBehaviour
     public void retreiveTournamentData()
     {
         //Pull Data From API save to tournaments List
-        //e.g tournaments.Add( new Tournament(name, maxPlayers, entryFee, hr, day, playersIDs)
+        //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
     }
     public void openNewTournamentDialog()
     {
