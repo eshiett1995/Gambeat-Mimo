@@ -123,6 +123,7 @@ public class FBHolder : MonoBehaviour
             {
                 Debug.Log("this is the message: " + responseModel.message);
                 Debug.Log("this is the auth: " + responseModel.jtwToken);
+                LocalStorageUtil.saveAuthKey(responseModel.jtwToken);
             }
             else
             {
