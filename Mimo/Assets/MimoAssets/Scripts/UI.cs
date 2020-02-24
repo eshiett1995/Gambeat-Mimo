@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -115,6 +116,15 @@ public class UI : MonoBehaviour
 
 
         Multiplayer.ui = this;
+
+#if PLATFORM_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.ExternalStorageRead) ||
+            !Permission.HasUserAuthorizedPermission(Permission.ExternalStorageWrite))
+        {
+            Permission.RequestUserPermission(Permission.ExternalStorageRead);
+            Permission.RequestUserPermission(Permission.ExternalStorageWrite);
+        }
+#endif
 
     }
 
@@ -276,6 +286,36 @@ public class UI : MonoBehaviour
         stakeText.text = getNaira(Multiplayer.stake);
         info1.text = "to win " + getNaira(Multiplayer.stake * 2);
         info2.text = "(+10% bet fee = " + getNaira(Multiplayer.stake * 1.1) + ")";
+    }
+
+    public void shareScore()
+    {
+
+        string screenshotName = "mimo_highscore.png";
+        // wait for graphics to render
+        new WaitForEndOfFrame();
+        string screenShotPath = Application.persistentDataPath + "/" + screenshotName;
+        ScreenCapture.CaptureScreenshot(screenshotName, 1);
+        new WaitForSeconds(0.5f);
+
+        string appPackageName = Application.identifier;
+
+        var shareSubject = "Fam! I challenge you to beat my high score in" +
+                    " Mimo";
+        var shareMessage = "Fam! I challenge you to beat my high score in" +
+                    " Mimo" +
+                    "\nDownload Mimo from the link below." +
+                     "\n\n" +
+                    "https://play.google.com/store/apps/details?id=" + appPackageName;
+
+        NativeShare shareIntent = new NativeShare();
+        shareIntent.AddFile(screenShotPath, null);
+        shareIntent.SetSubject(shareSubject);
+        shareIntent.SetText(shareMessage);
+        shareIntent.SetTitle("Share your score with friends...");
+
+        shareIntent.Share();
+
     }
 
     public void mainMenu()

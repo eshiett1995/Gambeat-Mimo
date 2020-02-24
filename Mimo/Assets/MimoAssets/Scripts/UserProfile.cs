@@ -10,7 +10,8 @@ public class UserProfile : MonoBehaviour
     public Text username, fullName, email, games, wins, draws, winnings, cash, cash2;
     public Button wallet, back, closeWal, withdraw, deposit;
     public RawImage avatar;
-    public GameObject profile, background, walletDialog;
+    public GameObject profile, background, walletDialog, PaymentPanel, withdrawDialog;
+    public static string paymentUrl;
 
 
     void Start()
@@ -79,8 +80,31 @@ public class UserProfile : MonoBehaviour
         walletDialog.SetActive(false);
     }
 
-    void Update()
+    public void makeDeposit()
     {
+        //Generate URL
+        paymentUrl = "http://49b7f9e3.ngrok.io/payment";
 
+        closeWallet();
+        PaymentPanel.SetActive(true);
+    }
+
+    public void endPayment()
+    {
+        FindObjectOfType<SampleWebView>().webViewObject.SetVisibility(false);
+        Destroy(FindObjectOfType<SampleWebView>().webViewObject);
+        PaymentPanel.SetActive(false);
+    }
+    public void withdrawFunds()
+    {
+        withdrawDialog.SetActive(true);
+    }
+    public void closewithdrawDialog()
+    {
+        withdrawDialog.SetActive(false);
+    }
+    public void processWithdrawal()
+    {
+        closewithdrawDialog();
     }
 }
