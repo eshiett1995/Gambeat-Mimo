@@ -12,8 +12,8 @@ public class RoyalChild : MonoBehaviour
     void Start()
     {
         index = FindObjectOfType<GameCode>().tournamentItems.Count;
-        Tournament tournament = RoyalRumbleScript.tournaments[index];
-        int no = index + 1;
+        Tournament tournament = RoyalRumbleScript.currentPage[index];
+        int no = RoyalRumbleScript.startIndex + index + 1;
         indexText.text = no + ".";
         name.text = tournament.tournamentName;
         players.text = tournament.getPlayerCount() +"/"+ tournament.totalPlayers +" Players";

@@ -81,6 +81,8 @@ public class SampleWebView : MonoBehaviour
             },
             //ua: "custom user agent string",
             enableWKWebView: true);
+
+
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         webViewObject.bitmapRefreshCycle = 1;
 #endif

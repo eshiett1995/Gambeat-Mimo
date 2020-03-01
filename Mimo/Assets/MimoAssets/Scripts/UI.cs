@@ -344,6 +344,7 @@ public class UI : MonoBehaviour
     {
         multiMenuPanel.SetActive(false);
         RoyalPanel.SetActive(true);
+        FindObjectOfType<RoyalRumbleScript>().Initialize();
     }
     public void leagueMenu()
     {

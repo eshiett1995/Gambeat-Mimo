@@ -87,12 +87,14 @@ public class UserProfile : MonoBehaviour
 
         closeWallet();
         PaymentPanel.SetActive(true);
+        FindObjectOfType<SampleWebView>().webViewObject.SetVisibility(true);
+        FindObjectOfType<SampleWebView>().webViewObject.enabled = true;
     }
 
     public void endPayment()
     {
         FindObjectOfType<SampleWebView>().webViewObject.SetVisibility(false);
-        Destroy(FindObjectOfType<SampleWebView>().webViewObject);
+        FindObjectOfType<SampleWebView>().webViewObject.enabled = false;
         PaymentPanel.SetActive(false);
     }
     public void withdrawFunds()

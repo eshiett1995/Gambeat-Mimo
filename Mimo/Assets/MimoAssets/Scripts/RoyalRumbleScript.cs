@@ -6,9 +6,10 @@ using UnityEngine.UI;
 
 public class RoyalRumbleScript : MonoBehaviour
 {
-    public GameObject newTournamentPanel, filterPanel, TournamentChild;
+    public GameObject newTournamentPanel, filterPanel, TournamentChild, paginationPanel;
     public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
-    public static List<Tournament> tournaments = new List<Tournament>();
+    private List<Tournament> tournaments = new List<Tournament>();
+    public static List<Tournament> currentPage = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
     public Text minEFText, maxEFText, minPText, maxPText;
     private int minEFIndex, maxEFIndex, minPIndex, maxPIndex;
@@ -16,9 +17,10 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] entryFees = { 50,100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
+    public static int pageMax = 30, totalPages, startIndex;
+   
 
-
-    void Start()
+    public void Initialize()
     {
         Debug.Log("Royal Rumble Selected");
         displayTournaments();
@@ -32,7 +34,7 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             RectTransform rectTransform = tournamentPanel.GetComponent<RectTransform>();
             float newTop = ((Screen.height - 1280f) / 2) + 240;
-            float newBottom = ((Screen.height - 1280f) / 2) + 160;
+            float newBottom = ((Screen.height - 1280f) / 2) + 210;
             rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, newBottom);
             rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -newTop);
         }
@@ -42,7 +44,53 @@ public class RoyalRumbleScript : MonoBehaviour
         FindObjectOfType<GameCode>().resetTournmentData();
 
         retreiveTournamentData();
+    }
+    public void retreiveTournamentData()
+    {
+        //Pull Data From API save to tournaments List
+        //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
+        sortPages(tournaments.Count);
+    }
 
+    void sortPages(int tournamentCount)
+    {
+       
+        if (tournamentCount > pageMax)
+        {
+            totalPages = tournamentCount / pageMax;
+            if (tournamentCount % pageMax > 0)
+                totalPages++;
+        }
+        else
+            totalPages = 1;
+
+        Debug.Log(tournamentCount + " Tournaments," + totalPages + " Pages");
+
+        paginationPanel.SetActive(true);
+        FindObjectOfType<PaginationScript>().sort( 1, totalPages);
+
+    }
+
+    public void goToPage(int page)
+    {
+        FindObjectOfType<GameCode>().resetTournmentData();
+        currentPage.Clear();
+        startIndex = (page -1) * pageMax;
+
+        for(int i=startIndex; i<tournaments.Count; i++){
+            currentPage.Add(tournaments[i]);
+            Debug.Log("Showing Tournament " + i);
+            if(i==(startIndex + pageMax - 1) || i== tournaments.Count - 1)
+            {
+                i = tournaments.Count;
+            }
+        }
+
+        showPage();
+    }
+
+    void showPage()
+    {
         if (isFilter)
         {
             int filtered = 0;
@@ -53,7 +101,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
             List<Tournament> invalid = new List<Tournament>();
 
-            foreach (Tournament t in tournaments)
+            foreach (Tournament t in currentPage)
             {
                 if (t.totalPlayers == 0)
                     t.totalPlayers = 1000;
@@ -61,7 +109,7 @@ public class RoyalRumbleScript : MonoBehaviour
                 if ((t.totalPlayers < Players[minPIndex]) ||
                     (t.totalPlayers > Players[maxPIndex]) ||
                     (t.entryFee < entryFees[minEFIndex]) ||
-                    (t.entryFee > entryFees[maxEFIndex])) 
+                    (t.entryFee > entryFees[maxEFIndex]))
                 {
                     invalid.Add(t);
                     filtered++;
@@ -70,32 +118,28 @@ public class RoyalRumbleScript : MonoBehaviour
                 {
                     if (t.totalPlayers == 1000)
                         t.totalPlayers = 0;
-                   
+
                 }
             }
-            for(int i = 0; i < filtered; i++)
+            for (int i = 0; i < filtered; i++)
             {
-                tournaments.Remove(invalid[i]);
+                currentPage.Remove(invalid[i]);
             }
 
             if (Players[minPIndex] == 1000)
                 Players[minPIndex] = 0;
             if (Players[maxPIndex] == 1000)
                 Players[maxPIndex] = 0;
-            Debug.Log("Filtered "+filtered+" Results");
+            Debug.Log("Filtered " + filtered + " Results");
         }
 
-        for(int i=0; i < tournaments.Count; i++)
+        for (int i = 0; i < currentPage.Count; i++)
         {
             Instantiate(TournamentChild, GameObject.FindGameObjectWithTag("RoyalView").transform);
         }
-        Debug.Log(tournaments.Count + " Tournaments displayed");
+        Debug.Log(currentPage.Count + " Tournaments displayed");
     }
-    public void retreiveTournamentData()
-    {
-        //Pull Data From API save to tournaments List
-        //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
-    }
+
     public void openNewTournamentDialog()
     {
         entryFeeIndex = 0;
@@ -255,8 +299,4 @@ public class RoyalRumbleScript : MonoBehaviour
         filterPanel.SetActive(false);
     }
 
-    void Update()
-    {
-      
-    }
 }
