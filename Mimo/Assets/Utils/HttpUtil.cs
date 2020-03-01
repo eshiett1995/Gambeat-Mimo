@@ -5,10 +5,11 @@ using UnityEngine.Networking;
 
 public class HttpUtil
 {
-    static public string baseUrl = "http://56bc1e6e.ngrok.io";
+    static public string baseUrl = "http://50fa3ce2.ngrok.io";
     static public string leaderBoardUrl = baseUrl + "/leader-board";
     static public string userProfileUrl = baseUrl + "/user";
     static public string facebookAuthUrl = baseUrl + "/auth/facebook";
+    static public string royalRumbleSearch = baseUrl + "/match/royal-rumble/search";
 
     
     static public IEnumerator Post(string url, string bodyJsonString, System.Action<UnityWebRequest> callback)
