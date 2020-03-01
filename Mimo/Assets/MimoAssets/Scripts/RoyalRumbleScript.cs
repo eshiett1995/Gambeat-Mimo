@@ -46,11 +46,32 @@ public class RoyalRumbleScript : MonoBehaviour
 
         retreiveTournamentData();
     }
+
     public void retreiveTournamentData()
     {
         //Pull Data From API save to tournaments List
         //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
+
+        RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
+        StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
+
         sortPages(tournaments.Count);
+    }
+
+    private void getRoyalRumbleMatchesCallback(UnityWebRequest response)
+    {
+        RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
+        Debug.Log("parsed response " + JsonUtility.ToJson(royalRumbleSearchResponse));
+        royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
+        Debug.Log("another parsed response " + response.downloadHandler.text);
+        if (royalRumbleSearchResponse.isSuccessful)
+        {
+            Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
+        }
+        else
+        {
+            Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
+        }
     }
 
     void sortPages(int tournamentCount)
@@ -138,31 +159,8 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             Instantiate(TournamentChild, GameObject.FindGameObjectWithTag("RoyalView").transform);
         }
+
         Debug.Log(currentPage.Count + " Tournaments displayed");
-    }
-    public void retreiveTournamentData()
-    {
-        //Pull Data From API save to tournaments List
-        //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
-
-       RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
-        StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch, JsonUtility.ToJson(royalRumbleSearch),getRoyalRumbleMatchesCallback));
-    }
-
-    private void getRoyalRumbleMatchesCallback(UnityWebRequest response)
-    {
-        RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
-        Debug.Log("parsed response " + JsonUtility.ToJson(royalRumbleSearchResponse));
-        royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
-        Debug.Log("another parsed response " + response.downloadHandler.text);
-        if (royalRumbleSearchResponse.isSuccessful)
-        {
-            Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
-        }
-        else
-        {
-            Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
-        }
     }
 
     public void openNewTournamentDialog()
