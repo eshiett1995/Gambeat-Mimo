@@ -1,0 +1,3 @@
+rootProject.name='Mimo Paystack Android'
+include ':app'
+include ':paystack'
