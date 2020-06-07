@@ -250,14 +250,13 @@ public class GameCode : MonoBehaviour
 
         highScore = PlayerPrefs.GetInt(highscoreString);
 
-        if (score > highScore)
-        {
+       
             highScore = score;
             PlayerPrefs.SetInt(highscoreString, score);
             if (!setHighscore)
                 mp.uploadHighScore();
             setHighscore = true;
-        }
+        
 
         highscoreText.text = highScore + "";
         

@@ -104,6 +104,22 @@ public class Multiplayer : MonoBehaviour
 
         //Upload Highscore to database
 
+        HighScoreRequest highscoreRequest = new HighScoreRequest();
+        highscoreRequest.score = GameCode.highScore;
+
+        ResponseModel responseModel = new ResponseModel();
+        StartCoroutine(HttpUtil.Post(HttpUtil.leaderBoardUrl, JsonUtility.ToJson(highscoreRequest), (response) =>
+        {
+            responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
+            if (responseModel.isSuccessful || responseModel.successful)
+            {
+              Debug.Log("HighScore updated to server");
+            }
+            else
+            {
+                Debug.Log("this is the message: " + responseModel.message);
+            }
+        }));
 
         Debug.Log("Uploading Highscore to database");
     }

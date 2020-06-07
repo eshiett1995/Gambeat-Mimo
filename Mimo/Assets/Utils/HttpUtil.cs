@@ -5,11 +5,12 @@ using UnityEngine.Networking;
 
 public class HttpUtil
 {
-    static public string baseUrl = "http://50fa3ce2.ngrok.io";
+    static public string baseUrl = "http://35.180.178.43";
     static public string leaderBoardUrl = baseUrl + "/leader-board";
     static public string userProfileUrl = baseUrl + "/user";
     static public string facebookAuthUrl = baseUrl + "/auth/facebook";
     static public string royalRumbleSearch = baseUrl + "/match/royal-rumble/search";
+
 
     
     static public IEnumerator Post(string url, string bodyJsonString, System.Action<UnityWebRequest> callback)
@@ -19,7 +20,7 @@ public class HttpUtil
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Authorization", LocalStorageUtil.getAuthKey());
+        request.SetRequestHeader("Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
         yield return request.SendWebRequest();
         callback(request);
     }
