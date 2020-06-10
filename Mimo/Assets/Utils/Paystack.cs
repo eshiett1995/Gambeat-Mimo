@@ -14,10 +14,11 @@ public class Paystack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("carress mem");
+        //Debug.Log("carress mem");        com.gambeat.mimo.paystack.android
+        //                                 com.gambeat.mimo.paystack.paystack.PaystackAndroid
         javaClass = new AndroidJavaObject("com.gambeat.mimo.paystack.paystack.PaystackAndroid");
-        javaClass.CallStatic("initPaystack", "");
-        javaClass.Call("initPayment", "");
+        //javaClass.CallStatic("initPaystack", "");
+        //javaClass.Call("initPayment", "");
 
     }
 
@@ -25,5 +26,20 @@ public class Paystack : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void toast()
+    {
+        AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+        //AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
+        javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.PaystackAndroid");
+        if (javaClass != null)
+        {
+            javaClass.CallStatic("toast", activity);
+        }
+        else {
+            Debug.Log("i am here");
+        }
     }
 }
