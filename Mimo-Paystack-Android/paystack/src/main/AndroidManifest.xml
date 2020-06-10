@@ -8,7 +8,7 @@
         android:supportsRtl="true">
 
         <activity android:name=".activity.PaystackActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 </manifest>

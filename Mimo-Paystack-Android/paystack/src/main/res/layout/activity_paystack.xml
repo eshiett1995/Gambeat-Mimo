@@ -18,17 +18,29 @@
             android:layout_marginBottom="20dp"
             android:scaleType="centerCrop" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
+            android:layout_marginBottom="20dp"
+            android:drawablePadding="5dp"
+            android:hint="Card Number"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:textColorHint="#D3D3D3" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Card number"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
+        <EditText
+            android:id="@+id/amountEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:drawablePadding="5dp"
+            android:hint="Amount"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:textColorHint="#D3D3D3" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +48,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/month"
+                android:id="@+id/monthEt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
@@ -50,7 +62,7 @@
                 android:textColorHint="#D3D3D3" />
 
             <EditText
-                android:id="@+id/year"
+                android:id="@+id/yearEt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -65,7 +77,7 @@
         </LinearLayout>
 
         <EditText
-            android:id="@+id/cvc"
+            android:id="@+id/cvv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -79,8 +91,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#53BD55"
-            android:onClick="pay"
+            android:background="#05C808"
+            android:onClick="initPayment"
             android:text="Make Payment"
             android:textColor="#FFFFFF" />
 
