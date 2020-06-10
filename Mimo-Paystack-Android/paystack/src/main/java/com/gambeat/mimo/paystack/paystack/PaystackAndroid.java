@@ -22,6 +22,10 @@ public class PaystackAndroid {
         PaystackSdk.setPublicKey("pk_test_3a7af4a93d785ab7fb183ee27eeae4be3755340e");
     }
 
+    public static void toast(Context context){
+        Toast.makeText(context, "Hello testing", Toast.LENGTH_LONG).show();
+    }
+
     public void initPayment(int amount, String email, String cardNumber, int expiryMonth, int expiryYear, String  cvv ){
         card = new Card(cardNumber, expiryMonth, expiryYear, cvv);
 
