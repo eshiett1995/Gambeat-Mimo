@@ -51,7 +51,8 @@ public class Paystack : MonoBehaviour
         javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
         if (javaClass != null)
         {
-            javaClass.CallStatic("initPaystack", activity);
+            //LocalStorageUtil.getAuthKey()
+            javaClass.CallStatic("initPaystack", activity, "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
         }
         else
         {
