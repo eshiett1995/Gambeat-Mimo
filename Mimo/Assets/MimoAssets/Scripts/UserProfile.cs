@@ -83,7 +83,7 @@ public class UserProfile : MonoBehaviour
     public void makeDeposit()
     {
         //Generate URL
-        paymentUrl = "http://49b7f9e3.ngrok.io/payment";
+        paymentUrl = "http://95a25c4dc02d.ngrok.io/payment";
 
         closeWallet();
         PaymentPanel.SetActive(true);
