@@ -11,9 +11,10 @@ import com.gambeat.mimo.paystack.paystack.activity.PaystackActivity;
 public class AndroidBridge {
     private static Context context;
 
-    public static void initPaystack(Context context){
+    public static void initPaystack(Context context, String authKey){
         Toast.makeText(context, "it is hiting pay", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(context, PaystackActivity.class);
+        intent.putExtra("authKey", authKey);
         context.startActivity(intent);
         AndroidBridge.context = context;
     }
