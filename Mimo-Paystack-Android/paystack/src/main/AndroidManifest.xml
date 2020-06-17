@@ -10,5 +10,8 @@
         <activity android:name=".activity.PaystackActivity"
             android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".activity.WalletAfricaActivity"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 </manifest>

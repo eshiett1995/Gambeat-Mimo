@@ -1057,7 +1057,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1415912887}
-        m_MethodName: toast
+        m_MethodName: walletsAfrica
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

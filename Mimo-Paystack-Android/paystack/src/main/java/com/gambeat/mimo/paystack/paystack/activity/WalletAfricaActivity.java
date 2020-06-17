@@ -17,7 +17,7 @@ import com.gambeat.mimo.paystack.paystack.WebInterface;
 
 import java.util.HashMap;
 
-public class PaystackActivity extends AppCompatActivity {
+public class WalletAfricaActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class PaystackActivity extends AppCompatActivity {
         mimoWebview.addJavascriptInterface(new WebInterface(this), "Android");
 
 
-        mimoWebview.loadUrl("http://c39ddeff0013.ngrok.io/paystack");
+        mimoWebview.loadUrl("http://c39ddeff0013.ngrok.io/wallets.africa");
 
         mimoWebview.setWebViewClient(new WebViewClient() {
 
@@ -43,7 +43,7 @@ public class PaystackActivity extends AppCompatActivity {
                 HashMap<String, String> linkData = parseLinkUriData(parsedUri);
                 Boolean shouldClose = Boolean.valueOf(linkData.get("shouldClose"));
                 if (shouldClose) {
-                    Intent intent = new Intent(PaystackActivity.this, Constants.baseContext.getClass());
+                    Intent intent = new Intent(WalletAfricaActivity.this, Constants.baseContext.getClass());
                     setResult(Activity.RESULT_OK, intent);
                     finish();
                 } else {
@@ -70,5 +70,4 @@ public class PaystackActivity extends AppCompatActivity {
         }
         return linkData;
     }
-
 }

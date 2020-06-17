@@ -17,7 +17,7 @@ public class WebInterface {
     }
 
     @JavascriptInterface
-    public void closeWalletAfricaModal() {
+    public void closeWalletAfricaModal(String response) {
         Intent intent = new Intent(mContext, Constants.baseContext.getClass());
         mContext.startActivity(intent);
     }
