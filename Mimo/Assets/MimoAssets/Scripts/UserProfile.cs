@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 public class UserProfile : MonoBehaviour
 {
+
     public Text username, fullName, email, games, wins, draws, winnings, cash, cash2;
     public Button wallet, back, closeWal, withdraw, deposit;
     public RawImage avatar;
@@ -82,13 +83,56 @@ public class UserProfile : MonoBehaviour
 
     public void makeDeposit()
     {
-        //Generate URL
-        paymentUrl = "http://95a25c4dc02d.ngrok.io/payment";
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+            //AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
+            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+            if (javaClass != null)
+            {
+                //LocalStorageUtil.getAuthKey()
+                javaClass.CallStatic("initPaystack", activity, "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
+            }
+            
+        }
+        else
+        {
+            //Generate URL
+            paymentUrl = "http://c39ddeff0013.ngrok.io/paystack";
 
-        closeWallet();
-        PaymentPanel.SetActive(true);
-        FindObjectOfType<SampleWebView>().webViewObject.SetVisibility(true);
-        FindObjectOfType<SampleWebView>().webViewObject.enabled = true;
+            closeWallet();
+            PaymentPanel.SetActive(true);
+            FindObjectOfType<SampleWebView>().webViewObject.SetVisibility(true);
+            FindObjectOfType<SampleWebView>().webViewObject.enabled = true;
+        }
+    }
+
+    public void makeCashoutOut()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+            //AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
+            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+            if (javaClass != null)
+            {
+                //LocalStorageUtil.getAuthKey()
+                javaClass.CallStatic("initWalletAfrica", activity, "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
+            }
+
+        }
+        else
+        {
+            //Generate URL
+            paymentUrl = "http://c39ddeff0013.ngrok.io/wallets.africa";
+
+            closeWallet();
+            PaymentPanel.SetActive(true);
+            FindObjectOfType<SampleWebView>().webViewObject.SetVisibility(true);
+            FindObjectOfType<SampleWebView>().webViewObject.enabled = true;
+        }
     }
 
     public void endPayment()

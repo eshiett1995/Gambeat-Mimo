@@ -26,7 +26,7 @@ public class AndroidBridge {
         Constants.baseContext = context;
     }
 
-    public static void toast(Context context){
-        Toast.makeText(context, "this is it", Toast.LENGTH_LONG).show();
+    public static void toast(Context context, String message){
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

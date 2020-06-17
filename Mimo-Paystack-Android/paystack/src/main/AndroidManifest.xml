@@ -8,10 +8,10 @@
         android:supportsRtl="true">
 
         <activity android:name=".activity.PaystackActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".activity.WalletAfricaActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 </manifest>
