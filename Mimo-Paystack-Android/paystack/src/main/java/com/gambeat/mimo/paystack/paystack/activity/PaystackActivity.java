@@ -13,7 +13,7 @@ public class PaystackActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_paystack);
+        setContentView(R.layout.activity_webview);
         final WebView okraLinkWebview = findViewById(R.id.ok_webview);
         WebSettings webSettings = okraLinkWebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
