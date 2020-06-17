@@ -32,7 +32,7 @@ public class PaystackActivity extends AppCompatActivity {
         mimoWebview.addJavascriptInterface(new WebInterface(this), "Android");
 
 
-        mimoWebview.loadUrl("http://c39ddeff0013.ngrok.io/paystack");
+        mimoWebview.loadUrl("http://15.236.202.44/paystack");
 
         mimoWebview.setWebViewClient(new WebViewClient() {
 

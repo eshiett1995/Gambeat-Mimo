@@ -32,7 +32,7 @@ public class WalletAfricaActivity extends AppCompatActivity {
         mimoWebview.addJavascriptInterface(new WebInterface(this), "Android");
 
 
-        mimoWebview.loadUrl("http://c39ddeff0013.ngrok.io/wallets.africa");
+        mimoWebview.loadUrl("http://15.236.202.44/wallets.africa");
 
         mimoWebview.setWebViewClient(new WebViewClient() {
 
