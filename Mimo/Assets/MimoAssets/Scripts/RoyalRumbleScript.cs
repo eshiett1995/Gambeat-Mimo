@@ -49,13 +49,14 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void retreiveTournamentData()
     {
+        Debug.Log("it entered here");
         //Pull Data From API save to tournaments List
         //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
 
         RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
 
-        sortPages(tournaments.Count);
+       // sortPages(tournaments.Count);
     }
 
     private void getRoyalRumbleMatchesCallback(UnityWebRequest response)
@@ -279,12 +280,35 @@ public class RoyalRumbleScript : MonoBehaviour
         string text = nameText.text;
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
-      
-        Tournament newTournament = new Tournament(text, Players[maxPlayersIndex], entryFees[entryFeeIndex]);
-        //tournaments.Add(newTournament);
+
+        MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
+        matchCreationRequest.matchName = text;
+        matchCreationRequest.entryFee = Int64.Parse(maxPlayersText.text);
+        matchCreationRequest.matchType = "RoyalRumble";
+        matchCreationRequest.maxPlayers = int.Parse(maxPlayersText.text) > 1 ? int.Parse(maxPlayersText.text) : 100;
+        StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
+     
+        
         isFilter = false;
         displayTournaments();
         closeNewTournamentDialog();
+    }
+
+    private void createRoyalRumbleMatchCallback(UnityWebRequest response)
+    {
+        MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
+        Debug.Log("parsed response " + JsonUtility.ToJson(matchEntryResponse));
+        matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
+        Debug.Log("another parsed response " + response.downloadHandler.text);
+        if (matchEntryResponse.isSuccessful)
+        {
+            //tournaments.Add(newTournament);
+            Debug.Log("this is the successful message: " + matchEntryResponse.message);
+        }
+        else
+        {
+            Debug.Log("this is the error message: " + matchEntryResponse.message);
+        }
     }
     public void previewTournament()
     {

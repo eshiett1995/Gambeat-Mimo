@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class RoyalRumbleSearchResponse : ResponseModel
 {
     public int number;
     public int size;
     public int numberOfElements;
-    public List<FormattedMatch> content;
+    public List<FormattedMatch> content = new List<FormattedMatch>();
     public bool hasContent;
     public bool isFirst;
     public bool isLast;
