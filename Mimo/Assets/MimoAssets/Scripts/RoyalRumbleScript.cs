@@ -42,16 +42,16 @@ public class RoyalRumbleScript : MonoBehaviour
         tournaments.Clear();
         FindObjectOfType<GameCode>().resetTournmentData();
 
-        retreiveTournamentData();
+        retreiveTournamentData(0);
     }
 
-    public void retreiveTournamentData()
+    public void retreiveTournamentData(int page)
     {
         //Pull Data From API save to tournaments List
         //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
 
         RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
-        StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
+        StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch +"/"+ page, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
 
        // sortPages(tournaments.Count);
     }
@@ -60,13 +60,14 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
         royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
-        if (royalRumbleSearchResponse.isSuccessful)
+        Debug.Log(response.downloadHandler.text);
+        if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
-            //Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
+            Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
         }
         else
         {
-            //Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
+            Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
         }
     }
 

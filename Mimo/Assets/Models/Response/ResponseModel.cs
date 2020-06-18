@@ -11,7 +11,5 @@ public class ResponseModel
 
     public bool successful;
 
-public bool Successful;
-
     public string jtwToken;
 }
