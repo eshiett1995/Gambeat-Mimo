@@ -23,7 +23,6 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void Initialize()
     {
-        Debug.Log("Royal Rumble Selected");
         displayTournaments();
         isFilter = false;
     }
@@ -40,7 +39,6 @@ public class RoyalRumbleScript : MonoBehaviour
             rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -newTop);
         }
 
-        Debug.Log("Displaying Royal Rumble Tournaments");
         tournaments.Clear();
         FindObjectOfType<GameCode>().resetTournmentData();
 
@@ -49,7 +47,6 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void retreiveTournamentData()
     {
-        Debug.Log("it entered here");
         //Pull Data From API save to tournaments List
         //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
 
@@ -62,16 +59,14 @@ public class RoyalRumbleScript : MonoBehaviour
     private void getRoyalRumbleMatchesCallback(UnityWebRequest response)
     {
         RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
-        Debug.Log("parsed response " + JsonUtility.ToJson(royalRumbleSearchResponse));
         royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
-        Debug.Log("another parsed response " + response.downloadHandler.text);
         if (royalRumbleSearchResponse.isSuccessful)
         {
-            Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
+            //Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
         }
         else
         {
-            Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
+            //Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
         }
     }
 
@@ -87,7 +82,6 @@ public class RoyalRumbleScript : MonoBehaviour
         else
             totalPages = 1;
 
-        Debug.Log(tournamentCount + " Tournaments," + totalPages + " Pages");
 
         paginationPanel.SetActive(true);
         FindObjectOfType<PaginationScript>().sort( 1, totalPages);
@@ -102,7 +96,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
         for(int i=startIndex; i<tournaments.Count; i++){
             currentPage.Add(tournaments[i]);
-            Debug.Log("Showing Tournament " + i);
+            //Debug.Log("Showing Tournament " + i);
             if(i==(startIndex + pageMax - 1) || i== tournaments.Count - 1)
             {
                 i = tournaments.Count;
@@ -153,7 +147,7 @@ public class RoyalRumbleScript : MonoBehaviour
                 Players[minPIndex] = 0;
             if (Players[maxPIndex] == 1000)
                 Players[maxPIndex] = 0;
-            Debug.Log("Filtered " + filtered + " Results");
+            //Debug.Log("Filtered " + filtered + " Results");
         }
 
         for (int i = 0; i < currentPage.Count; i++)
@@ -161,7 +155,7 @@ public class RoyalRumbleScript : MonoBehaviour
             Instantiate(TournamentChild, GameObject.FindGameObjectWithTag("RoyalView").transform);
         }
 
-        Debug.Log(currentPage.Count + " Tournaments displayed");
+        //Debug.Log(currentPage.Count + " Tournaments displayed");
     }
 
     public void openNewTournamentDialog()
@@ -189,13 +183,13 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         if(entryFeeIndex < entryFees.Length-1)
             entryFeeIndex++;
-        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
+        entryFeeText.text = entryFees[entryFeeIndex].ToString();//UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void decreaseEntryFee()
     {
         if (entryFeeIndex > 0)
             entryFeeIndex--;
-        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
+        entryFeeText.text = entryFees[entryFeeIndex].ToString();// UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void increaseMaxPlayers()
     {
@@ -283,7 +277,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
         MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
         matchCreationRequest.matchName = text;
-        matchCreationRequest.entryFee = Int64.Parse(maxPlayersText.text);
+        matchCreationRequest.entryFee = long.Parse(entryFeeText.text);
         matchCreationRequest.matchType = "RoyalRumble";
         matchCreationRequest.maxPlayers = int.Parse(maxPlayersText.text) > 1 ? int.Parse(maxPlayersText.text) : 100;
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
