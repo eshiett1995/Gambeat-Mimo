@@ -17,7 +17,8 @@ public class RoyalRumbleSearchResponse : ResponseModel
     public bool hasPrevious;
     public int totalPages;
     public long getTotalElements;
-    
+
+    [Serializable]
     public class FormattedMatch {
         public string id;
         public string name;
@@ -26,5 +27,6 @@ public class RoyalRumbleSearchResponse : ResponseModel
         public string matchState;
         public int numberOfCompetitors;
         public string winners;
+        public int competitorLimit;
     }
 }

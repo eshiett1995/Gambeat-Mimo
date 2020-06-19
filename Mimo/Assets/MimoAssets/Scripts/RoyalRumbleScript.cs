@@ -63,6 +63,14 @@ public class RoyalRumbleScript : MonoBehaviour
         Debug.Log(response.downloadHandler.text);
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
+            royalRumbleSearchResponse.content.ForEach(tournament => {
+                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee));
+                Debug.Log(tournament.id);
+                Debug.Log(tournament.name);
+                Debug.Log(tournament.numberOfCompetitors);
+                Debug.Log(tournament.name);
+            });
+           
             Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
         }
         else

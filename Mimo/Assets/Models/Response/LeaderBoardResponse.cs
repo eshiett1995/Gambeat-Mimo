@@ -15,6 +15,7 @@ public class LeaderBoardResponse : ResponseModel
 
     public bool isOnList;
 
+    [Serializable]
     public class FormattedRank
     {
         public string firstName;

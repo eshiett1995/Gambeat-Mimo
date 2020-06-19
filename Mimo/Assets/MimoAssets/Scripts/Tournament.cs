@@ -8,12 +8,13 @@ public class Tournament
     public string id;
     public string tournamentName;
     public int totalPlayers;
-    public int entryFee;
+    public int playerLimit;
+    public long entryFee;
     public int hr, day;
     private List<string> players;
 
 
-    public Tournament(string name, int maxPlayers, int entryFee)
+    public Tournament(string name, int maxPlayers, long entryFee)
     {
         this.tournamentName = name;
         this.totalPlayers = maxPlayers;
@@ -26,7 +27,19 @@ public class Tournament
         updateDatabase();
     }
 
-    public Tournament(string id, string name, int maxPlayers, int entryFee, int hr, int day, List<string> playersIDs)
+    public Tournament(string id,string name, int totalPlayers, int playerLimit, long entryFee)
+    {
+        this.id = id;
+        this.tournamentName = name;
+        this.totalPlayers = totalPlayers;
+        this.playerLimit = playerLimit;
+        this.entryFee = entryFee;
+        hr = DateTime.Now.Hour;
+        day = DateTime.Now.Day;
+        players = new List<string>();
+    }
+
+    public Tournament(string id, string name, int maxPlayers, long entryFee, int hr, int day, List<string> playersIDs)
     {
         this.id = id;
         this.tournamentName = name;
@@ -68,7 +81,7 @@ public class Tournament
 
     public int getPrize()
     {
-        return entryFee * players.Count;
+        return (int)(entryFee * players.Count);
     }
 
     public void updateDatabase()
