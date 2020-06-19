@@ -52,8 +52,6 @@ public class RoyalRumbleScript : MonoBehaviour
 
         RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch +"/"+ page, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
-
-       // sortPages(tournaments.Count);
     }
 
     private void getRoyalRumbleMatchesCallback(UnityWebRequest response)
@@ -65,12 +63,10 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
                 tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee));
-                Debug.Log(tournament.id);
-                Debug.Log(tournament.name);
-                Debug.Log(tournament.numberOfCompetitors);
-                Debug.Log(tournament.name);
             });
-           
+
+            sortPages(tournaments.Count);
+
             Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
         }
         else
