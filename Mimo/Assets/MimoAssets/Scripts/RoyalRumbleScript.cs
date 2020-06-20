@@ -18,7 +18,7 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] entryFees = { 50,100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
-    public static int pageMax = 30, totalPages, startIndex;
+    public static int pageMax = 10, totalPages, startIndex;
    
 
     public void Initialize()
@@ -188,13 +188,13 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         if(entryFeeIndex < entryFees.Length-1)
             entryFeeIndex++;
-        entryFeeText.text = entryFees[entryFeeIndex].ToString();//UI.getNaira(entryFees[entryFeeIndex]);
+        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void decreaseEntryFee()
     {
         if (entryFeeIndex > 0)
             entryFeeIndex--;
-        entryFeeText.text = entryFees[entryFeeIndex].ToString();// UI.getNaira(entryFees[entryFeeIndex]);
+        entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void increaseMaxPlayers()
     {
@@ -279,12 +279,12 @@ public class RoyalRumbleScript : MonoBehaviour
         string text = nameText.text;
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
-
+        Debug.Log("Setting Players "+Players[maxPlayersIndex]);
         MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
         matchCreationRequest.matchName = text;
-        matchCreationRequest.entryFee = long.Parse(entryFeeText.text);
+        matchCreationRequest.entryFee = entryFees[entryFeeIndex];
         matchCreationRequest.matchType = "RoyalRumble";
-        matchCreationRequest.maxPlayers = int.Parse(maxPlayersText.text) > 1 ? int.Parse(maxPlayersText.text) : 100;
+        matchCreationRequest.maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100;
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
      
         

@@ -6,9 +6,8 @@ using UnityEngine.UI;
 
 public class PaginationScript : MonoBehaviour
 {
-    public Button firstPage, secPage, thirdPage, nextPage, prevPage;
     public Text firstText, secText, thirdText, firstHilText, secHilText, thirdHilText;
-    public GameObject firstHighlight, secHighlight, thirdHighlight, paginationPanel;
+    public GameObject firstHighlight, secHighlight, thirdHighlight, paginationPanel, thirdPage;
     private int curPage, totalPages;
 
     public void sort(int curPage, int totalPages)
@@ -35,15 +34,15 @@ public class PaginationScript : MonoBehaviour
                 {
                     thirdText.text = 3 + "";
                     thirdHilText.text = 3 + "";
-                    thirdPage.enabled = true;
+                   thirdPage.SetActive(true);
                 }
                 else
-                    thirdPage.enabled = false;
+                   thirdPage.SetActive(false);
             }
             else if (curPage < totalPages)
             {
 
-                thirdPage.enabled = true;
+               thirdPage.SetActive(true);
 
                 firstText.text = curPage - 1 + "";
                 firstHilText.text = curPage - 1 + "";
@@ -54,7 +53,7 @@ public class PaginationScript : MonoBehaviour
             }
             else if(curPage == totalPages)
             {
-                thirdPage.enabled = true;
+               thirdPage.SetActive(true);
 
                 firstText.text = curPage - 2 + "";
                 firstHilText.text = curPage - 2 + "";

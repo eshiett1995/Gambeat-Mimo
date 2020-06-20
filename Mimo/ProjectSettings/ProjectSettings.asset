@@ -259,7 +259,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 2
   androidSplashScreen: {fileID: 2800000, guid: 71c6811c70203a941b46cc604022d6a5, type: 3}
-  AndroidKeystoreName: /Users/java/Documents/Unity/user.keystore
+  AndroidKeystoreName: '{inproject}: user.keystore'
   AndroidKeyaliasName: gambeat
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 0
@@ -267,7 +267,7 @@ PlayerSettings:
   AndroidEnableTango: 0
   androidEnableBanner: 1
   androidUseLowAccuracyLocation: 0
-  androidUseCustomKeystore: 0
+  androidUseCustomKeystore: 1
   m_AndroidBanners:
   - width: 320
     height: 180

@@ -10,7 +10,7 @@ public class FBHolder : MonoBehaviour
 {
 
     public GameObject profilePanel;
-    public static string userName, firstName, lastName, email;
+    public static string userName, firstName = "", lastName, email;
     public static int gamesPlayed, gamesWon, gamesDrawn;
     public Text profile_name;
     public RawImage avatar;
@@ -28,8 +28,12 @@ public class FBHolder : MonoBehaviour
 
     public void openProfile()
     {
-        Debug.Log("Opening Profile");
-        SceneManager.LoadScene("ProfileScene");
+        if(firstName.Equals("")){
+            Debug.Log("You need to log in first");
+        }else{
+            Debug.Log("Opening Profile");
+            SceneManager.LoadScene("ProfileScene");
+        }
     }
 
     private void Awake()
