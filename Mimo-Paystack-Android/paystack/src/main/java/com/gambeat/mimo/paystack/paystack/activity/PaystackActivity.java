@@ -32,7 +32,7 @@ public class PaystackActivity extends AppCompatActivity {
         mimoWebview.addJavascriptInterface(new WebInterface(this), "Android");
 
 
-        mimoWebview.loadUrl("http://15.236.202.44/paystack");
+        mimoWebview.loadUrl("https://www.gambeat.com.ng/paystack");
 
         mimoWebview.setWebViewClient(new WebViewClient() {
 
