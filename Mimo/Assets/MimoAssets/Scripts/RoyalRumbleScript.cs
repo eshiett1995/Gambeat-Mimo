@@ -47,10 +47,19 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void retreiveTournamentData(int page)
     {
-        //Pull Data From API save to tournaments List
-        //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
 
         RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
+        if (isFilter)
+        {
+            royalRumbleSearch.competitionName = "";
+            royalRumbleSearch.minimumAmount = entryFees[minEFIndex]; 
+            royalRumbleSearch.maximumAmount = entryFees[maxEFIndex];
+            royalRumbleSearch.minimumPlayers = Players[minPIndex];
+            royalRumbleSearch.maximumPlayers = Players[maxPIndex];
+            royalRumbleSearch.sortField = "";
+            royalRumbleSearch.filter = true;
+            royalRumbleSearch.ascending = true;
+        }
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch +"/"+ page, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
     }
 
@@ -283,6 +292,7 @@ public class RoyalRumbleScript : MonoBehaviour
         MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
         matchCreationRequest.matchName = text;
         matchCreationRequest.entryFee = entryFees[entryFeeIndex];
+        Debug.Log(matchCreationRequest.entryFee);
         matchCreationRequest.matchType = "RoyalRumble";
         matchCreationRequest.maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100;
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
