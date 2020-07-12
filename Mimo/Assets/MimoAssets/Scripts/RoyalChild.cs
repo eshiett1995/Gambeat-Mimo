@@ -23,6 +23,13 @@ public class RoyalChild : MonoBehaviour
         prize.text = UI.getNaira(tournament.getPrize());
         timeLeft.text = tournament.getTime();
         FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);
+
+        select.onClick.AddListener(() => selectMatch(index));
+
+    }
+
+    public void selectMatch(int matchIndex) {
+        Debug.Log("it reached here");
     }
 
 }
