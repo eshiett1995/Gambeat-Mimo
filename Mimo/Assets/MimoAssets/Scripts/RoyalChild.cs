@@ -29,7 +29,7 @@ public class RoyalChild : MonoBehaviour
     }
 
     public void selectMatch(int matchIndex) {
-        Debug.Log("it reached here");
+        FindObjectOfType<RoyalRumbleScript>().openTournament(matchIndex);
     }
 
 }

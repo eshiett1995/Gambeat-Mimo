@@ -5,12 +5,13 @@ using UnityEngine.Networking;
 
 public class HttpUtil
 {
-    static public string baseUrl = "https://7f9f23d06f92.ngrok.io"; //"https://gambeat.com.ng"; //http://15.236.202.44
+    static public string baseUrl = "https://c7b18510d4e9.ngrok.io"; //"https://gambeat.com.ng"; //http://15.236.202.44
     static public string leaderBoardUrl = baseUrl + "/leader-board";
     static public string userProfileUrl = baseUrl + "/user";
     static public string facebookAuthUrl = baseUrl + "/auth/facebook";
     static public string royalRumbleSearch = baseUrl + "/match/royal-rumble/search";
     static public string royalRumbleCreate = baseUrl + "/match/royal-rumble/create";
+    static public string royalRumbleInit = baseUrl + "/match/royal-rumble/init";
 
 
 

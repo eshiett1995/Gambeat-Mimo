@@ -71,7 +71,7 @@ public class RoyalRumbleScript : MonoBehaviour
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
-                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee));
+                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered));
             });
 
             sortPages(tournaments.Count);
@@ -355,4 +355,31 @@ public class RoyalRumbleScript : MonoBehaviour
         filterPanel.SetActive(false);
     }
 
+    public void openTournament(int tournamentIndex) {
+        Tournament tournament = tournaments[tournamentIndex];
+        if (tournament.registered) {
+             Debug.Log("registered");
+            StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit +"/" + tournament.id, royalRumbleMatchInitCallback));
+
+        }
+        else
+        {
+            Debug.Log("not registered");
+        }
+    }
+
+    private void royalRumbleMatchInitCallback(UnityWebRequest response)
+    {
+        GameStageResponse gameStageResponse = new GameStageResponse();
+        gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
+        Debug.Log("another parsed response " + response.downloadHandler.text);
+        if (gameStageResponse.isSuccessful || gameStageResponse.successful)
+        {
+            Debug.Log("this is the successful message: " + gameStageResponse.data);
+        }
+        else
+        {
+            Debug.Log("this is the error message: " + gameStageResponse.data);
+        }
+    }
 }
