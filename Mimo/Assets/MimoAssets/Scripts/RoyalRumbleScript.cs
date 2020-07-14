@@ -291,7 +291,8 @@ public class RoyalRumbleScript : MonoBehaviour
         Debug.Log("Setting Players "+Players[maxPlayersIndex]);
         MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
         matchCreationRequest.matchName = text;
-        matchCreationRequest.entryFee = entryFees[entryFeeIndex];
+        // Gambeat server reads money in kobo (N1 == 100kobo)
+        matchCreationRequest.entryFee = entryFees[entryFeeIndex] * 100;
         Debug.Log(matchCreationRequest.entryFee);
         matchCreationRequest.matchType = "RoyalRumble";
         matchCreationRequest.maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100;
@@ -309,7 +310,7 @@ public class RoyalRumbleScript : MonoBehaviour
         Debug.Log("parsed response " + JsonUtility.ToJson(matchEntryResponse));
         matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
         Debug.Log("another parsed response " + response.downloadHandler.text);
-        if (matchEntryResponse.isSuccessful)
+        if (matchEntryResponse.isSuccessful || matchEntryResponse.successful)
         {
             //tournaments.Add(newTournament);
             Debug.Log("this is the successful message: " + matchEntryResponse.message);
