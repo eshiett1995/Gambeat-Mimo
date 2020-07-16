@@ -10,6 +10,7 @@ public class Tournament
     public int totalPlayers;
     public int playerLimit;
     public long entryFee;
+    public long startTime;
     public bool registered;
     public int hr, day;
     private List<string> players;
@@ -28,7 +29,7 @@ public class Tournament
         updateDatabase();
     }
 
-    public Tournament(string id,string name, int totalPlayers, int playerLimit, long entryFee, bool registered)
+    public Tournament(string id,string name, int totalPlayers, int playerLimit, long entryFee, bool registered, long startTime)
     {
         Debug.Log("registered: " + registered);
         this.id = id;
@@ -37,6 +38,7 @@ public class Tournament
         this.playerLimit = playerLimit;
         this.entryFee = entryFee;
         this.registered = registered;
+        this.startTime = startTime;
         hr = DateTime.Now.Hour;
         day = DateTime.Now.Day;
         players = new List<string>();

@@ -71,7 +71,8 @@ public class RoyalRumbleScript : MonoBehaviour
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
-                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered));
+                Debug.Log("this is the time: " + tournament.startTime);
+                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime));
             });
 
             sortPages(tournaments.Count);
