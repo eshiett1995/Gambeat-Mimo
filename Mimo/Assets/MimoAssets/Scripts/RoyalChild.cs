@@ -45,7 +45,7 @@ public class RoyalChild : MonoBehaviour
         Debug.Log("second " + matchStartTimeStamp);
 
         var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(matchStartTimeStamp).ToLocalTime();
-        var endDate = epochStart.AddHours(1);
+        var endDate = epochStart.AddHours(48);
         
         long endDateTimeStamp = new DateTimeOffset(endDate).ToUnixTimeSeconds();
         long presentDateTimeStamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
