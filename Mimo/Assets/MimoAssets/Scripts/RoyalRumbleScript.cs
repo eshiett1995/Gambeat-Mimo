@@ -9,6 +9,7 @@ public class RoyalRumbleScript : MonoBehaviour
 {
     public GameObject newTournamentPanel, filterPanel, TournamentChild, paginationPanel;
     public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
+    public ConfirmationDialog confirmationDialog;
     private List<Tournament> tournaments = new List<Tournament>();
     public static List<Tournament> currentPage = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
@@ -19,7 +20,14 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
     public static int pageMax = 10, totalPages, startIndex;
-   
+
+
+    private void Start()
+    {
+        confirmationDialog.displayText.text = "";
+        confirmationDialog.displayText.text = "here you have it";
+        confirmationDialog.gameObject.SetActive(true);
+    }
 
     public void Initialize()
     {
