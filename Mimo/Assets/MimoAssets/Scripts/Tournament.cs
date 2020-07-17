@@ -93,12 +93,12 @@ public class Tournament
 
     public int getPlayerCount()
     {
-        return players.Count;
+        return totalPlayers;
     }
 
     public int getPrize()
     {
-        return (int)(entryFee * players.Count);
+        return (int)(entryFee/100 * totalPlayers);
     }
 
     public void updateDatabase()

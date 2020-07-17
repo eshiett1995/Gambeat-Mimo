@@ -18,10 +18,10 @@ public class RoyalChild : MonoBehaviour
         int no = RoyalRumbleScript.startIndex + index + 1;
         indexText.text = no + ".";
         name.text = tournament.tournamentName;
-        players.text = tournament.getPlayerCount() +"/"+ tournament.totalPlayers +" Players";
-        if (tournament.totalPlayers==0)
-            players.text = tournament.getPlayerCount() + "/00 Players";
-        entryFee.text = "Entry Fee : " + UI.getNaira(tournament.entryFee);
+        players.text = $"{tournament.getPlayerCount()}/{tournament.playerLimit} Players";
+
+        //dividing the entry fee by 100 to take it back to Naira.
+        entryFee.text = "Entry Fee : " + UI.getNaira(tournament.entryFee/100);
         prize.text = UI.getNaira(tournament.getPrize());
         timeLeft.text = GetRemainingTime(tournament.startTime);
         FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);
@@ -58,13 +58,15 @@ public class RoyalChild : MonoBehaviour
        
         if (secondsLeft < 86400)
         {
-            Debug.Log($"0{ time.Hours} : 0{ time.Minutes} : {time.Seconds}");
-            return $"0{ time.Hours} : 0{ time.Minutes} : {time.Seconds}";
+            var hour = time.Hours > 9 ? time.Hours.ToString() : $"0{time.Hours}";
+            var minute = time.Minutes > 9 ? time.Minutes.ToString() : $"0{time.Minutes}";
+            var second = time.Seconds > 9 ? time.Seconds.ToString() : $"0{time.Seconds}";
+            return $"{hour}:{minute}:{second}";
         }
         else
         {
             Debug.Log($"{time.TotalHours} hours");
-            return $"{time.TotalHours} hours";
+            return $"{(int)time.TotalHours} hours";
         }
     }
 
