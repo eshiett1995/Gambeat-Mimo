@@ -21,14 +21,6 @@ public class RoyalRumbleScript : MonoBehaviour
     private bool isFilter;
     public static int pageMax = 10, totalPages, startIndex;
 
-
-    private void Start()
-    {
-        confirmationDialog.displayText.text = "";
-        confirmationDialog.displayText.text = "here you have it";
-        confirmationDialog.gameObject.SetActive(true);
-    }
-
     public void Initialize()
     {
         displayTournaments();
@@ -75,21 +67,19 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
         royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
-        Debug.Log(response.downloadHandler.text);
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
-                Debug.Log("this is the time: " + tournament.startTime);
                 tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime));
             });
 
             sortPages(tournaments.Count);
 
-            Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
+            Debug.Log("getRoyalRumbleMatchesCallback: the successful message: " + royalRumbleSearchResponse.message);
         }
         else
         {
-            Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
+            Debug.Log("getRoyalRumbleMatchesCallback : the error message: " + royalRumbleSearchResponse.message);
         }
     }
 
@@ -119,7 +109,6 @@ public class RoyalRumbleScript : MonoBehaviour
 
         for(int i=startIndex; i<tournaments.Count; i++){
             currentPage.Add(tournaments[i]);
-            //Debug.Log("Showing Tournament " + i);
             if(i==(startIndex + pageMax - 1) || i== tournaments.Count - 1)
             {
                 i = tournaments.Count;
@@ -297,12 +286,10 @@ public class RoyalRumbleScript : MonoBehaviour
         string text = nameText.text;
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
-        Debug.Log("Setting Players "+Players[maxPlayersIndex]);
         MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
         matchCreationRequest.matchName = text;
         // Gambeat server reads money in kobo (N1 == 100kobo)
         matchCreationRequest.entryFee = entryFees[entryFeeIndex] * 100;
-        Debug.Log(matchCreationRequest.entryFee);
         matchCreationRequest.matchType = "RoyalRumble";
         matchCreationRequest.maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100;
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
@@ -316,9 +303,7 @@ public class RoyalRumbleScript : MonoBehaviour
     private void createRoyalRumbleMatchCallback(UnityWebRequest response)
     {
         MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
-        Debug.Log("parsed response " + JsonUtility.ToJson(matchEntryResponse));
         matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
-        Debug.Log("another parsed response " + response.downloadHandler.text);
         if (matchEntryResponse.isSuccessful || matchEntryResponse.successful)
         {
             //tournaments.Add(newTournament);
@@ -365,16 +350,29 @@ public class RoyalRumbleScript : MonoBehaviour
         filterPanel.SetActive(false);
     }
 
-    public void openTournament(int tournamentIndex) {
+    public void OnTournamentClicked(int tournamentIndex) {
         Tournament tournament = tournaments[tournamentIndex];
         if (tournament.registered) {
-             Debug.Log("registered");
-            StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit +"/" + tournament.id, royalRumbleMatchInitCallback));
-
+            confirmationDialog.displayText.text = "Do you want to \n start this game?";
+            confirmationDialog.gameObject.SetActive(true);
+            confirmationDialog.yesBtn.onClick.AddListener(() => {
+                StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
+            });
+            //confirmationDialog.noBtn.onClick.AddListener(() => {
+            //    confirmationDialog.gameObject.SetActive(false);
+            //});
         }
         else
         {
-            Debug.Log("not registered");
+            confirmationDialog.displayText.text = "Do you want to \n join this game?";
+            confirmationDialog.gameObject.SetActive(true);
+            confirmationDialog.yesBtn.onClick.AddListener(() => {
+                StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
+            });
+            //confirmationDialog.noBtn.onClick.AddListener(() => {
+            //    var confirmDialig = GameObject.FindGameObjectWithTag("ConfirmDialog");
+            //    confirmDialig.SetActive(false);
+            //});
         }
     }
 
@@ -382,14 +380,13 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         GameStageResponse gameStageResponse = new GameStageResponse();
         gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
-        Debug.Log("another parsed response " + response.downloadHandler.text);
         if (gameStageResponse.isSuccessful || gameStageResponse.successful)
         {
-            Debug.Log("this is the successful message: " + gameStageResponse.data);
+            Debug.Log("royalRumbleMatchInitCallback : successful message: " + gameStageResponse.data);
         }
         else
         {
-            Debug.Log("this is the error message: " + gameStageResponse.data);
+            Debug.Log("royalRumbleMatchInitCallback : error message: " + gameStageResponse.data);
         }
     }
 }

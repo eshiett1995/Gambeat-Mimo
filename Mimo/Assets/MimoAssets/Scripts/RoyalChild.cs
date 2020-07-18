@@ -31,7 +31,7 @@ public class RoyalChild : MonoBehaviour
     }
 
     public void selectMatch(int matchIndex) {
-        FindObjectOfType<RoyalRumbleScript>().openTournament(matchIndex);
+        FindObjectOfType<RoyalRumbleScript>().OnTournamentClicked(matchIndex);
     }
 
     public string GetRemainingTime(long matchStartTimeStamp)
@@ -40,18 +40,15 @@ public class RoyalChild : MonoBehaviour
         {
             return "00:00:00";
         }
-        Debug.Log("milisecond " + matchStartTimeStamp);
         matchStartTimeStamp = (long)TimeSpan.FromMilliseconds(matchStartTimeStamp).TotalSeconds;
-        Debug.Log("second " + matchStartTimeStamp);
+  
 
         var epochStart = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(matchStartTimeStamp).ToLocalTime();
         var endDate = epochStart.AddHours(48);
         
         long endDateTimeStamp = new DateTimeOffset(endDate).ToUnixTimeSeconds();
         long presentDateTimeStamp = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
-        Debug.Log("ending second " + endDateTimeStamp);
         var secondsLeft = endDateTimeStamp - presentDateTimeStamp;
-        Debug.Log("secondsLeft " + secondsLeft);
         var time = TimeSpan.FromSeconds(secondsLeft);
 
 
@@ -65,7 +62,6 @@ public class RoyalChild : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{time.TotalHours} hours");
             return $"{(int)time.TotalHours} hours";
         }
     }
