@@ -9,10 +9,7 @@ public class ConfirmationDialog : MonoBehaviour
     public Button yesBtn, noBtn;
     void Start()
     {
-        noBtn.onClick.AddListener(() => {
-            var confirmDialig = GameObject.FindGameObjectWithTag("ConfirmDialog");
-            this.gameObject.SetActive(false);
-        });
+        
     }
 
     // Update is called once per frame

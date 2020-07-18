@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class HttpUtil
 {
-    static public string baseUrl = "https://036b5b98e72a.ngrok.io"; //"https://gambeat.com.ng"; //http://15.236.202.44
+    static public string baseUrl = "https://57f7f313679c.ngrok.io"; //"https://gambeat.com.ng"; //http://15.236.202.44
     static public string leaderBoardUrl = baseUrl + "/leader-board";
     static public string userProfileUrl = baseUrl + "/user";
     static public string facebookAuthUrl = baseUrl + "/auth/facebook";

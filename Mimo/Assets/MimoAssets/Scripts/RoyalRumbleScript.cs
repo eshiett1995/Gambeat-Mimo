@@ -358,9 +358,9 @@ public class RoyalRumbleScript : MonoBehaviour
             confirmationDialog.yesBtn.onClick.AddListener(() => {
                 StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
             });
-            //confirmationDialog.noBtn.onClick.AddListener(() => {
-            //    confirmationDialog.gameObject.SetActive(false);
-            //});
+            confirmationDialog.noBtn.onClick.AddListener(() => {
+                confirmationDialog.gameObject.SetActive(false);
+            });
         }
         else
         {
@@ -369,10 +369,9 @@ public class RoyalRumbleScript : MonoBehaviour
             confirmationDialog.yesBtn.onClick.AddListener(() => {
                 StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
             });
-            //confirmationDialog.noBtn.onClick.AddListener(() => {
-            //    var confirmDialig = GameObject.FindGameObjectWithTag("ConfirmDialog");
-            //    confirmDialig.SetActive(false);
-            //});
+            confirmationDialog.noBtn.onClick.AddListener(() => {
+                confirmationDialog.gameObject.SetActive(false);
+            });
         }
     }
 
