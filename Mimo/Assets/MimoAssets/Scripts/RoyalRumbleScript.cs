@@ -286,12 +286,14 @@ public class RoyalRumbleScript : MonoBehaviour
         string text = nameText.text;
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
-        MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
-        matchCreationRequest.matchName = text;
-        // Gambeat server reads money in kobo (N1 == 100kobo)
-        matchCreationRequest.entryFee = entryFees[entryFeeIndex] * 100;
-        matchCreationRequest.matchType = "RoyalRumble";
-        matchCreationRequest.maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100;
+        MatchCreationRequest matchCreationRequest = new MatchCreationRequest
+        {
+            matchName = text,
+            // Gambeat server reads money in kobo (N1 == 100kobo)
+            entryFee = entryFees[entryFeeIndex] * 100,
+            matchType = "RoyalRumble",
+            maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100
+        };
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
      
         
@@ -367,11 +369,34 @@ public class RoyalRumbleScript : MonoBehaviour
             confirmationDialog.displayText.text = "Do you want to \n join this game?";
             confirmationDialog.gameObject.SetActive(true);
             confirmationDialog.yesBtn.onClick.AddListener(() => {
-                StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
+                Debug.Log("it has started");
+                MatchJoinRequest matchJoinRequest = new MatchJoinRequest
+                {
+                    matchID = tournament.id,
+                    matchType = "RoyalRumble"
+                };
+                Debug.Log("what it is sending");
+                Debug.Log(JsonUtility.ToJson(matchJoinRequest));
+                StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleJoin, JsonUtility.ToJson(matchJoinRequest), royalRumbleMatchJoinedCallback));
             });
             confirmationDialog.noBtn.onClick.AddListener(() => {
                 confirmationDialog.gameObject.SetActive(false);
             });
+        }
+    }
+
+    private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
+    {
+        Debug.Log("response......");
+        ResponseModel responseModel = new ResponseModel();
+        responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
+        if (responseModel.isSuccessful || responseModel.successful)
+        {
+            Debug.Log("royalRumbleMatchJoinedCallback : successful message: " + responseModel.message);
+        }
+        else
+        {
+            Debug.Log("royalRumbleMatchJoinedCallback : error message: " + responseModel.message);
         }
     }
 

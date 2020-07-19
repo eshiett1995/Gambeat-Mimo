@@ -52,8 +52,10 @@ public class RoyalChild : MonoBehaviour
         var time = TimeSpan.FromSeconds(secondsLeft);
 
 
-       
-        if (secondsLeft < 86400)
+        if (secondsLeft < 0) {
+            return "00:00:00";
+        }
+        else if (secondsLeft < 86400)
         {
             var hour = time.Hours > 9 ? time.Hours.ToString() : $"0{time.Hours}";
             var minute = time.Minutes > 9 ? time.Minutes.ToString() : $"0{time.Minutes}";
