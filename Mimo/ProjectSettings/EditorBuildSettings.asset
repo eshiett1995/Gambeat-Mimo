@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ProfileScene.unity
     guid: 0f917b0d36195344da80ae4defc416f3
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/PaystackScene.unity
     guid: cedf2a139aa6340c3a4957a3853ad9d4
   m_configObjects: {}
