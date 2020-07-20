@@ -23,7 +23,9 @@ public class RoyalRumbleSearchResponse : ResponseModel
         public string id;
         public string name;
         public long entryFee;
+        public long startTime;
         public string matchStatus;
+        public bool registered;
         public string matchState;
         public int numberOfCompetitors;
         public string winners;

@@ -13,6 +13,7 @@ TagManager:
   - Tyre
   - GamePanel
   - RoyalView
+  - ConfirmDialog
   layers:
   - Default
   - TransparentFX

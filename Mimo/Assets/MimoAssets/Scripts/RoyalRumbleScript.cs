@@ -9,6 +9,7 @@ public class RoyalRumbleScript : MonoBehaviour
 {
     public GameObject newTournamentPanel, filterPanel, TournamentChild, paginationPanel;
     public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
+    public ConfirmationDialog confirmationDialog;
     private List<Tournament> tournaments = new List<Tournament>();
     public static List<Tournament> currentPage = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
@@ -19,7 +20,6 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
     public static int pageMax = 10, totalPages, startIndex;
-   
 
     public void Initialize()
     {
@@ -47,10 +47,19 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void retreiveTournamentData(int page)
     {
-        //Pull Data From API save to tournaments List
-        //e.g tournaments.Add( new Tournament(id, name, maxPlayers, entryFee, hr, day, playersIDs)
 
         RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
+        if (isFilter)
+        {
+            royalRumbleSearch.competitionName = "";
+            royalRumbleSearch.minimumAmount = entryFees[minEFIndex]; 
+            royalRumbleSearch.maximumAmount = entryFees[maxEFIndex];
+            royalRumbleSearch.minimumPlayers = Players[minPIndex];
+            royalRumbleSearch.maximumPlayers = Players[maxPIndex];
+            royalRumbleSearch.sortField = "";
+            royalRumbleSearch.filter = true;
+            royalRumbleSearch.ascending = true;
+        }
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleSearch +"/"+ page, JsonUtility.ToJson(royalRumbleSearch), getRoyalRumbleMatchesCallback));
     }
 
@@ -58,20 +67,19 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
         royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
-        Debug.Log(response.downloadHandler.text);
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
-                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee));
+                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime));
             });
 
             sortPages(tournaments.Count);
 
-            Debug.Log("this is the successful message: " + royalRumbleSearchResponse.message);
+            Debug.Log("getRoyalRumbleMatchesCallback: the successful message: " + royalRumbleSearchResponse.message);
         }
         else
         {
-            Debug.Log("this is the error message: " + royalRumbleSearchResponse.message);
+            Debug.Log("getRoyalRumbleMatchesCallback : the error message: " + royalRumbleSearchResponse.message);
         }
     }
 
@@ -101,7 +109,6 @@ public class RoyalRumbleScript : MonoBehaviour
 
         for(int i=startIndex; i<tournaments.Count; i++){
             currentPage.Add(tournaments[i]);
-            //Debug.Log("Showing Tournament " + i);
             if(i==(startIndex + pageMax - 1) || i== tournaments.Count - 1)
             {
                 i = tournaments.Count;
@@ -279,12 +286,14 @@ public class RoyalRumbleScript : MonoBehaviour
         string text = nameText.text;
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
-        Debug.Log("Setting Players "+Players[maxPlayersIndex]);
-        MatchCreationRequest matchCreationRequest = new MatchCreationRequest();
-        matchCreationRequest.matchName = text;
-        matchCreationRequest.entryFee = entryFees[entryFeeIndex];
-        matchCreationRequest.matchType = "RoyalRumble";
-        matchCreationRequest.maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100;
+        MatchCreationRequest matchCreationRequest = new MatchCreationRequest
+        {
+            matchName = text,
+            // Gambeat server reads money in kobo (N1 == 100kobo)
+            entryFee = entryFees[entryFeeIndex] * 100,
+            matchType = "RoyalRumble",
+            maxPlayers = Players[maxPlayersIndex] > 1 ? Players[maxPlayersIndex] : 100
+        };
         StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleCreate, JsonUtility.ToJson(matchCreationRequest), createRoyalRumbleMatchCallback));
      
         
@@ -296,10 +305,8 @@ public class RoyalRumbleScript : MonoBehaviour
     private void createRoyalRumbleMatchCallback(UnityWebRequest response)
     {
         MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
-        Debug.Log("parsed response " + JsonUtility.ToJson(matchEntryResponse));
         matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
-        Debug.Log("another parsed response " + response.downloadHandler.text);
-        if (matchEntryResponse.isSuccessful)
+        if (matchEntryResponse.isSuccessful || matchEntryResponse.successful)
         {
             //tournaments.Add(newTournament);
             Debug.Log("this is the successful message: " + matchEntryResponse.message);
@@ -345,4 +352,65 @@ public class RoyalRumbleScript : MonoBehaviour
         filterPanel.SetActive(false);
     }
 
+    public void OnTournamentClicked(int tournamentIndex) {
+        Tournament tournament = tournaments[tournamentIndex];
+        if (tournament.registered) {
+            confirmationDialog.displayText.text = "Do you want to \n start this game?";
+            confirmationDialog.gameObject.SetActive(true);
+            confirmationDialog.yesBtn.onClick.AddListener(() => {
+                StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
+            });
+            confirmationDialog.noBtn.onClick.AddListener(() => {
+                confirmationDialog.gameObject.SetActive(false);
+            });
+        }
+        else
+        {
+            confirmationDialog.displayText.text = "Do you want to \n join this game?";
+            confirmationDialog.gameObject.SetActive(true);
+            confirmationDialog.yesBtn.onClick.AddListener(() => {
+                Debug.Log("it has started");
+                MatchJoinRequest matchJoinRequest = new MatchJoinRequest
+                {
+                    matchID = tournament.id,
+                    matchType = "RoyalRumble"
+                };
+                Debug.Log("what it is sending");
+                Debug.Log(JsonUtility.ToJson(matchJoinRequest));
+                StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleJoin, JsonUtility.ToJson(matchJoinRequest), royalRumbleMatchJoinedCallback));
+            });
+            confirmationDialog.noBtn.onClick.AddListener(() => {
+                confirmationDialog.gameObject.SetActive(false);
+            });
+        }
+    }
+
+    private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
+    {
+        Debug.Log("response......");
+        ResponseModel responseModel = new ResponseModel();
+        responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
+        if (responseModel.isSuccessful || responseModel.successful)
+        {
+            Debug.Log("royalRumbleMatchJoinedCallback : successful message: " + responseModel.message);
+        }
+        else
+        {
+            Debug.Log("royalRumbleMatchJoinedCallback : error message: " + responseModel.message);
+        }
+    }
+
+    private void royalRumbleMatchInitCallback(UnityWebRequest response)
+    {
+        GameStageResponse gameStageResponse = new GameStageResponse();
+        gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
+        if (gameStageResponse.isSuccessful || gameStageResponse.successful)
+        {
+            Debug.Log("royalRumbleMatchInitCallback : successful message: " + gameStageResponse.data);
+        }
+        else
+        {
+            Debug.Log("royalRumbleMatchInitCallback : error message: " + gameStageResponse.data);
+        }
+    }
 }
