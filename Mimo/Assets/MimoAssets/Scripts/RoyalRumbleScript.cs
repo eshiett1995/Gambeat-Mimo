@@ -408,6 +408,7 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             Debug.Log("royalRumbleMatchInitCallback : successful message: " + gameStageResponse.data);
             List<StageObject> stageObjects = JsonUtility.FromJson<List<StageObject>>(gameStageResponse.data);
+            FindObjectOfType<UI>().startRoyalRumbleMatch();
         }
         else
         {

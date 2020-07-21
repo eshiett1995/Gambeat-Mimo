@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class StageObject
 {
-    public String object;
+    public String obj;
     public float coordinate;
     public bool hasLife;
 }

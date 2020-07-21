@@ -156,6 +156,10 @@ public class UI : MonoBehaviour
         Multiplayer.winnerSet = false;
     }
 
+    public void startRoyalRumbleMatch(){
+
+    }
+    
     void displayLeaderBoard()
     {
         menuPanel.SetActive(false);
