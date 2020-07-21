@@ -38,7 +38,7 @@ public class RoyalRumbleScript : MonoBehaviour
             rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, newBottom);
             rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -newTop);
         }
-
+        //FindObjectOfType<UI>().loaderPanel.SetActive(true);
         tournaments.Clear();
         FindObjectOfType<GameCode>().resetTournmentData();
 

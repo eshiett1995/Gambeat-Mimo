@@ -20,7 +20,7 @@ public class UI : MonoBehaviour
     public Button newRoyal;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
-    public GameObject menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, OneVOnePanel, RoyalPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
+    public GameObject confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, OneVOnePanel, RoyalPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -83,6 +83,8 @@ public class UI : MonoBehaviour
         OneVOnePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         RoyalPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         LeaguePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        loaderPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+       // confirmPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
 
         spikeY = spike.rectTransform.position.y;
         spike2Y = bottomSpike.rectTransform.position.y;
