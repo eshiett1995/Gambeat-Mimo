@@ -14,6 +14,9 @@ public class Multiplayer : MonoBehaviour
     public static int stake = 100, oppLife = 3, oppScore;
     public static Connection connection = Connection.Offline;
     public static State state = State.Searching;
+
+    public static GameType type = GameType.Single;
+
     public static UI ui;
     public static bool winner, pending, ready, restarting, retreived, winnerSet;
     public static string oppReady = "";
@@ -37,6 +40,12 @@ public class Multiplayer : MonoBehaviour
         Waiting,
         Playing,
         Finished
+    }
+    public enum GameType{
+        Single,
+        OnevOne,
+        Royal,
+        League
     }
 
     void Start()

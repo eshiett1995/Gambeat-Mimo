@@ -132,6 +132,7 @@ public class UI : MonoBehaviour
 
     void startSinglePlayer()
     {
+        Multiplayer.type = Multiplayer.GameType.Single;
         Multiplayer.connection = Multiplayer.Connection.Offline;
         menuPanel.SetActive(false);
         UIPanel2.SetActive(false);
@@ -158,8 +159,16 @@ public class UI : MonoBehaviour
 
     public void startRoyalRumbleMatch(){
 
+        Multiplayer.type = Multiplayer.GameType.Royal;
+        Multiplayer.connection = Multiplayer.Connection.Client;
+        menuPanel.SetActive(false);
+        UIPanel2.SetActive(false);
+        UIPanel.SetActive(true);
+        confirmPanel.SetActive(false);
+        RoyalPanel.SetActive(false);
+        startingGame = true;
     }
-    
+
     void displayLeaderBoard()
     {
         menuPanel.SetActive(false);
@@ -330,6 +339,7 @@ public class UI : MonoBehaviour
         lbPanel.SetActive(false);
         menuPanel.SetActive(true);
         Multiplayer.connection = Multiplayer.Connection.Offline;
+        Multiplayer.type = Multiplayer.GameType.Single;
     }
     public void multiMenu()
     {
@@ -365,6 +375,7 @@ public class UI : MonoBehaviour
         UIPanel2.SetActive(false);
 
         Multiplayer.connection = Multiplayer.Connection.Offline;
+        Multiplayer.type = Multiplayer.GameType.Single;
 
         Multiplayer.state = Multiplayer.State.Searching;
         Multiplayer.ready = false;

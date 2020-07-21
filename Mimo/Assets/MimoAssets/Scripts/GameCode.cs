@@ -230,20 +230,39 @@ public class GameCode : MonoBehaviour
 
     public void gameOver()
     {
+        /**
         if (Multiplayer.connection != Multiplayer.Connection.Offline)
         {
+        
             Multiplayer.ready = false;
             UI.matchTimer = -1;
             Multiplayer.state = Multiplayer.State.Finished;
 
             Multiplayer.ui.multiPairPanel.SetActive(true);
             Multiplayer.ui.showWinner();
-
+            
+            
         }
         else
         {
             gameOverPanel.SetActive(true);
             running = false;
+        }
+        **/
+
+        switch(Multiplayer.type){
+            case  Multiplayer.GameType.Single:
+                gameOverPanel.SetActive(true);
+                running = false;
+                break;
+            case  Multiplayer.GameType.OnevOne:
+                break;
+            case  Multiplayer.GameType.Royal:
+                running = false;
+                break;
+            case  Multiplayer.GameType.League:
+                break;    
+                
         }
 
         scoreText.text = score + "";
