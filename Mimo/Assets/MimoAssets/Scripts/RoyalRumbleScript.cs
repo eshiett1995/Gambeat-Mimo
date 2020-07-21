@@ -19,7 +19,33 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] entryFees = { 50,100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
+    private Tournament selectedTournament;
     public static int pageMax = 10, totalPages, startIndex;
+
+    private void Start()
+    {
+        confirmationDialog.yesBtn.onClick.AddListener(() => {
+            if (selectedTournament.registered) {
+                Debug.Log("it has started initing");
+                StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + selectedTournament.id, royalRumbleMatchInitCallback));
+            }
+            else {
+
+                Debug.Log("it has started joining");
+                MatchJoinRequest matchJoinRequest = new MatchJoinRequest
+                {
+                    matchID = selectedTournament.id,
+                    matchType = "RoyalRumble"
+                };
+                Debug.Log("what it is sending");
+                Debug.Log(JsonUtility.ToJson(matchJoinRequest));
+                StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleJoin, JsonUtility.ToJson(matchJoinRequest), royalRumbleMatchJoinedCallback));
+            }
+        });
+        confirmationDialog.noBtn.onClick.AddListener(() => {
+            confirmationDialog.gameObject.SetActive(false);
+        });
+    }
 
     public void Initialize()
     {
@@ -353,36 +379,15 @@ public class RoyalRumbleScript : MonoBehaviour
     }
 
     public void OnTournamentClicked(int tournamentIndex) {
-        Tournament tournament = tournaments[tournamentIndex];
-        if (tournament.registered) {
+        selectedTournament = tournaments[tournamentIndex];
+        if (selectedTournament.registered) {
             confirmationDialog.displayText.text = "Do you want to \n start this game?";
-            confirmationDialog.gameObject.SetActive(true);
-            confirmationDialog.yesBtn.onClick.AddListener(() => {
-                StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + tournament.id, royalRumbleMatchInitCallback));
-            });
-            confirmationDialog.noBtn.onClick.AddListener(() => {
-                confirmationDialog.gameObject.SetActive(false);
-            });
         }
         else
         {
             confirmationDialog.displayText.text = "Do you want to \n join this game?";
-            confirmationDialog.gameObject.SetActive(true);
-            confirmationDialog.yesBtn.onClick.AddListener(() => {
-                Debug.Log("it has started");
-                MatchJoinRequest matchJoinRequest = new MatchJoinRequest
-                {
-                    matchID = tournament.id,
-                    matchType = "RoyalRumble"
-                };
-                Debug.Log("what it is sending");
-                Debug.Log(JsonUtility.ToJson(matchJoinRequest));
-                StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleJoin, JsonUtility.ToJson(matchJoinRequest), royalRumbleMatchJoinedCallback));
-            });
-            confirmationDialog.noBtn.onClick.AddListener(() => {
-                confirmationDialog.gameObject.SetActive(false);
-            });
         }
+        confirmationDialog.gameObject.SetActive(true);
     }
 
     private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
