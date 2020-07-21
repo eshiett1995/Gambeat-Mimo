@@ -406,8 +406,10 @@ public class RoyalRumbleScript : MonoBehaviour
         gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
         if (gameStageResponse.isSuccessful || gameStageResponse.successful)
         {
-            Debug.Log("royalRumbleMatchInitCallback : successful message: " + gameStageResponse.data);
-            List<StageObject> stageObjects = JsonUtility.FromJson<List<StageObject>>(gameStageResponse.data);
+
+            string JSONToParse = "{\"stageObjects\":" + gameStageResponse.data + "}";
+            StageObjectsModel stageObjectsModel = JsonUtility.FromJson<StageObjectsModel>(JSONToParse);
+            Debug.Log("royalRumbleMatchInitCallback : successful message: " + stageObjectsModel.stageObjects.Count);
             FindObjectOfType<UI>().startRoyalRumbleMatch();
         }
         else
