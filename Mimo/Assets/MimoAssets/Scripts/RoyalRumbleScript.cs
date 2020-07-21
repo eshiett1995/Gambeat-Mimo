@@ -407,6 +407,7 @@ public class RoyalRumbleScript : MonoBehaviour
         if (gameStageResponse.isSuccessful || gameStageResponse.successful)
         {
             Debug.Log("royalRumbleMatchInitCallback : successful message: " + gameStageResponse.data);
+            List<StageObject> stageObjects = JsonUtility.FromJson<List<StageObject>>(gameStageResponse.data);
         }
         else
         {
