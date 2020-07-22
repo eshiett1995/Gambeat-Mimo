@@ -9,13 +9,14 @@ public class UI : MonoBehaviour
     public static float scrollSpeed;
     public RawImage img, img2, img3, spike, spike2, bottomSpike, life, p1life, p2life, p1Avatar, p2Avatar, p1Ready, p2Ready, loading;
     private float y, y2, y3, iy, iy2, iy3;
-    public Text scoreText, scoreText2, stakeText, statusText, internetText,
+    public Text scoreText, scoreText2, stakeText, statusText, internetText, confirmText,
         p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText;
     private Texture2D[] lifeImages = new Texture2D[4];
     public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
     public GameObject border1, border2, border3, border4;
     public Button restart, menu, ok;
     public bool startingGame, displayingMatchUp, isDraw, oppSpawned;
+    public static bool doneLoading;
     public Button single, multi, leaderboardButton, exit, start, plus, minus, cancel, rematch;
     public Button newRoyal;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
@@ -84,7 +85,7 @@ public class UI : MonoBehaviour
         RoyalPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         LeaguePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         loaderPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
-       // confirmPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        //confirmPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
 
         spikeY = spike.rectTransform.position.y;
         spike2Y = bottomSpike.rectTransform.position.y;
@@ -159,6 +160,7 @@ public class UI : MonoBehaviour
 
     public void startRoyalRumbleMatch(){
 
+        Debug.Log("STARTING ROYAL RUMBLE");
         Multiplayer.type = Multiplayer.GameType.Royal;
         Multiplayer.connection = Multiplayer.Connection.Client;
         menuPanel.SetActive(false);
@@ -166,6 +168,7 @@ public class UI : MonoBehaviour
         UIPanel.SetActive(true);
         confirmPanel.SetActive(false);
         RoyalPanel.SetActive(false);
+        Multiplayer.spawnIndex = 0;
         startingGame = true;
     }
 
@@ -174,7 +177,10 @@ public class UI : MonoBehaviour
         menuPanel.SetActive(false);
         lbPanel.SetActive(true);
         FindObjectOfType<GameCode>().resetLeaderboard();
-      
+
+        doneLoading = false;
+        loaderPanel.SetActive(true);
+        
         GameCode.mp.retreiveLeaderboardData();
     }
 
@@ -217,6 +223,7 @@ public class UI : MonoBehaviour
             }
 
             Debug.Log(Multiplayer.lbNames.Count + " Names set on Leaderboard");
+            doneLoading = true;
             // hasSetLeaderboard = true;
         }
     }
@@ -519,6 +526,10 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(doneLoading)
+            loaderPanel.SetActive(false);
+        //Debug.Log("Done Loading "+doneLoading);
+        
         if (matchTimer < 0)
         {
             if (Multiplayer.state == Multiplayer.State.Pairing)

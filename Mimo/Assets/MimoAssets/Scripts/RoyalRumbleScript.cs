@@ -9,7 +9,6 @@ public class RoyalRumbleScript : MonoBehaviour
 {
     public GameObject newTournamentPanel, filterPanel, TournamentChild, paginationPanel;
     public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
-    public ConfirmationDialog confirmationDialog;
     private List<Tournament> tournaments = new List<Tournament>();
     public static List<Tournament> currentPage = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
@@ -19,13 +18,21 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] entryFees = { 50,100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
-    private Tournament selectedTournament;
+    public Tournament selectedTournament;
     public static int pageMax = 10, totalPages, startIndex;
+    public StageObjectsModel stageObjectsModel;
 
     private void Start()
     {
-        confirmationDialog.yesBtn.onClick.AddListener(() => {
-            if (selectedTournament.registered) {
+       
+    }
+
+    public void yesClicked(){
+
+        FindObjectOfType<UI>().loaderPanel.SetActive(true);
+        UI.doneLoading = false;
+
+         if (selectedTournament.registered) {
                 Debug.Log("it has started initing");
                 StartCoroutine(HttpUtil.Get(HttpUtil.royalRumbleInit + "/" + selectedTournament.id, royalRumbleMatchInitCallback));
             }
@@ -41,10 +48,11 @@ public class RoyalRumbleScript : MonoBehaviour
                 Debug.Log(JsonUtility.ToJson(matchJoinRequest));
                 StartCoroutine(HttpUtil.Post(HttpUtil.royalRumbleJoin, JsonUtility.ToJson(matchJoinRequest), royalRumbleMatchJoinedCallback));
             }
-        });
-        confirmationDialog.noBtn.onClick.AddListener(() => {
-            confirmationDialog.gameObject.SetActive(false);
-        });
+
+    }
+
+    public void noClicked(){
+        FindObjectOfType<UI>().confirmPanel.SetActive(false);
     }
 
     public void Initialize()
@@ -64,16 +72,17 @@ public class RoyalRumbleScript : MonoBehaviour
             rectTransform.offsetMin = new Vector2(rectTransform.offsetMin.x, newBottom);
             rectTransform.offsetMax = new Vector2(rectTransform.offsetMax.x, -newTop);
         }
-        //FindObjectOfType<UI>().loaderPanel.SetActive(true);
+        
         tournaments.Clear();
         FindObjectOfType<GameCode>().resetTournmentData();
-
         retreiveTournamentData(0);
     }
 
     public void retreiveTournamentData(int page)
     {
-
+        FindObjectOfType<UI>().loaderPanel.SetActive(true);
+        UI.doneLoading = false;
+        
         RoyalRumbleSearchRequest royalRumbleSearch = new RoyalRumbleSearchRequest();
         if (isFilter)
         {
@@ -194,6 +203,8 @@ public class RoyalRumbleScript : MonoBehaviour
         }
 
         //Debug.Log(currentPage.Count + " Tournaments displayed");
+        UI.doneLoading = true;
+        
     }
 
     public void openNewTournamentDialog()
@@ -381,17 +392,18 @@ public class RoyalRumbleScript : MonoBehaviour
     public void OnTournamentClicked(int tournamentIndex) {
         selectedTournament = tournaments[tournamentIndex];
         if (selectedTournament.registered) {
-            confirmationDialog.displayText.text = "Do you want to \n start this game?";
+            FindObjectOfType<UI>().confirmText.text = "Do you want to \n start this game?";
         }
         else
         {
-            confirmationDialog.displayText.text = "Do you want to \n join this game?";
+            FindObjectOfType<UI>().confirmText.text = "Do you want to \n join this game?";
         }
-        confirmationDialog.gameObject.SetActive(true);
+        FindObjectOfType<UI>().confirmPanel.SetActive(true);
     }
 
     private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
     {
+        UI.doneLoading = true;
         Debug.Log("response......");
         ResponseModel responseModel = new ResponseModel();
         responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
@@ -407,19 +419,25 @@ public class RoyalRumbleScript : MonoBehaviour
 
     private void royalRumbleMatchInitCallback(UnityWebRequest response)
     {
+        UI.doneLoading = true;
         GameStageResponse gameStageResponse = new GameStageResponse();
         gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
         if (gameStageResponse.isSuccessful || gameStageResponse.successful)
         {
 
             string JSONToParse = "{\"stageObjects\":" + gameStageResponse.data + "}";
-            StageObjectsModel stageObjectsModel = JsonUtility.FromJson<StageObjectsModel>(JSONToParse);
+            stageObjectsModel = JsonUtility.FromJson<StageObjectsModel>(JSONToParse);
             Debug.Log("royalRumbleMatchInitCallback : successful message: " + stageObjectsModel.stageObjects.Count);
+            Multiplayer.objSpawns.Clear();
+            for(int i=0; i <stageObjectsModel.stageObjects.Count; i++){
+                Multiplayer.objSpawns.Add(new Spawn(stageObjectsModel.stageObjects[i].item, stageObjectsModel.stageObjects[i].coordinate, stageObjectsModel.stageObjects[i].hasLife));
+            }
+
             FindObjectOfType<UI>().startRoyalRumbleMatch();
         }
         else
         {
-            Debug.Log("royalRumbleMatchInitCallback : error message: " + gameStageResponse.data);
+            Debug.Log("royalRumbleMatchInitCallback : error message: " + gameStageResponse.message);
         }
     }
 }

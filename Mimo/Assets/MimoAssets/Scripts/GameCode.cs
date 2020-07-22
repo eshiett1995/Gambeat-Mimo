@@ -8,7 +8,7 @@ public class GameCode : MonoBehaviour
 {
     private float lastUpdate;
     public static int score;
-    public GameObject platform, spikes, breakPlatform, health, blades, gameOverPanel;
+    public GameObject platform, spikes, breakPlatform, health, blades, gameOverPanel, restartButt;
     public static int life = 3, spikeInterval, healthInterval;
     public Text scoreText, highscoreText;
     const string highscoreString = "highscore";
@@ -127,6 +127,7 @@ public class GameCode : MonoBehaviour
         else
         {
             instance = platform;
+            Debug.Log("Spawn Me");
         }
 
 
@@ -208,7 +209,7 @@ public class GameCode : MonoBehaviour
 
             float randPos = UnityEngine.Random.Range((float)(720 / 8.5), (float)(720 / 1.18));
 
-            Spawn spawn = new Spawn(instance, randPos);
+            Spawn spawn = new Spawn(instance, randPos, false);
             string newSpawn = JsonUtility.ToJson(spawn);
 
             if (i == count)
@@ -249,15 +250,19 @@ public class GameCode : MonoBehaviour
             running = false;
         }
         **/
+        gameOverPanel.SetActive(true);
+        running = false;
+        restartButt.SetActive(false);
 
         switch(Multiplayer.type){
             case  Multiplayer.GameType.Single:
-                gameOverPanel.SetActive(true);
-                running = false;
+                restartButt.SetActive(true);
                 break;
             case  Multiplayer.GameType.OnevOne:
                 break;
             case  Multiplayer.GameType.Royal:
+                Debug.Log("Upload tournament score with values - score , tournament name, user id");
+                //PostScore(score, FindObjectOfType<RoyalRumbleScript>().selectedTournament.tournamentName, FBHolder.id);
                 running = false;
                 break;
             case  Multiplayer.GameType.League:

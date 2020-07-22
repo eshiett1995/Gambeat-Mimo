@@ -10,7 +10,7 @@ public class FBHolder : MonoBehaviour
 {
 
     public GameObject profilePanel;
-    public static string userName, firstName = "", lastName, email;
+    public static string userName, firstName = "", lastName, email, id;
     public static int gamesPlayed, gamesWon, gamesDrawn;
     public Text profile_name;
     public RawImage avatar;
@@ -104,6 +104,7 @@ public class FBHolder : MonoBehaviour
         firstName = result.ResultDictionary["first_name"].ToString();
         lastName = result.ResultDictionary["last_name"].ToString();
         email = result.ResultDictionary["email"].ToString();
+        id = result.ResultDictionary["id"].ToString();
 
         profile_name.text = firstName;
         avatar.texture = result.Texture;
