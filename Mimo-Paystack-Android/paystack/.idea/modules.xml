@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-400128052/Mimo_Paystack_Android.iml" filepath="$PROJECT_DIR$/.idea/modules/-400128052/Mimo_Paystack_Android.iml" group="Mimo_Paystack_Android" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-555968162/app.iml" filepath="$PROJECT_DIR$/.idea/modules/-555968162/app.iml" group="Mimo Paystack Android/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/paystack.iml" filepath="$PROJECT_DIR$/.idea/modules/paystack.iml" group="Mimo Paystack Android/paystack" />
+    </modules>
+  </component>
+</project>
