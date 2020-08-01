@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,8 @@ public class WalletAfricaActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        final WebView mimoWebview = findViewById(R.id.ok_webview);
+        final WebView mimoWebview = findViewById(R.id.webView);
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
         final String authKey = getIntent().getStringExtra("authKey");
         WebSettings webSettings = mimoWebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -53,6 +56,7 @@ public class WalletAfricaActivity extends AppCompatActivity {
             }
 
             public void onPageFinished(WebView view, String weburl){
+                progressBar.setVisibility(View.GONE);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                     mimoWebview.evaluateJavascript("init("+"'"+authKey+"'"+",'android');", null);
                 } else {

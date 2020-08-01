@@ -26,7 +26,7 @@ public class PaystackActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
-        final WebView mimoWebview = findViewById(R.id.ok_webview);
+        final WebView mimoWebview = findViewById(R.id.webView);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         final String authKey = getIntent().getStringExtra("authKey");
         WebSettings webSettings = mimoWebview.getSettings();
