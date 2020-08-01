@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -333,10 +332,10 @@ public class GameCode : MonoBehaviour
             scores = new List<int>() { 10 },
             matchType = "RoyalRumble"
         };
-        StartCoroutine(HttpUtil.Post(HttpUtil.submitRoyalRumbleScore, JsonUtility.ToJson(matchPlayedRequest), royalRumbleScoreSubmitedCallback));
+        StartCoroutine(HttpUtil.Post(HttpUtil.submitRoyalRumbleScore, JsonUtility.ToJson(matchPlayedRequest), RoyalRumbleScoreSubmitedCallback));
     }
 
-    private void royalRumbleScoreSubmitedCallback(UnityWebRequest response)
+    private void RoyalRumbleScoreSubmitedCallback(UnityWebRequest response)
     {
         /**MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
         matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
