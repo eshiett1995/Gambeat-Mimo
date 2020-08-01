@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -31,8 +32,10 @@ public class PaystackActivity extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mimoWebview.addJavascriptInterface(new WebInterface(this), "Android");
 
+        Log.i("Bassey", "it came here");
 
-        mimoWebview.loadUrl("https://www.gambeat.com.ng/paystack");
+        Log.i("Bassey", "auth key " + authKey);
+        mimoWebview.loadUrl("https://gambeat.com.ng/paystack");
 
         mimoWebview.setWebViewClient(new WebViewClient() {
 
@@ -53,6 +56,7 @@ public class PaystackActivity extends AppCompatActivity {
             }
 
             public void onPageFinished(WebView view, String weburl){
+                Log.i("Bassey", "page finished loading");
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                     mimoWebview.evaluateJavascript("init("+"'"+authKey+"'"+",'android');", null);
                 } else {
