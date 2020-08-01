@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,7 @@ public class PaystackActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webview);
         final WebView mimoWebview = findViewById(R.id.ok_webview);
+        final ProgressBar progressBar = findViewById(R.id.progressBar);
         final String authKey = getIntent().getStringExtra("authKey");
         WebSettings webSettings = mimoWebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -32,9 +35,6 @@ public class PaystackActivity extends AppCompatActivity {
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mimoWebview.addJavascriptInterface(new WebInterface(this), "Android");
 
-        Log.i("Bassey", "it came here");
-
-        Log.i("Bassey", "auth key " + authKey);
         mimoWebview.loadUrl("https://gambeat.com.ng/paystack");
 
         mimoWebview.setWebViewClient(new WebViewClient() {
@@ -56,7 +56,7 @@ public class PaystackActivity extends AppCompatActivity {
             }
 
             public void onPageFinished(WebView view, String weburl){
-                Log.i("Bassey", "page finished loading");
+                progressBar.setVisibility(View.GONE);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                     mimoWebview.evaluateJavascript("init("+"'"+authKey+"'"+",'android');", null);
                 } else {
