@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
@@ -321,5 +322,32 @@ public class GameCode : MonoBehaviour
         gameOverPanel.SetActive(false);
         FindObjectOfType<UI>().updateLife();
 
+    }
+
+    public void FinalizeGameover()
+    {
+        var matchPlayedRequest = new MatchPlayedRequest
+        {
+            matchID = "",
+            userID = "",
+            scores = new List<int>() { 10 },
+            matchType = "RoyalRumble"
+        };
+        StartCoroutine(HttpUtil.Post(HttpUtil.submitRoyalRumbleScore, JsonUtility.ToJson(matchPlayedRequest), royalRumbleScoreSubmitedCallback));
+    }
+
+    private void royalRumbleScoreSubmitedCallback(UnityWebRequest response)
+    {
+        /**MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
+        matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
+        if (matchEntryResponse.isSuccessful || matchEntryResponse.successful)
+        {
+            //tournaments.Add(newTournament);
+            Debug.Log("this is the successful message: " + matchEntryResponse.message);
+        }
+        else
+        {
+            Debug.Log("this is the error message: " + matchEntryResponse.message);
+        }**/
     }
 }
