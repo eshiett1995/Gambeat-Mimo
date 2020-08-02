@@ -17,13 +17,17 @@ public class FBHolder : MonoBehaviour
     public static Texture2D profilePic;
 
 
-    void start()
+    private void Start()
     {
-        Button profile = profilePanel.GetComponent<Button>();
-        profile.onClick.AddListener(() => openProfile());
-        profile_name.text = firstName;
-        avatar.texture = profilePic;
-        Debug.Log("Run FBHolder");
+        if (FB.IsLoggedIn)
+        {
+            profile_name.text = LocalStorageUtil.get("firstName");
+            avatar.texture = profilePic;
+            profilePanel.SetActive(true);
+        }
+        else {
+            profilePanel.SetActive(false);
+        }
     }
 
     public void openProfile()
@@ -43,16 +47,13 @@ public class FBHolder : MonoBehaviour
 
     private void SetInit()
     {
-
-        Debug.Log("FB init done");
-
         if (FB.IsLoggedIn)
         {
             profilePanel.SetActive(true);
         }
         else
         {
-            //profilePanel.SetActive(false);
+            profilePanel.SetActive(false);
         }
     }
 
@@ -72,23 +73,12 @@ public class FBHolder : MonoBehaviour
     private void AuthCallback(ILoginResult result)
     {
 
-        Debug.Log("login in result");
-
-        Debug.Log(result);
-
-        //StartCoroutine(Post("https://webhook.site/11470d78-0e31-4dc1-8e06-ea94a6ee5086", JsonUtility.ToJson(result)));
-
         if (FB.IsLoggedIn)
         {
             var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-            Debug.Log("User Logged in");
             FetchFBProfile();
         }
-        else
-        {
-            StartCoroutine(Post("https://webhook.site/11470d78-0e31-4dc1-8e06-ea94a6ee5086", "{'msg':'error'}"));
-            Debug.Log("User cancelled login");
-        }
+        else{}
     }
 
     private void FetchFBProfile()
@@ -99,8 +89,6 @@ public class FBHolder : MonoBehaviour
 
     private void FetchProfileCallback(IGraphResult result)
     {
-        profilePanel.SetActive(true);
-
         firstName = result.ResultDictionary["first_name"].ToString();
         lastName = result.ResultDictionary["last_name"].ToString();
         email = result.ResultDictionary["email"].ToString();
@@ -112,6 +100,9 @@ public class FBHolder : MonoBehaviour
 
         PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), result.ResultDictionary["first_name"].ToString());
         PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), result.ResultDictionary["last_name"].ToString());
+        PlayerPrefs.SetString(LocalStorageUtil.Keys.email.ToString(), result.ResultDictionary["email"].ToString());
+
+        DisplayProfilePanel();
 
         FacebookLoginRequest facebookLoginRequest = new FacebookLoginRequest();
         facebookLoginRequest.firstName = result.ResultDictionary["first_name"].ToString();
@@ -123,11 +114,8 @@ public class FBHolder : MonoBehaviour
         {
             ResponseModel responseModel = new ResponseModel();
             responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
-            Debug.Log(response.downloadHandler.text);
             if (responseModel.isSuccessful || responseModel.successful)
             {
-                Debug.Log("this is the message: " + responseModel.message);
-                Debug.Log("this is the auth: " + responseModel.jtwToken);
                 LocalStorageUtil.saveAuthKey(responseModel.jtwToken);
             }
             else
@@ -166,5 +154,18 @@ public class FBHolder : MonoBehaviour
                 Debug.Log("Form upload complete!");
             }
         }
+    }
+
+    private void DisplayProfilePanel() {
+       if (FB.IsLoggedIn)
+       {
+           profile_name.text = LocalStorageUtil.get("firstName");
+           avatar.texture = profilePic;
+           profilePanel.SetActive(true);
+       }
+       else
+       {
+           profilePanel.SetActive(false);
+       }
     }
 }

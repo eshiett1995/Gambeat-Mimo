@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class UserProfile : MonoBehaviour
 {
 
-    public Text username, fullName, email, games, wins, draws, winnings, cash, cash2;
+    public Text username, fullName, email, games, wins, draws, losses, cash, cash2;
     public Button wallet, back, closeWal, withdraw, deposit;
     public RawImage avatar;
     public GameObject profile, background, walletDialog, PaymentPanel, withdrawDialog;
@@ -17,15 +17,15 @@ public class UserProfile : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("inside profile page");
         profile.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         background.transform.localScale = new Vector3(Screen.width / 720f, Screen.height / 1280f, 0);
 
         wallet.onClick.AddListener(() => openWallet());
         closeWal.onClick.AddListener(() => closeWallet());
         back.onClick.AddListener(() => openMenu());
-        fullName.text = FBHolder.firstName + " " + FBHolder.lastName;
-        email.text = FBHolder.email;
+        username.text = $"{LocalStorageUtil.get("firstName")} {LocalStorageUtil.get("lastName")}";
+        fullName.text = $"{LocalStorageUtil.get("firstName")} {LocalStorageUtil.get("lastName")}";
+        email.text = LocalStorageUtil.get("email");
         avatar.texture = FBHolder.profilePic;
 
         StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, getProfileCallback));
@@ -35,12 +35,13 @@ public class UserProfile : MonoBehaviour
     {
         ProfileResponse profileResponse = new ProfileResponse();
         profileResponse = JsonUtility.FromJson<ProfileResponse>(response.downloadHandler.text);
-        if (profileResponse.isSuccessful)
+        Debug.Log("here comes the prodile");
+        Debug.Log(response.downloadHandler.text);
+        if (profileResponse.isSuccessful || profileResponse.successful)
         {
-            username.text = profileResponse.email;
-            PlayerPrefs.SetString(LocalStorageUtil.Keys.email.ToString(), profileResponse.email);
+            username.text = $"{profileResponse.firstName} {profileResponse.lastName}";
 
-            fullName.text = profileResponse.firstName + " " + profileResponse.lastName;
+            fullName.text = $"{profileResponse.firstName} {profileResponse.lastName}";
             PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), profileResponse.firstName);
             PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), profileResponse.lastName);
 
@@ -55,9 +56,11 @@ public class UserProfile : MonoBehaviour
 
             draws.text = profileResponse.draws.ToString();
             PlayerPrefs.SetFloat(LocalStorageUtil.Keys.draws.ToString(), profileResponse.draws);
-            
-            cash.text = profileResponse.walletBalance.ToString();
-            cash2.text = profileResponse.walletBalance.ToString();
+
+            losses.text = profileResponse.draws.ToString();
+            PlayerPrefs.SetFloat(LocalStorageUtil.Keys.losses.ToString(), profileResponse.losses);
+
+            cash.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
             PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), profileResponse.walletBalance);
         }
         else
@@ -92,14 +95,14 @@ public class UserProfile : MonoBehaviour
             if (javaClass != null)
             {
                 //LocalStorageUtil.getAuthKey()
-                javaClass.CallStatic("initPaystack", activity, "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
+                javaClass.CallStatic("initPaystack", activity, LocalStorageUtil.getAuthKey());
             }
             
         }
         else
         {
             //Generate URL
-            paymentUrl = "http://c39ddeff0013.ngrok.io/paystack";
+            paymentUrl = "https://gambeat.com.ng/paystack";
 
             closeWallet();
             PaymentPanel.SetActive(true);
@@ -119,14 +122,14 @@ public class UserProfile : MonoBehaviour
             if (javaClass != null)
             {
                 //LocalStorageUtil.getAuthKey()
-                javaClass.CallStatic("initWalletAfrica", activity, "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
+                javaClass.CallStatic("initWalletAfrica", activity, LocalStorageUtil.getAuthKey());
             }
 
         }
         else
         {
             //Generate URL
-            paymentUrl = "http://c39ddeff0013.ngrok.io/wallets.africa";
+            paymentUrl = "https://gambeat.com.ng/wallets.africa";
 
             closeWallet();
             PaymentPanel.SetActive(true);

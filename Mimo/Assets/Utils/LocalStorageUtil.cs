@@ -13,6 +13,7 @@ public class LocalStorageUtil
         games, 
         wins,
         draws,
+        losses,
         cash,
         authorization,
     }
