@@ -211,10 +211,11 @@ public class FBHolder : MonoBehaviour
         WWW www = new WWW(url);
         yield return www;
         avatar.texture = www.texture;
+        profilePic = www.texture;
 
         //Sprite sprites = new Sprite();
 
-       
+
 
         //sprite = Sprite.Create(www.texture, new Rect(0, 0, 50, 50), Vector2.zero);
         //sprites = Sprite.Create(www.texture, new Rect(0, 0, 50, 50), Vector2.zero);
