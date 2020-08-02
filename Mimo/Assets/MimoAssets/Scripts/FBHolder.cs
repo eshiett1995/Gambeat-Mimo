@@ -25,16 +25,20 @@ public class FBHolder : MonoBehaviour
             avatar.texture = profilePic;
             profilePanel.SetActive(true);
         }
-        else {
+        else
+        {
             profilePanel.SetActive(false);
         }
     }
 
     public void openProfile()
     {
-        if(firstName.Equals("")){
+        if (firstName.Equals(""))
+        {
             Debug.Log("You need to log in first");
-        }else{
+        }
+        else
+        {
             Debug.Log("Opening Profile");
             SceneManager.LoadScene("ProfileScene");
         }
@@ -78,12 +82,14 @@ public class FBHolder : MonoBehaviour
             var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
             FetchFBProfile();
         }
-        else{}
+        else { }
     }
 
     private void FetchFBProfile()
     {
         FB.API("/me?fields=first_name,last_name,email", HttpMethod.GET, FetchProfileCallback, new Dictionary<string, string>() { });
+        //FB.API("me/picture?type=med", HttpMethod.GET, DisplayProfilePic);
+        FB.API("/me/picture?type=square&height=200&width=200&redirect=false", HttpMethod.GET, ProfilePhotoCallback);
     }
 
 
@@ -95,8 +101,8 @@ public class FBHolder : MonoBehaviour
         id = result.ResultDictionary["id"].ToString();
 
         profile_name.text = firstName;
-        avatar.texture = result.Texture;
-        profilePic = result.Texture;
+        //avatar.texture = result.Texture;
+        //profilePic = result.Texture;
 
         PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), result.ResultDictionary["first_name"].ToString());
         PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), result.ResultDictionary["last_name"].ToString());
@@ -156,16 +162,64 @@ public class FBHolder : MonoBehaviour
         }
     }
 
-    private void DisplayProfilePanel() {
-       if (FB.IsLoggedIn)
-       {
-           profile_name.text = LocalStorageUtil.get("firstName");
-           avatar.texture = profilePic;
-           profilePanel.SetActive(true);
-       }
-       else
-       {
-           profilePanel.SetActive(false);
-       }
+    private void DisplayProfilePanel()
+    {
+        if (FB.IsLoggedIn)
+        {
+            profile_name.text = LocalStorageUtil.get("firstName");
+            avatar.texture = profilePic;
+            profilePanel.SetActive(true);
+        }
+        else
+        {
+            profilePanel.SetActive(false);
+        }
+    }
+
+
+
+
+
+    void DisplayProfilePic(IGraphResult result)
+    {
+        if (result.Texture != null)
+        {
+            Debug.Log("image is here");
+            avatar.texture = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2(0, 0)).texture;
+           // profilePic = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2(0, 0)).texture;
+
+        }
+
+
+
+    }
+
+    private void ProfilePhotoCallback(IGraphResult result)
+    {
+        if (string.IsNullOrEmpty(result.Error) && !result.Cancelled)
+        {
+            IDictionary data = result.ResultDictionary["data"] as IDictionary;
+            string photoURL = data["url"] as string;
+            Debug.Log(photoURL);
+
+            StartCoroutine(fetchProfilePic(photoURL));
+        }
+    }
+
+    private IEnumerator fetchProfilePic(string url)
+    {
+        WWW www = new WWW(url);
+        yield return www;
+        avatar.texture = www.texture;
+
+        //Sprite sprites = new Sprite();
+
+       
+
+        //sprite = Sprite.Create(www.texture, new Rect(0, 0, 50, 50), Vector2.zero);
+        //sprites = Sprite.Create(www.texture, new Rect(0, 0, 50, 50), Vector2.zero);
+
     }
 }
+
+//https://stackoverflow.com/questions/42854992/issue-about-facebook-sdk-is-facebook-image-url-change-each-login-how-to-get-i
