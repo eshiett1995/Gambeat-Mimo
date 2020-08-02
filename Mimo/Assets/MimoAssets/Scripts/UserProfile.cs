@@ -23,11 +23,7 @@ public class UserProfile : MonoBehaviour
         wallet.onClick.AddListener(() => openWallet());
         closeWal.onClick.AddListener(() => closeWallet());
         back.onClick.AddListener(() => openMenu());
-        username.text = $"{LocalStorageUtil.get("firstName")} {LocalStorageUtil.get("lastName")}";
-        fullName.text = $"{LocalStorageUtil.get("firstName")} {LocalStorageUtil.get("lastName")}";
-        email.text = LocalStorageUtil.get("email");
-        avatar.texture = FBHolder.profilePic;
-
+        SetProfileDataFromLocalStorage();
         StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, getProfileCallback));
     }
 
@@ -155,5 +151,22 @@ public class UserProfile : MonoBehaviour
     public void processWithdrawal()
     {
         closewithdrawDialog();
+    }
+
+    private void SetProfileDataFromLocalStorage() {
+        username.text = $"{LocalStorageUtil.get("firstName")} {LocalStorageUtil.get("lastName")}";
+        fullName.text = $"{LocalStorageUtil.get("firstName")} {LocalStorageUtil.get("lastName")}";
+        email.text = LocalStorageUtil.get("email");
+        avatar.texture = FBHolder.profilePic;
+
+        games.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.games.ToString()).ToString();
+     
+        wins.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.wins.ToString()).ToString();
+
+        draws.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.draws.ToString()).ToString();
+
+        losses.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.losses.ToString()).ToString();
+
+        cash.text = $"N{PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString()) / 100:N0}";
     }
 }
