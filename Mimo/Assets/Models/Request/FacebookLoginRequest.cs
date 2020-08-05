@@ -8,6 +8,7 @@ public class FacebookLoginRequest
     public string lastName;
     public string email;
     public string id;
+    public string photoUrl;
 }
 // Start is called before the first frame update
 

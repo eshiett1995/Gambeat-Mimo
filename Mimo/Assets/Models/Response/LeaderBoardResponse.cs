@@ -20,6 +20,7 @@ public class LeaderBoardResponse : ResponseModel
     {
         public string firstName;
         public string lastName;
+        public string photoUrl;
         public string email;
         public long score;
         public long position;

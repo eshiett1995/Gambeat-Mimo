@@ -10,7 +10,7 @@ public class FBHolder : MonoBehaviour
 {
 
     public GameObject profilePanel;
-    public static string userName, firstName = "", lastName, email, id;
+    public static string userName, firstName = "", lastName, email, id, tempPhotoURL;
     public static int gamesPlayed, gamesWon, gamesDrawn;
     public Text profile_name;
     public RawImage avatar;
@@ -80,16 +80,20 @@ public class FBHolder : MonoBehaviour
         if (FB.IsLoggedIn)
         {
             var aToken = Facebook.Unity.AccessToken.CurrentAccessToken;
-            FetchFBProfile();
+            FetchProfilePicture();
         }
         else { }
     }
 
-    private void FetchFBProfile()
-    {
-        FB.API("/me?fields=first_name,last_name,email", HttpMethod.GET, FetchProfileCallback, new Dictionary<string, string>() { });
-        //FB.API("me/picture?type=med", HttpMethod.GET, DisplayProfilePic);
+    private void FetchProfilePicture() {
         FB.API("/me/picture?type=square&height=200&width=200&redirect=false", HttpMethod.GET, ProfilePhotoCallback);
+    }
+
+    private void FetchFBProfile(string photoURL)
+    {
+        tempPhotoURL = photoURL;
+        PlayerPrefs.SetString(LocalStorageUtil.Keys.photoUrl.ToString(), photoURL);
+        FB.API("/me?fields=first_name,last_name,email", HttpMethod.GET, FetchProfileCallback, new Dictionary<string, string>() { });
     }
 
 
@@ -101,8 +105,6 @@ public class FBHolder : MonoBehaviour
         id = result.ResultDictionary["id"].ToString();
 
         profile_name.text = firstName;
-        //avatar.texture = result.Texture;
-        //profilePic = result.Texture;
 
         PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), result.ResultDictionary["first_name"].ToString());
         PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), result.ResultDictionary["last_name"].ToString());
@@ -115,6 +117,7 @@ public class FBHolder : MonoBehaviour
         facebookLoginRequest.lastName = result.ResultDictionary["last_name"].ToString();
         facebookLoginRequest.email = result.ResultDictionary["email"].ToString();
         facebookLoginRequest.id = result.ResultDictionary["id"].ToString();
+        facebookLoginRequest.photoUrl = tempPhotoURL;
 
         StartCoroutine(HttpUtil.Post(HttpUtil.facebookAuthUrl, JsonUtility.ToJson(facebookLoginRequest), (response) =>
         {
@@ -131,36 +134,7 @@ public class FBHolder : MonoBehaviour
         }));
     }
 
-    IEnumerator Post(string url, string bodyJsonString)
-    {
-        var request = new UnityWebRequest(url, "POST");
-        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(bodyJsonString);
-        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
-        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-        request.SetRequestHeader("Content-Type", "application/json");
-        yield return request.SendWebRequest();
-        Debug.Log("Status Code: " + request.responseCode);
-    }
-
-    IEnumerator Upload(string url, string bodyJsonString)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("myField", "myData");
-
-        using (UnityWebRequest www = UnityWebRequest.Post(url, form))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Form upload complete!");
-            }
-        }
-    }
+  
 
     private void DisplayProfilePanel()
     {
@@ -176,24 +150,6 @@ public class FBHolder : MonoBehaviour
         }
     }
 
-
-
-
-
-    void DisplayProfilePic(IGraphResult result)
-    {
-        if (result.Texture != null)
-        {
-            Debug.Log("image is here");
-            avatar.texture = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2(0, 0)).texture;
-           // profilePic = Sprite.Create(result.Texture, new Rect(0, 0, 128, 128), new Vector2(0, 0)).texture;
-
-        }
-
-
-
-    }
-
     private void ProfilePhotoCallback(IGraphResult result)
     {
         if (string.IsNullOrEmpty(result.Error) && !result.Cancelled)
@@ -201,12 +157,13 @@ public class FBHolder : MonoBehaviour
             IDictionary data = result.ResultDictionary["data"] as IDictionary;
             string photoURL = data["url"] as string;
             Debug.Log(photoURL);
+            FetchFBProfile(photoURL);
 
-            StartCoroutine(fetchProfilePic(photoURL));
+            StartCoroutine(FetchProfilePic(photoURL));
         }
     }
 
-    private IEnumerator fetchProfilePic(string url)
+    private IEnumerator FetchProfilePic(string url)
     {
         WWW www = new WWW(url);
         yield return www;

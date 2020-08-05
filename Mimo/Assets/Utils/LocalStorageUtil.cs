@@ -15,6 +15,7 @@ public class LocalStorageUtil
         draws,
         losses,
         cash,
+        photoUrl,
         authorization,
     }
 
