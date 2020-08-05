@@ -25,6 +25,7 @@ public class Multiplayer : MonoBehaviour
     public static List<Spawn> objSpawns = new List<Spawn>();
     public static List<string> lbNames = new List<string>();
     public static List<int> lbScores = new List<int>();
+    public static LeaderBoardResponse leaderBoardData = new LeaderBoardResponse();
 
     public enum Connection
     {
@@ -86,6 +87,7 @@ public class Multiplayer : MonoBehaviour
         StartCoroutine(HttpUtil.Get(HttpUtil.leaderBoardUrl, (response) =>
         {
             leaderBoardResponse = JsonUtility.FromJson<LeaderBoardResponse>(response.downloadHandler.text);
+            leaderBoardData = leaderBoardResponse;
             if (leaderBoardResponse.isSuccessful || leaderBoardResponse.successful)
             {
                 lbNames.Clear();

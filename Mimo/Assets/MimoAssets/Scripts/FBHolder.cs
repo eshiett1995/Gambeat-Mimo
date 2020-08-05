@@ -156,7 +156,6 @@ public class FBHolder : MonoBehaviour
         {
             IDictionary data = result.ResultDictionary["data"] as IDictionary;
             string photoURL = data["url"] as string;
-            Debug.Log(photoURL);
             FetchFBProfile(photoURL);
 
             StartCoroutine(FetchProfilePic(photoURL));
