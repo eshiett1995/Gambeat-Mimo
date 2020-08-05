@@ -360,8 +360,25 @@ public class UI : MonoBehaviour
 
     public void oneVOneMenu()
     {
-        multiMenuPanel.SetActive(false);
-        OneVOnePanel.SetActive(true);
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+            if (javaClass != null)
+            {
+                javaClass.CallStatic("customToast", activity, "One vs One is coming soon");
+            }
+
+        }
+        else {
+
+        }
+        //commented out for now as this feature is not implemented yet.
+        /**
+         * multiMenuPanel.SetActive(false);
+         * OneVOnePanel.SetActive(true);
+         **/
     }
     public void royalMenu()
     {
@@ -371,8 +388,26 @@ public class UI : MonoBehaviour
     }
     public void leagueMenu()
     {
-        multiMenuPanel.SetActive(false);
-        LeaguePanel.SetActive(true);
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+            if (javaClass != null)
+            {
+                javaClass.CallStatic("customToast", activity, "League is coming soon");
+            }
+
+        }
+        else
+        {
+
+        }
+        //commented out for now as this feature is not implemented yet.
+        /**
+         * multiMenuPanel.SetActive(false);
+         * LeaguePanel.SetActive(true);
+         **/
     }
 
     void Menu()

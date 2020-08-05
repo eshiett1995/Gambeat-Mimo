@@ -14,21 +14,15 @@ public class FBHolder : MonoBehaviour
     public static int gamesPlayed, gamesWon, gamesDrawn;
     public Text profile_name;
     public RawImage avatar;
+    public RawImage facebookButtonImage;
+    public Sprite faceBookLoginImage;
+    public Sprite faceBookLogoutImage;
     public static Texture2D profilePic;
 
 
     private void Start()
     {
-        if (FB.IsLoggedIn)
-        {
-            profile_name.text = LocalStorageUtil.get("firstName");
-            avatar.texture = profilePic;
-            profilePanel.SetActive(true);
-        }
-        else
-        {
-            profilePanel.SetActive(false);
-        }
+        ArrangeUI(FB.IsLoggedIn);
     }
 
     public void openProfile()
@@ -49,16 +43,15 @@ public class FBHolder : MonoBehaviour
         FB.Init(SetInit, OnHideUnity);
     }
 
+    private void Update()
+    {
+        ArrangeUI(FB.IsLoggedIn);
+        SwitchFaceBookButtonImage(FB.IsLoggedIn);
+    }
+
     private void SetInit()
     {
-        if (FB.IsLoggedIn)
-        {
-            profilePanel.SetActive(true);
-        }
-        else
-        {
-            profilePanel.SetActive(false);
-        }
+        ArrangeUI(FB.IsLoggedIn);
     }
 
     private void OnHideUnity(bool isGameShown)
@@ -68,8 +61,15 @@ public class FBHolder : MonoBehaviour
 
     public void FBLogin()
     {
-        var perms = new List<string>() { "public_profile", "email" };
-        FB.LogInWithReadPermissions(perms, AuthCallback);
+        if (FB.IsLoggedIn)
+        {
+            FB.LogOut();
+        }
+        else
+        {
+            var perms = new List<string>() { "public_profile", "email" };
+            FB.LogInWithReadPermissions(perms, AuthCallback);
+        }
     }
 
 
@@ -221,6 +221,33 @@ public class FBHolder : MonoBehaviour
         //sprites = Sprite.Create(www.texture, new Rect(0, 0, 50, 50), Vector2.zero);
 
     }
+
+
+    private void ArrangeUI(bool isLoggedIn) {
+        if (isLoggedIn)
+        {
+            profile_name.text = LocalStorageUtil.get("firstName");
+            avatar.texture = profilePic;
+            profilePanel.SetActive(true);
+        }
+        else
+        {
+            profilePanel.SetActive(false);
+        }
+    }
+
+    private void SwitchFaceBookButtonImage(bool isLoggedIn)
+    {
+        if (isLoggedIn)
+        {
+            facebookButtonImage.texture = faceBookLogoutImage.texture;
+        }
+        else
+        {
+            facebookButtonImage.texture = faceBookLoginImage.texture;
+        }
+    }
 }
+
 
 //https://stackoverflow.com/questions/42854992/issue-about-facebook-sdk-is-facebook-image-url-change-each-login-how-to-get-i
