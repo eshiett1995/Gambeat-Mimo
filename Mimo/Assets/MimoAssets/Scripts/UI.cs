@@ -221,10 +221,6 @@ public class UI : MonoBehaviour
             {
                 Instantiate(listViewChild.gameObject, GameObject.FindGameObjectWithTag("ListView").transform);
             }
-
-            Debug.Log(Multiplayer.lbNames.Count + " Names set on Leaderboard");
-            doneLoading = true;
-            // hasSetLeaderboard = true;
         }
     }
 
@@ -561,9 +557,8 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(doneLoading)
+        if(doneLoading && loaderPanel.activeSelf)
             loaderPanel.SetActive(false);
-        //Debug.Log("Done Loading "+doneLoading);
         
         if (matchTimer < 0)
         {

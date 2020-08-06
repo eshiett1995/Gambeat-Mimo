@@ -98,14 +98,14 @@ public class Multiplayer : MonoBehaviour
                     lbNames.Add(rank.email);
                     lbScores.Add((int)rank.score);
                 }
+                var UI = FindObjectOfType<UI>();
+                UI.doneLoading = true;
             }
             else
             {
                 Debug.Log("this is the message: " + leaderBoardResponse.message);
             }
         }));
-
-        Debug.Log("Retreiving Leaderboard data");
     }
 
     public void uploadHighScore()

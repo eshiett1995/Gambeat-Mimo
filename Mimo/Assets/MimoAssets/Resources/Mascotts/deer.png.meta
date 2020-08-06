@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a6f1fd55baf624c35887a0aac9c1aad6
+guid: af0faf29a6ba34eb8bbb094f72915925
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3428391033546482049
-    second: dragon_0
+      213: -5249762075863780043
+    second: deer_0
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -43,13 +43,13 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 145, y: 68, z: 145, w: 68}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,22 +113,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dragon_0
+      name: deer_0
       rect:
         serializedVersion: 2
-        x: 200
-        y: 149
-        width: 884
-        height: 835
+        x: 144
+        y: 72
+        width: 576
+        height: 720
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 88f09dbf1d54f4ac8abd9e7dd89be541
-      internalID: 3428391033546482049
+      spriteID: 7f1d728a91112481086c3a8d27c319db
+      internalID: -5249762075863780043
       vertices: []
       indices: 
       edges: []
