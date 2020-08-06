@@ -116,6 +116,7 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             Debug.Log("getRoyalRumbleMatchesCallback : the error message: " + royalRumbleSearchResponse.message);
         }
+        UI.doneLoading = true;
     }
 
     void sortPages(int tournamentCount)
@@ -403,7 +404,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
     private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
     {
-        UI.doneLoading = true;
+  
         ResponseModel responseModel = new ResponseModel();
         responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
         if (responseModel.isSuccessful || responseModel.successful)
@@ -414,11 +415,11 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             Debug.Log("royalRumbleMatchJoinedCallback : error message: " + responseModel.message);
         }
+        UI.doneLoading = true;
     }
 
     private void royalRumbleMatchInitCallback(UnityWebRequest response)
     {
-        UI.doneLoading = true;
         GameStageResponse gameStageResponse = new GameStageResponse();
         gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
         if (gameStageResponse.isSuccessful || gameStageResponse.successful)
@@ -438,5 +439,6 @@ public class RoyalRumbleScript : MonoBehaviour
         {
             Debug.Log("royalRumbleMatchInitCallback : error message: " + gameStageResponse.message);
         }
+        UI.doneLoading = true;
     }
 }
