@@ -123,10 +123,10 @@ public class Multiplayer : MonoBehaviour
         
         int newHighScore = GameCode.highScore;
 
-        //Upload Highscore to database
-
-        HighScoreRequest highscoreRequest = new HighScoreRequest();
-        highscoreRequest.score = GameCode.highScore;
+        HighScoreRequest highscoreRequest = new HighScoreRequest
+        {
+            score = GameCode.highScore
+        };
 
         ResponseModel responseModel = new ResponseModel();
         StartCoroutine(HttpUtil.Post(HttpUtil.leaderBoardUrl, JsonUtility.ToJson(highscoreRequest), (response) =>
