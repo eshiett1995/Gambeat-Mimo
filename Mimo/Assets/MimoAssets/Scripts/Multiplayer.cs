@@ -86,6 +86,16 @@ public class Multiplayer : MonoBehaviour
         LeaderBoardResponse leaderBoardResponse = new LeaderBoardResponse();
         StartCoroutine(HttpUtil.Get(HttpUtil.leaderBoardUrl, (response) =>
         {
+            if (response.isNetworkError || response.isHttpError)
+            {
+                UI.doneLoading = true;
+                if (Application.platform == RuntimePlatform.Android)
+                {
+                    UI.CustomAndroidToast("One vs One is coming soon");
+                }
+                return;
+            }
+
             leaderBoardResponse = JsonUtility.FromJson<LeaderBoardResponse>(response.downloadHandler.text);
             leaderBoardData = leaderBoardResponse;
             if (leaderBoardResponse.isSuccessful || leaderBoardResponse.successful)
@@ -103,7 +113,6 @@ public class Multiplayer : MonoBehaviour
             else
             {
                 UI.doneLoading = true;
-                Debug.Log("this is the message: " + leaderBoardResponse.message);
             }
             UI.doneLoading = true;
         }));

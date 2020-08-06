@@ -355,21 +355,12 @@ public class UI : MonoBehaviour
     }
 
     public void oneVOneMenu()
-    {
+    {       
         if (Application.platform == RuntimePlatform.Android)
         {
-            AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
-            if (javaClass != null)
-            {
-                javaClass.CallStatic("customToast", activity, "One vs One is coming soon");
-            }
-
+            CustomAndroidToast("One vs One is coming soon");
         }
-        else {
-
-        }
+        else { }
         //commented out for now as this feature is not implemented yet.
         /**
          * multiMenuPanel.SetActive(false);
@@ -386,19 +377,9 @@ public class UI : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.Android)
         {
-            AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
-            if (javaClass != null)
-            {
-                javaClass.CallStatic("customToast", activity, "League is coming soon");
-            }
-
+            CustomAndroidToast("League is coming soon");
         }
-        else
-        {
-
-        }
+        else{}
         //commented out for now as this feature is not implemented yet.
         /**
          * multiMenuPanel.SetActive(false);
@@ -784,4 +765,14 @@ public class UI : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public static void CustomAndroidToast(string message) {
+        AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+        if (javaClass != null)
+        {
+            javaClass.CallStatic("customToast", activity, message);
+        }
+    } 
 }
