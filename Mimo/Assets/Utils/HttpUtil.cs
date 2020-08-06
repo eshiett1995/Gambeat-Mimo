@@ -20,6 +20,7 @@ public class HttpUtil
     static public IEnumerator Post(string url, string bodyJsonString, System.Action<UnityWebRequest> callback)
     {
         var request = new UnityWebRequest(url, "POST");
+        request.timeout = 60;
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(bodyJsonString);
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
@@ -33,6 +34,7 @@ public class HttpUtil
     static public IEnumerator Get(string url, System.Action<UnityWebRequest> callback)
     {
         var request = new UnityWebRequest(url, "GET");
+        request.timeout = 60;
         //byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(bodyJsonString);
         //request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();

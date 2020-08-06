@@ -404,7 +404,6 @@ public class RoyalRumbleScript : MonoBehaviour
     private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
     {
         UI.doneLoading = true;
-        Debug.Log("response......");
         ResponseModel responseModel = new ResponseModel();
         responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
         if (responseModel.isSuccessful || responseModel.successful)
