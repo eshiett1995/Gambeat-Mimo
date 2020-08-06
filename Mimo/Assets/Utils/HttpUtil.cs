@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 public class HttpUtil
 {
-    static public string baseUrl = "https://fcd3caa4ef80.ngrok.io"; //"https://gambeat.com.ng"; //http://15.236.202.44
+    static public string baseUrl = "https://2efd76c00e3a.ngrok.io"; //"https://gambeat.com.ng"; //http://15.236.202.44
     static public string leaderBoardUrl = baseUrl + "/leader-board";
     static public string userProfileUrl = baseUrl + "/user";
     static public string facebookAuthUrl = baseUrl + "/auth/facebook";
@@ -37,6 +37,7 @@ public class HttpUtil
         //request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("bears", LocalStorageUtil.getAuthKey());
         //request.SetRequestHeader("Authorization", "eyJhbGciOiJIUzI1NiJ9.eyJwcm92aWRlcl9jcmVkZW50aWFsIjp7ImZpcnN0TmFtZSI6Im90byIsImxhc3ROYW1lIjoiZXNoaWV0dCIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaWQiOiIxMjM0NTYifSwicHJvdmlkZXIiOiJmYWNlYm9vayIsImVtYWlsIjoiZXNoaWV0dDE5OTVAZ21haWwuY29tIiwiaXNzIjoiR2FtYmVhdCIsInN1YiI6IkF1dGgifQ.CwspXgmggnt4Eujn0bCYOFmLu9V6KDzU41qLcPKIsyg");
         request.SetRequestHeader("Authorization", LocalStorageUtil.getAuthKey());
         yield return request.SendWebRequest();

@@ -261,8 +261,7 @@ public class GameCode : MonoBehaviour
             case  Multiplayer.GameType.OnevOne:
                 break;
             case  Multiplayer.GameType.Royal:
-                Debug.Log("Upload tournament score with values - score , tournament name, user id");
-                //PostScore(score, FindObjectOfType<RoyalRumbleScript>().selectedTournament.tournamentName, FBHolder.id);
+                PostScore(score, FindObjectOfType<RoyalRumbleScript>().selectedTournament.tournamentName, FBHolder.id);
                 running = false;
                 break;
             case  Multiplayer.GameType.League:
@@ -323,13 +322,13 @@ public class GameCode : MonoBehaviour
 
     }
 
-    public void FinalizeGameover()
+    public void PostScore(int score, string matchID, string playerID)
     {
         var matchPlayedRequest = new MatchPlayedRequest
         {
-            matchID = "",
-            userID = "",
-            scores = new List<int>() { 10 },
+            matchID = matchID,
+            userID = playerID,
+            scores = new List<int>() {score},
             matchType = "RoyalRumble"
         };
         StartCoroutine(HttpUtil.Post(HttpUtil.submitRoyalRumbleScore, JsonUtility.ToJson(matchPlayedRequest), RoyalRumbleScoreSubmitedCallback));
@@ -337,16 +336,15 @@ public class GameCode : MonoBehaviour
 
     private void RoyalRumbleScoreSubmitedCallback(UnityWebRequest response)
     {
-        /**MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
+        MatchEntryResponse matchEntryResponse = new MatchEntryResponse();
         matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
         if (matchEntryResponse.isSuccessful || matchEntryResponse.successful)
         {
-            //tournaments.Add(newTournament);
             Debug.Log("this is the successful message: " + matchEntryResponse.message);
         }
         else
         {
             Debug.Log("this is the error message: " + matchEntryResponse.message);
-        }**/
+        }
     }
 }
