@@ -210,6 +210,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void openNewTournamentDialog()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         entryFeeIndex = 0;
         maxPlayersIndex = 0;
         entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
@@ -231,18 +232,21 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void increaseEntryFee()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if(entryFeeIndex < entryFees.Length-1)
             entryFeeIndex++;
         entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void decreaseEntryFee()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (entryFeeIndex > 0)
             entryFeeIndex--;
         entryFeeText.text = UI.getNaira(entryFees[entryFeeIndex]);
     }
     public void increaseMaxPlayers()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (maxPlayersIndex < Players.Length - 1)
             maxPlayersIndex++;
         maxPlayersText.text = Players[maxPlayersIndex] + "";
@@ -251,6 +255,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void decreaseMaxPlayers()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (maxPlayersIndex > 0)
             maxPlayersIndex--;
         maxPlayersText.text = Players[maxPlayersIndex] + "";
@@ -259,24 +264,28 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void increaseMinEF()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (minEFIndex < entryFees.Length - 1)
             minEFIndex++;
         minEFText.text = UI.getNaira(entryFees[minEFIndex]);
     }
     public void decreaseMinEF()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (minEFIndex > 0)
             minEFIndex--;
         minEFText.text = UI.getNaira(entryFees[minEFIndex]);
     }
     public void increaseMaxEF()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (maxEFIndex < entryFees.Length - 1)
             maxEFIndex++;
         maxEFText.text = UI.getNaira(entryFees[maxEFIndex]);
     }
     public void decreaseMaxEF()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (maxEFIndex > 0)
             maxEFIndex--;
         maxEFText.text = UI.getNaira(entryFees[maxEFIndex]);
@@ -284,6 +293,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void increaseMinP()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (minPIndex < Players.Length - 1)
             minPIndex++;
         minPText.text = "" + Players[minPIndex];
@@ -292,6 +302,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void decreaseMinP()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (minPIndex > 0)
             minPIndex--;
         minPText.text = "" + Players[minPIndex];
@@ -300,6 +311,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void increaseMaxP()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (maxPIndex < Players.Length - 1)
             maxPIndex++;
         maxPText.text = "" + Players[maxPIndex];
@@ -308,6 +320,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void decreaseMaxP()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (maxPIndex > 0)
             maxPIndex--;
         maxPText.text = "" + Players[maxPIndex];
@@ -317,10 +330,12 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void closeNewTournamentDialog()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         newTournamentPanel.SetActive(false);
     }
     public void createTournament()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         string text = nameText.text;
         if (nameText.text.Trim().Equals(""))
             text = "New Tournament";
@@ -364,6 +379,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void openFilterDialog()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         minEFIndex = 0;
         maxEFIndex = 8;
         minPIndex = 1;
@@ -379,6 +395,7 @@ public class RoyalRumbleScript : MonoBehaviour
     }
     public void filter()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         isFilter = true;
         displayTournaments();
 
@@ -387,6 +404,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void closeFilterDialog()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         filterPanel.SetActive(false);
     }
 

@@ -8,10 +8,11 @@ public class PlayerPhysics : MonoBehaviour
     public Rigidbody2D rb;
     public RawImage icon;
     private float horizontalSpeed;
-    private bool isMoving,isDying;
+    private bool isMoving,isDying, died;
     private float lastUpdate;
     public static float X, Y;
     public static int invincible;
+    private List<int> instances = new List<int>();
     Collision2D col;
 
 
@@ -20,6 +21,7 @@ public class PlayerPhysics : MonoBehaviour
         horizontalSpeed = Screen.height / 2.4f;
         transform.localScale = new Vector3(Screen.height / 2000f, Screen.height / 2000f, 0);
         rb.gravityScale = 0f;
+        died = false;
     }
 
     void Update()
@@ -147,8 +149,12 @@ public class PlayerPhysics : MonoBehaviour
             if (collision.collider.tag.Equals("Platform"))
             {
                 // Debug.Log("Blink ma nigga");
-                if (!isDying)
+                if (!isDying && !instances.Contains(collision.collider.GetInstanceID())){
+                    instances.Add(collision.collider.GetInstanceID());
                     icon.GetComponent<Animator>().Play("blink");
+                    FindObjectOfType<GameCode>().playSound(GameCode.Sound.Bounce);    
+                }
+                    
             }
             if (collision.collider.tag.Equals("Enemy") && invincible <= 0)
             {
@@ -171,6 +177,9 @@ public class PlayerPhysics : MonoBehaviour
 
                 // Debug.Log("Time Start:" + lastUpdate);
                 icon.GetComponent<Animator>().Play("poof");
+                if(!died)
+                    FindObjectOfType<GameCode>().playSound(GameCode.Sound.Die); 
+            died = true;        
             isDying = true;
             rb.gravityScale = 0f;
             gameObject.layer = 8;
@@ -205,8 +214,11 @@ public class PlayerPhysics : MonoBehaviour
 
         gameObject.layer = 9;
         invincible = 3;
+        died = false;
 
         float dead = (float)(Screen.height / 1.25);
+
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Revive); 
 		
 		  if (PlatformPhysics.lastPlatform == null || PlatformPhysics.lastPlatform.transform.position.y >= Screen.height / 4)
         {

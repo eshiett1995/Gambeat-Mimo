@@ -133,6 +133,7 @@ public class UI : MonoBehaviour
 
     void startSinglePlayer()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         Multiplayer.type = Multiplayer.GameType.Single;
         Multiplayer.connection = Multiplayer.Connection.Offline;
         menuPanel.SetActive(false);
@@ -142,6 +143,7 @@ public class UI : MonoBehaviour
     }
     public void startMultiPlayer()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         multiPairPanel.SetActive(false);
         startingGame = true;
         UIPanel2.SetActive(true);
@@ -160,6 +162,7 @@ public class UI : MonoBehaviour
 
     public void startRoyalRumbleMatch(){
 
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         Debug.Log("STARTING ROYAL RUMBLE");
         Multiplayer.type = Multiplayer.GameType.Royal;
         Multiplayer.connection = Multiplayer.Connection.Client;
@@ -174,6 +177,7 @@ public class UI : MonoBehaviour
 
     void displayLeaderBoard()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         menuPanel.SetActive(false);
         lbPanel.SetActive(true);
         FindObjectOfType<GameCode>().resetLeaderboard();
@@ -226,12 +230,14 @@ public class UI : MonoBehaviour
 
     void multiplayerOptions()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         menuPanel.SetActive(false);
         multiMenuPanel.SetActive(true);
 
     }
     void startMulti()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         Debug.Log("Starting Multiplayer");
         setMatchUpDisplay();
         OneVOnePanel.SetActive(false);
@@ -287,6 +293,7 @@ public class UI : MonoBehaviour
 
     void increaseBet()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (index < amounts.Length - 1)
             index++;
 
@@ -297,6 +304,7 @@ public class UI : MonoBehaviour
     }
     void reduceBet()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (index > 0)
             index--;
 
@@ -309,6 +317,7 @@ public class UI : MonoBehaviour
     public void shareScore()
     {
 
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         string screenshotName = "mimo_highscore.png";
         // wait for graphics to render
         new WaitForEndOfFrame();
@@ -338,6 +347,7 @@ public class UI : MonoBehaviour
 
     public void mainMenu()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         multiMenuPanel.SetActive(false);
         lbPanel.SetActive(false);
         menuPanel.SetActive(true);
@@ -346,7 +356,7 @@ public class UI : MonoBehaviour
     }
     public void multiMenu()
     {
-        
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         OneVOnePanel.SetActive(false);
         RoyalPanel.SetActive(false);
         LeaguePanel.SetActive(false);
@@ -356,6 +366,7 @@ public class UI : MonoBehaviour
 
     public void oneVOneMenu()
     {       
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (Application.platform == RuntimePlatform.Android)
         {
             CustomAndroidToast("One vs One is coming soon");
@@ -369,12 +380,14 @@ public class UI : MonoBehaviour
     }
     public void royalMenu()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         multiMenuPanel.SetActive(false);
         RoyalPanel.SetActive(true);
         FindObjectOfType<RoyalRumbleScript>().Initialize();
     }
     public void leagueMenu()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (Application.platform == RuntimePlatform.Android)
         {
             CustomAndroidToast("League is coming soon");
@@ -389,6 +402,7 @@ public class UI : MonoBehaviour
 
     void Menu()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         multiPairPanel.SetActive(false);
         multiMenuPanel.SetActive(false);
         UIPanel2.SetActive(false);

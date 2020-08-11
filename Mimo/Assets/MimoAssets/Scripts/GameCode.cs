@@ -21,6 +21,19 @@ public class GameCode : MonoBehaviour
     public static int highScore;
     public List<GameObject> leaderboardItems = new List<GameObject>();
     public List<GameObject> tournamentItems = new List<GameObject>();
+    public AudioSource audio, audio2, music;
+    public AudioClip bounceClip, dieClip, reviveClip, breakClip, buttonClip, lifeClip, m1,m2,m3,m4;
+    private bool isSound = true, isMusic = true;
+
+    public enum Sound
+    {
+        Bounce,
+        Break,
+        Die,
+        Life,
+        Revive,
+        Button,
+    }
 
     void Start()
     {
@@ -37,13 +50,74 @@ public class GameCode : MonoBehaviour
 
         restart.onClick.AddListener(() => restartListener());
         Debug.Log("Game Start");
+
+        if(isMusic){
+
+            music.volume = 0.5f;
+            
+            int x = Random.Range(0,4);
+            if(x==0)
+                music.clip = m1;
+            else if(x==1)
+                music.clip = m2;
+            else if(x==2)
+                music.clip = m3;
+            else if(x==3)
+                music.clip = m4;
+                
+            
+            music.Play();
+
+        }
     }
 
+     public void playSound(Sound sound)
+    {
+        audio.volume = 1.0f;
+        audio2.volume = 1.0f;
+        audio2.loop = false;
+        int aud=1;
+
+        switch (sound)
+        {
+            case Sound.Bounce:
+                audio.clip = bounceClip;
+                break;
+            case Sound.Die:
+                audio2.clip = dieClip;
+                aud = 2;
+                break;
+            case Sound.Life:
+                audio.clip = lifeClip;
+                break;    
+            case Sound.Revive:
+                audio.clip = reviveClip;
+                break;
+            case Sound.Button:
+                audio.clip = buttonClip;
+                break;   
+            case Sound.Break:
+                audio2.clip = breakClip;
+                aud = 2;
+                break;       
+            
+        }
+
+        if(isSound){
+            if(aud==1)
+                audio.Play();
+           else if(aud==2)
+                audio2.Play();
+        }
+
+        Debug.Log("Playing Sound " + sound.ToString());
+        
+    }
 
     private void restartListener()
     {
         // Debug.Log("Ad Interval:");
-
+        playSound(Sound.Button);
         Debug.Log("Restart Game");
 
         running = true;

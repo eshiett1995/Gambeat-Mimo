@@ -21,6 +21,7 @@ public class BreakablePlatformPhysics : MonoBehaviour
         if (collision.collider.tag.Equals("Player") && !breaking)
         {
             icon.GetComponent<Animator>().Play("break");
+            FindObjectOfType<GameCode>().playSound(GameCode.Sound.Break);
             breaking = true;
 
             lastUpdate = Time.time;

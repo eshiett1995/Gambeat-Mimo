@@ -82,6 +82,7 @@ public class PaginationScript : MonoBehaviour
 
     public void goToNextPage()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (curPage < totalPages)
         {
             curPage++;
@@ -91,6 +92,7 @@ public class PaginationScript : MonoBehaviour
 
     public void goToPrevPage()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         if (curPage > 1)
         {
             curPage--;
@@ -100,6 +102,7 @@ public class PaginationScript : MonoBehaviour
 
     public void goToLeftPage()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         int page = Convert.ToInt32(firstText.text);
 
         if (curPage != page)
@@ -110,6 +113,7 @@ public class PaginationScript : MonoBehaviour
     }
     public void goToRightPage()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         int page = Convert.ToInt32(thirdText.text);
 
         if (curPage != page)
@@ -121,6 +125,7 @@ public class PaginationScript : MonoBehaviour
 
     public void goToMiddlePage()
     {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         int page = Convert.ToInt32(secText.text);
 
         if (curPage != page)

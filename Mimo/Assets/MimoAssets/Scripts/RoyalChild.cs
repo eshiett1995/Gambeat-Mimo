@@ -31,6 +31,7 @@ public class RoyalChild : MonoBehaviour
     }
 
     public void selectMatch(int matchIndex) {
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         FindObjectOfType<RoyalRumbleScript>().OnTournamentClicked(matchIndex);
     }
 

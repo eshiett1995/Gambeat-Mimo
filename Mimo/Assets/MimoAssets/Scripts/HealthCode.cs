@@ -27,6 +27,7 @@ public class HealthCode : MonoBehaviour
         {
             GameCode.life++;
             FindObjectOfType<UI>().updateLife();
+            FindObjectOfType<GameCode>().playSound(GameCode.Sound.Life); 
             Destroy(this.gameObject);
         }
     }
