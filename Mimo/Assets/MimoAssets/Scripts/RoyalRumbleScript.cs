@@ -110,7 +110,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
             sortPages(tournaments.Count);
 
-            Debug.Log("getRoyalRumbleMatchesCallback: the successful message: " + royalRumbleSearchResponse.message);
+            Debug.Log("getRoyalRumbleMatchesCallback: amount of tournaments: " + royalRumbleSearchResponse.content.Count);
         }
         else
         {
