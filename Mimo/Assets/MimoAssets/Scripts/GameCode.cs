@@ -84,14 +84,14 @@ public class GameCode : MonoBehaviour
                 audio.clip = bounceClip;
                 break;
             case Sound.Die:
-                audio2.clip = dieClip;
-                aud = 2;
+                audio.clip = dieClip;
                 break;
             case Sound.Life:
                 audio.clip = lifeClip;
                 break;    
             case Sound.Revive:
-                audio.clip = reviveClip;
+                audio2.clip = reviveClip;
+                aud = 2;
                 break;
             case Sound.Button:
                 audio.clip = buttonClip;
