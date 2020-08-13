@@ -9,7 +9,7 @@ public class RoyalRumbleScript : MonoBehaviour
 {
     public GameObject newTournamentPanel, filterPanel, TournamentChild, paginationPanel;
     public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
-    private List<Tournament> tournaments = new List<Tournament>();
+    public static List<Tournament> tournaments = new List<Tournament>();
     public static List<Tournament> currentPage = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
     public Text minEFText, maxEFText, minPText, maxPText;
@@ -18,7 +18,7 @@ public class RoyalRumbleScript : MonoBehaviour
     private int[] entryFees = { 50,100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
-    public Tournament selectedTournament;
+    public static Tournament selectedTournament;
     public static int pageMax = 10, totalPages, startIndex;
     public StageObjectsModel stageObjectsModel;
 
@@ -74,6 +74,7 @@ public class RoyalRumbleScript : MonoBehaviour
         }
         
         tournaments.Clear();
+        Debug.Log("Clear Tournaments");
         FindObjectOfType<GameCode>().resetTournmentData();
         retreiveTournamentData(0);
     }
@@ -410,6 +411,7 @@ public class RoyalRumbleScript : MonoBehaviour
 
     public void OnTournamentClicked(int tournamentIndex) {
         selectedTournament = tournaments[tournamentIndex];
+        Debug.Log("Selected Royal Rumble ID: " + selectedTournament.id);
         if (selectedTournament.registered) {
             FindObjectOfType<UI>().confirmText.text = "Do you want to \n start this game?";
         }
@@ -422,7 +424,8 @@ public class RoyalRumbleScript : MonoBehaviour
 
     private void royalRumbleMatchJoinedCallback(UnityWebRequest response)
     {
-  
+        Debug.Log("Join Clicked");
+
         ResponseModel responseModel = new ResponseModel();
         responseModel = JsonUtility.FromJson<ResponseModel>(response.downloadHandler.text);
         if (responseModel.isSuccessful || responseModel.successful)
@@ -438,6 +441,8 @@ public class RoyalRumbleScript : MonoBehaviour
 
     private void royalRumbleMatchInitCallback(UnityWebRequest response)
     {
+        Debug.Log("Start Clicked");
+
         GameStageResponse gameStageResponse = new GameStageResponse();
         gameStageResponse = JsonUtility.FromJson<GameStageResponse>(response.downloadHandler.text);
         if (gameStageResponse.isSuccessful || gameStageResponse.successful)

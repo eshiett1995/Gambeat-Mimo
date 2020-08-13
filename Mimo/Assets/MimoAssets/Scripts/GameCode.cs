@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameCode : MonoBehaviour
 {
     private float lastUpdate;
-    public static int score;
+    public static int score, highScore;
     public GameObject platform, spikes, breakPlatform, health, blades, gameOverPanel, restartButt;
     public static int life = 3, spikeInterval, healthInterval;
     public Text scoreText, highscoreText;
@@ -18,7 +18,6 @@ public class GameCode : MonoBehaviour
     private static float defScrollSpeed, defPlatformSpeed;
     public static Multiplayer mp;
     public static GameCode game;
-    public static int highScore;
     public List<GameObject> leaderboardItems = new List<GameObject>();
     public List<GameObject> tournamentItems = new List<GameObject>();
     public AudioSource audio, audio2, music;
@@ -335,7 +334,10 @@ public class GameCode : MonoBehaviour
             case  Multiplayer.GameType.OnevOne:
                 break;
             case  Multiplayer.GameType.Royal:
-                PostScore(score, FindObjectOfType<RoyalRumbleScript>().selectedTournament.tournamentName, FBHolder.id);
+                Debug.Log("Total Tourn: " + RoyalRumbleScript.tournaments.Count);
+                Debug.Log("Royal Rumble ID: " + RoyalRumbleScript.selectedTournament.id);
+                Debug.Log(" User ID "+FBHolder.id);
+                PostScore(score, RoyalRumbleScript.selectedTournament.id, FBHolder.id);
                 running = false;
                 break;
             case  Multiplayer.GameType.League:
@@ -346,17 +348,19 @@ public class GameCode : MonoBehaviour
         scoreText.text = score + "";
 
         highScore = PlayerPrefs.GetInt(highscoreString);
-
-       
+        
+        if(score > highScore){
             highScore = score;
             PlayerPrefs.SetInt(highscoreString, score);
-            if (!setHighscore)
-                mp.uploadHighScore();
-            setHighscore = true;
-        
+        }
 
         highscoreText.text = highScore + "";
-        
+
+        if (!setHighscore){
+            mp.uploadHighScore();
+            setHighscore = true;
+        }
+
     }
 
     public void resetLeaderboard()
