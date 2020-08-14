@@ -10,6 +10,9 @@
         <activity android:name=".activity.PaystackActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".activity.PayantActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity android:name=".activity.WalletAfricaActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
