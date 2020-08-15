@@ -103,10 +103,12 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         RoyalRumbleSearchResponse royalRumbleSearchResponse = new RoyalRumbleSearchResponse();
         royalRumbleSearchResponse = JsonUtility.FromJson<RoyalRumbleSearchResponse>(response.downloadHandler.text);
+        Debug.Log("------------------------------------");
+        Debug.Log(response.downloadHandler.text);
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
-                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime));
+                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime, tournament.hasStarted, tournament.hasFinished));
             });
 
             sortPages(tournaments.Count);
