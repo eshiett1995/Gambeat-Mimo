@@ -91,14 +91,14 @@ public class UserProfile : MonoBehaviour
             if (javaClass != null)
             {
                 //LocalStorageUtil.getAuthKey()
-                javaClass.CallStatic("initPaystack", activity, LocalStorageUtil.getAuthKey());
+                javaClass.CallStatic("initPayant", activity, LocalStorageUtil.getAuthKey());
             }
             
         }
         else
         {
             //Generate URL
-            paymentUrl = "https://gambeat.com.ng/paystack";
+            paymentUrl = "https://gambeat.com.ng/payant";
 
             closeWallet();
             PaymentPanel.SetActive(true);
