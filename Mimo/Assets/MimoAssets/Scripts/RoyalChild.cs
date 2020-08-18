@@ -8,6 +8,7 @@ public class RoyalChild : MonoBehaviour
 {
     public Text indexText, name, players, entryFee, prize, timeLeft;
     public Button select;
+    public RawImage star;
     private int index;
     Tournament tournament;
 
@@ -25,6 +26,9 @@ public class RoyalChild : MonoBehaviour
         prize.text = UI.getNaira(tournament.getPrize());
         timeLeft.text = GetRemainingTime(tournament.startTime);
         FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);
+
+        if(tournament.registered)
+            star.texture = (Texture2D)Resources.Load("star");
 
         select.onClick.AddListener(() => selectMatch(index));
 
