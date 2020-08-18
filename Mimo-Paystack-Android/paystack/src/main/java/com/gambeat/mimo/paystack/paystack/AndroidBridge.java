@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gambeat.mimo.paystack.paystack.activity.PayantActivity;
 import com.gambeat.mimo.paystack.paystack.activity.PaystackActivity;
 import com.gambeat.mimo.paystack.paystack.activity.WalletAfricaActivity;
 
@@ -18,6 +19,13 @@ public class AndroidBridge {
 
     public static void initPaystack(Context context, String authKey){
         Intent intent = new Intent(context, PaystackActivity.class);
+        intent.putExtra("authKey", authKey);
+        context.startActivity(intent);
+        Constants.baseContext = context;
+    }
+
+    public static void initPayant(Context context, String authKey){
+        Intent intent = new Intent(context, PayantActivity.class);
         intent.putExtra("authKey", authKey);
         context.startActivity(intent);
         Constants.baseContext = context;

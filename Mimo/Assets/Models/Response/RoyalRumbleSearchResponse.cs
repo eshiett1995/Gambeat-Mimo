@@ -30,5 +30,8 @@ public class RoyalRumbleSearchResponse : ResponseModel
         public int numberOfCompetitors;
         public string winners;
         public int competitorLimit;
+
+        public bool hasStarted;
+        public bool hasFinished;
     }
 }

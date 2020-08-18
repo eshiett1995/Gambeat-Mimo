@@ -16,6 +16,7 @@ public class RoyalChild : MonoBehaviour
     {
         index = FindObjectOfType<GameCode>().tournamentItems.Count;
         tournament = RoyalRumbleScript.currentPage[index];
+        DetermineBackgroundPanelColor(tournament);
         int no = RoyalRumbleScript.startIndex + index + 1;
         indexText.text = no + ".";
         name.text = tournament.tournamentName;
@@ -76,6 +77,35 @@ public class RoyalChild : MonoBehaviour
     private void Update()
     {
         timeLeft.text = GetRemainingTime(tournament.startTime);
+    }
+
+    public void DetermineBackgroundPanelColor(Tournament tournament) {
+
+        RawImage backgroundImage = this.transform.Find("back").GetComponent<RawImage>();
+        Debug.Log("-----------------------------------------");
+        Debug.Log("tournament.name " + tournament.tournamentName);
+        Debug.Log("tournament.hasStarted " + tournament.hasStarted);
+        Debug.Log("tournament.hasFinished " + tournament.hasFinished);
+        Debug.Log("tournament.registered " + tournament.registered);
+
+
+        if (tournament.hasStarted || tournament.hasFinished)
+        {
+            Debug.Log("color red");
+            //redish-pink
+            backgroundImage.color = new Color32(238, 39, 88, 205);
+        }
+        else if (tournament.registered)
+        {
+            Debug.Log("color blue");
+            //blue
+            backgroundImage.color = new Color32(39, 110, 238, 205);
+        }
+        else {
+            Debug.Log("color black");
+            //dark black
+            backgroundImage.color = new Color32(34, 34, 34, 205);
+        }
     }
 
 }
