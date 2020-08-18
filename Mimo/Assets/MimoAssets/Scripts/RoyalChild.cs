@@ -16,7 +16,6 @@ public class RoyalChild : MonoBehaviour
     {
         index = FindObjectOfType<GameCode>().tournamentItems.Count;
         tournament = RoyalRumbleScript.currentPage[index];
-        DetermineBackgroundPanelColor(tournament);
         int no = RoyalRumbleScript.startIndex + index + 1;
         indexText.text = no + ".";
         name.text = tournament.tournamentName;
@@ -26,18 +25,24 @@ public class RoyalChild : MonoBehaviour
         entryFee.text = "Entry Fee : " + UI.getNaira(tournament.entryFee/100);
         prize.text = UI.getNaira(tournament.getPrize());
         timeLeft.text = GetRemainingTime(tournament.startTime);
-        FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);
-
-        if(tournament.registered)
-            star.texture = (Texture2D)Resources.Load("star");
-
+        FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);    
+        DetermineBackgroundPanelColor(tournament);
+        
         select.onClick.AddListener(() => selectMatch(index));
 
     }
 
     public void selectMatch(int matchIndex) {
+
         FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
-        FindObjectOfType<RoyalRumbleScript>().OnTournamentClicked(matchIndex);
+            
+        if (tournament.hasStarted || tournament.hasFinished)
+        {
+            FindObjectOfType<UI>().BottomPanelText.text = "Awaiting Results in " + GetRemainingTime(tournament.startTime);
+            FindObjectOfType<UI>().BottomPanel.SetActive(true);
+        }else{
+            FindObjectOfType<RoyalRumbleScript>().OnTournamentClicked(matchIndex);
+        }
     }
 
     public string GetRemainingTime(long matchStartTimeStamp)
@@ -77,34 +82,32 @@ public class RoyalChild : MonoBehaviour
     private void Update()
     {
         timeLeft.text = GetRemainingTime(tournament.startTime);
+        DetermineBackgroundPanelColor(tournament);
     }
 
     public void DetermineBackgroundPanelColor(Tournament tournament) {
 
-        RawImage backgroundImage = this.transform.Find("back").GetComponent<RawImage>();
-        Debug.Log("-----------------------------------------");
-        Debug.Log("tournament.name " + tournament.tournamentName);
-        Debug.Log("tournament.hasStarted " + tournament.hasStarted);
-        Debug.Log("tournament.hasFinished " + tournament.hasFinished);
-        Debug.Log("tournament.registered " + tournament.registered);
+        //RawImage backgroundImage = this.transform.Find("back").GetComponent<RawImage>();
+        //Debug.Log("-----------------------------------------");
+        //Debug.Log("tournament.name " + tournament.tournamentName);
+        //Debug.Log("tournament.hasStarted " + tournament.hasStarted);
+        //Debug.Log("tournament.hasFinished " + tournament.hasFinished);
+        //Debug.Log("tournament.registered " + tournament.registered);
 
 
         if (tournament.hasStarted || tournament.hasFinished)
         {
             Debug.Log("color red");
-            //redish-pink
-            backgroundImage.color = new Color32(238, 39, 88, 205);
+            star.texture = (Texture2D)Resources.Load("star2");
         }
         else if (tournament.registered)
         {
             Debug.Log("color blue");
-            //blue
-            backgroundImage.color = new Color32(39, 110, 238, 205);
+            star.texture = (Texture2D)Resources.Load("star");
         }
         else {
             Debug.Log("color black");
-            //dark black
-            backgroundImage.color = new Color32(34, 34, 34, 205);
+            star.texture = (Texture2D)Resources.Load("blank");
         }
     }
 

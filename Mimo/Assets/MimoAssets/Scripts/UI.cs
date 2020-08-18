@@ -9,7 +9,7 @@ public class UI : MonoBehaviour
     public static float scrollSpeed;
     public RawImage img, img2, img3, spike, spike2, bottomSpike, life, p1life, p2life, p1Avatar, p2Avatar, p1Ready, p2Ready, loading;
     private float y, y2, y3, iy, iy2, iy3;
-    public Text scoreText, scoreText2, stakeText, statusText, internetText, confirmText,
+    public Text scoreText, scoreText2, stakeText, statusText, internetText, confirmText, BottomPanelText,
         p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText;
     private Texture2D[] lifeImages = new Texture2D[4];
     public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
@@ -21,7 +21,7 @@ public class UI : MonoBehaviour
     public Button newRoyal;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
-    public GameObject confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, OneVOnePanel, RoyalPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
+    public GameObject BottomPanel, confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, OneVOnePanel, RoyalPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -275,6 +275,10 @@ public class UI : MonoBehaviour
         internetText.text = "";
     }
 
+    public void closeBottomPanel(){
+        BottomPanel.SetActive(false);
+    }
+
     public static string getNaira(double amount)
     {
         string number = amount.ToString();
@@ -288,7 +292,7 @@ public class UI : MonoBehaviour
             result = result.Insert(result.Length - 3, ",");
         }
             
-            return "N"+result;
+            return "₦"+result;
     }
 
     void increaseBet()

@@ -666,6 +666,7 @@ MonoBehaviour:
   prize: {fileID: 8406675951661875405}
   timeLeft: {fileID: 5287472674126102680}
   select: {fileID: 5750405124832119500}
+  star: {fileID: 524093647426256061}
 --- !u!1 &6448119634218263724
 GameObject:
   m_ObjectHideFlags: 0

@@ -433,6 +433,7 @@ public class RoyalRumbleScript : MonoBehaviour
         if (responseModel.isSuccessful || responseModel.successful)
         {
             Debug.Log("royalRumbleMatchJoinedCallback : successful message: " + responseModel.message);
+            FindObjectOfType<UI>().confirmPanel.SetActive(false);
         }
         else
         {
