@@ -35,14 +35,24 @@ public class RoyalChild : MonoBehaviour
     public void selectMatch(int matchIndex) {
 
         FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
+        RoyalRumbleScript.selectedTournament = tournament;
             
-        if (tournament.hasStarted || tournament.hasFinished)
+        if (tournament.hasFinished)
         {
-            FindObjectOfType<UI>().BottomPanelText.text = "Awaiting Results in " + GetRemainingTime(tournament.startTime);
+            Debug.Log("Tournament has finished");
+            FindObjectOfType<UI>().BottomPanelText.text = "Match has Ended";
+            FindObjectOfType<UI>().BottomPanelButton.text = "View Results";
             FindObjectOfType<UI>().BottomPanel.SetActive(true);
-        }else{
+        }else if(tournament.hasStarted){
+            Debug.Log("Tournament has started");
+            FindObjectOfType<UI>().BottomPanelText.text = "Awaiting Results in " + GetRemainingTime(tournament.startTime);
+            FindObjectOfType<UI>().BottomPanelButton.text = "OK";
+            FindObjectOfType<UI>().BottomPanel.SetActive(true);
+        }else
+        {
             FindObjectOfType<RoyalRumbleScript>().OnTournamentClicked(matchIndex);
         }
+
     }
 
     public string GetRemainingTime(long matchStartTimeStamp)

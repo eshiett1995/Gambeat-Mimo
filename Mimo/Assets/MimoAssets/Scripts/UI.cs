@@ -10,7 +10,7 @@ public class UI : MonoBehaviour
     public RawImage img, img2, img3, spike, spike2, bottomSpike, life, p1life, p2life, p1Avatar, p2Avatar, p1Ready, p2Ready, loading;
     private float y, y2, y3, iy, iy2, iy3;
     public Text scoreText, scoreText2, stakeText, statusText, internetText, confirmText, BottomPanelText,
-        p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText;
+        p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText, BottomPanelButton;
     private Texture2D[] lifeImages = new Texture2D[4];
     public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
     public GameObject border1, border2, border3, border4;
@@ -277,6 +277,11 @@ public class UI : MonoBehaviour
 
     public void closeBottomPanel(){
         BottomPanel.SetActive(false);
+        if(!BottomPanelButton.text.Equals("OK"))
+            openPlayerList();
+    }
+    public void openPlayerList(){
+        FindObjectOfType<RoyalRumbleScript>().retreivePlayerList(); 
     }
 
     public static string getNaira(double amount)

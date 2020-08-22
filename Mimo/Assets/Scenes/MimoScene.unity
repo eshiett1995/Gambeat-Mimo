@@ -1634,8 +1634,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 19, y: 72.3}
-  m_SizeDelta: {x: 305.6, y: 85.1}
+  m_AnchoredPosition: {x: 31.7, y: 31.6}
+  m_SizeDelta: {x: 526.7, y: 278.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &149223080
 MonoBehaviour:
@@ -1659,18 +1659,20 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 584753b162a084bf1ae824948bdbf0f8, type: 3}
-    m_FontSize: 65
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 150
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 1
-    m_VerticalOverflow: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Do you want to \nJoin this game?"
+  m_Text: 'Do you want to
+
+    start this game?'
 --- !u!222 &149223081
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3487,7 +3489,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -6, y: -4}
-  m_SizeDelta: {x: 590.1, y: 417.5}
+  m_SizeDelta: {x: 601.3, y: 417.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285510529
 MonoBehaviour:
@@ -4625,7 +4627,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 584753b162a084bf1ae824948bdbf0f8, type: 3}
-    m_FontSize: 70
+    m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -7981,7 +7983,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -84, y: -106.6}
+  m_AnchoredPosition: {x: -91, y: -150}
   m_SizeDelta: {x: 169.5, y: 84.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &799393929
@@ -15660,7 +15662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 113.79999, y: -106.6}
+  m_AnchoredPosition: {x: 113.79999, y: -150}
   m_SizeDelta: {x: 169.5, y: 84.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595652931
@@ -16269,6 +16271,7 @@ MonoBehaviour:
   p1GameName: {fileID: 1797095089}
   p2GameName: {fileID: 323017731}
   userIDText: {fileID: 0}
+  BottomPanelButton: {fileID: 1558212459}
   platform1: {fileID: 841981644}
   platform2: {fileID: 471906645}
   platform3: {fileID: 905907879}
@@ -20854,7 +20857,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 584753b162a084bf1ae824948bdbf0f8, type: 3}
-    m_FontSize: 70
+    m_FontSize: 65
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0

@@ -122,6 +122,12 @@ public class RoyalRumbleScript : MonoBehaviour
         UI.doneLoading = true;
     }
 
+    public void retreivePlayerList(){
+        Debug.Log("Retreiving Player Data");
+        Tournament thisTournament = selectedTournament;
+        //Pull in list of players from this tournament 
+    }
+
     void sortPages(int tournamentCount)
     {
        
@@ -414,12 +420,18 @@ public class RoyalRumbleScript : MonoBehaviour
     public void OnTournamentClicked(int tournamentIndex) {
         selectedTournament = tournaments[tournamentIndex];
         Debug.Log("Selected Royal Rumble ID: " + selectedTournament.id);
-        if (selectedTournament.registered) {
+        if (selectedTournament.registered){
+            FindObjectOfType<UI>().confirmText.fontSize = 65;
             FindObjectOfType<UI>().confirmText.text = "Do you want to \n start this game?";
         }
         else
         {
-            FindObjectOfType<UI>().confirmText.text = "Do you want to \n join this game?";
+            FindObjectOfType<UI>().confirmText.fontSize = 50;
+            FindObjectOfType<UI>().confirmText.text = "Join '" + selectedTournament.tournamentName +"'\n"+
+                                                      $"{selectedTournament.getPlayerCount()}/{selectedTournament.playerLimit} Players\n"+
+                                                      "Entry Fee : " + UI.getNaira(selectedTournament.entryFee/100)+
+                                                      "\n Prize Money : " + UI.getNaira(selectedTournament.getPrize());
+
         }
         FindObjectOfType<UI>().confirmPanel.SetActive(true);
     }

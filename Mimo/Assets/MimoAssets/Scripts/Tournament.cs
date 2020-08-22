@@ -25,7 +25,6 @@ public class Tournament
         this.entryFee = entryFee;
         hr = DateTime.Now.Hour;
         day = DateTime.Now.Day;
-        players = new List<string>();
 
         updateDatabase();
     }
@@ -43,7 +42,6 @@ public class Tournament
         this.hasFinished = hasFinished;
         hr = DateTime.Now.Hour;
         day = DateTime.Now.Day;
-        players = new List<string>();
     }
 
     public Tournament(string id, string name, int totalPlayers, int playerLimit, long entryFee)
@@ -55,20 +53,6 @@ public class Tournament
         this.entryFee = entryFee;
         hr = DateTime.Now.Hour;
         day = DateTime.Now.Day;
-        players = new List<string>();
-    }
-
-    public Tournament(string id, string name, int maxPlayers, long entryFee, int hr, int day, List<string> playersIDs)
-    {
-        this.id = id;
-        this.tournamentName = name;
-        this.totalPlayers = maxPlayers;
-        this.entryFee = entryFee;
-        this.hr = hr;
-        this.day = day;
-        players = playersIDs;
-
-        Debug.Log("Tournament '" + tournamentName + "' Retreived");
     }
 
     public void addPlayer(string playerID)
