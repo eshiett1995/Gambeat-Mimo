@@ -14,6 +14,7 @@ public class HttpUtil
     static public string royalRumbleInit = baseUrl + "/match/royal-rumble/init";
     static public string royalRumbleJoin = baseUrl + "/match/royal-rumble/join";
     static public string submitRoyalRumbleScore = baseUrl + "/match/royal-rumble/submit";
+    static public string getPlayersInAMatch = baseUrl + "/match/royal-rumble/players";
 
 
 

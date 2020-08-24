@@ -125,7 +125,25 @@ public class RoyalRumbleScript : MonoBehaviour
     public void retreivePlayerList(){
         Debug.Log("Retreiving Player Data");
         Tournament thisTournament = selectedTournament;
-        //Pull in list of players from this tournament 
+        StartCoroutine(HttpUtil.Get(HttpUtil.getPlayersInAMatch + "/" + thisTournament.id, GetPlayersInAMatchCallback));
+
+    }
+
+    private void GetPlayersInAMatchCallback(UnityWebRequest response)
+    {
+        PlayersInMatchResponse playersInMatchResponse = new PlayersInMatchResponse();
+        playersInMatchResponse = JsonUtility.FromJson<PlayersInMatchResponse>(response.downloadHandler.text);
+        Debug.Log("------------------------------------");
+        Debug.Log(response.downloadHandler.text);
+        if (playersInMatchResponse.successful || playersInMatchResponse.isSuccessful)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        UI.doneLoading = true;
     }
 
     void sortPages(int tournamentCount)
