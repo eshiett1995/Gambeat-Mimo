@@ -100,8 +100,8 @@ public class Multiplayer : MonoBehaviour
             leaderBoardData = leaderBoardResponse;
             if (leaderBoardResponse.isSuccessful || leaderBoardResponse.successful)
             {
-                lbNames.Clear();
-                lbScores.Clear();
+                clearList();
+
                 for (var index = 0; index < leaderBoardResponse.ranks.Count; index++)
                 {
                     var rank = leaderBoardResponse.ranks[index];
@@ -118,6 +118,10 @@ public class Multiplayer : MonoBehaviour
         }));
     }
 
+    public static void clearList(){
+        lbNames.Clear();
+        lbScores.Clear();
+    }
     public void uploadHighScore()
     {
         

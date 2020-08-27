@@ -107,16 +107,16 @@ public class RoyalChild : MonoBehaviour
 
         if (tournament.hasStarted || tournament.hasFinished)
         {
-            Debug.Log("color red");
+            //Debug.Log("color red");
             star.texture = (Texture2D)Resources.Load("star2");
         }
         else if (tournament.registered)
         {
-            Debug.Log("color blue");
+            //Debug.Log("color blue");
             star.texture = (Texture2D)Resources.Load("star");
         }
         else {
-            Debug.Log("color black");
+            //Debug.Log("color black");
             star.texture = (Texture2D)Resources.Load("blank");
         }
     }

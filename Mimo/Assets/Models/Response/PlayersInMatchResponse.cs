@@ -5,9 +5,9 @@ using System.Collections.Generic;
 public class PlayersInMatchResponse : ResponseModel
 {
 
-    private List<Player> winners;
+    public List<Player> winners;
 
-    private List<Player> players;
+    public List<Player> players;
 
     [Serializable]
     public class Player

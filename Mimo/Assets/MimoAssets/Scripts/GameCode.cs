@@ -371,6 +371,7 @@ public class GameCode : MonoBehaviour
         }
         leaderboardItems.Clear();
     }
+
     public void resetTournmentData()
     {
         for (int i = 0; i < tournamentItems.Count; i++)

@@ -12,6 +12,7 @@ public class ListViewScript : MonoBehaviour
     public RawImage avatarMask;
     public Sprite coloredMask;
     private Mascots mascots;
+    private string photoUrl;
 
     void Start()
 
@@ -19,20 +20,41 @@ public class ListViewScript : MonoBehaviour
         mascots = FindObjectOfType<Mascots>();
 
         index = FindObjectOfType<GameCode>().leaderboardItems.Count;
-        FormattedRank userRank = Multiplayer.leaderBoardData.ranks[index];
-        name.text = $"{userRank.firstName} .{userRank.lastName.Substring(0, 1)}";
-        score.text = userRank.score.ToString();
         int num = index + 1;
         indexText.text = ""+num;
-        FindObjectOfType<GameCode>().leaderboardItems.Add(this.gameObject);
-        if (userRank.photoUrl == null || userRank.photoUrl == "")
+
+        if(UI.isRoyal){
+            name.color = Color.black;
+            score.color = Color.black;
+            indexText.color = Color.black;
+
+            Player player = RoyalRumbleScript.players[index];
+
+            name.text = $"{player.firstName} .{player.lastName.Substring(0, 1)}";
+            score.text = player.getScore();
+            photoUrl = player.photoUrl;
+        }
+        else{
+
+            FormattedRank userRank = Multiplayer.leaderBoardData.ranks[index];
+
+            name.text = $"{userRank.firstName} .{userRank.lastName.Substring(0, 1)}";
+            score.text = userRank.score.ToString();
+            photoUrl = userRank.photoUrl;
+        
+        }
+
+        if ( photoUrl == null || photoUrl == "")
         {
             SetMascotMask(avatarMask, coloredMask);
             SetRandomMascot(avatar, mascots.images);
         }
         else {
-            StartCoroutine(FetchProfilePic(avatar, userRank.photoUrl));
+            StartCoroutine(FetchProfilePic(avatar, photoUrl));
         }
+
+        FindObjectOfType<GameCode>().leaderboardItems.Add(this.gameObject);
+            
     }
 
     private IEnumerator FetchProfilePic(RawImage avatar, string url)

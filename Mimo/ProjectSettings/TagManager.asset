@@ -14,6 +14,7 @@ TagManager:
   - GamePanel
   - RoyalView
   - ConfirmDialog
+  - RoyalList
   layers:
   - Default
   - TransparentFX

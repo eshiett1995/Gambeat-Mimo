@@ -10,17 +10,19 @@ public class RoyalRumbleScript : MonoBehaviour
     public GameObject newTournamentPanel, filterPanel, TournamentChild, paginationPanel;
     public GameObject listView, tournamentPanel, newTournamentDialog, filterDialog;
     public static List<Tournament> tournaments = new List<Tournament>();
+    public static List<Player> players = new List<Player>();
     public static List<Tournament> currentPage = new List<Tournament>();
     public Text nameText, maxPlayersText, entryFeeText;
     public Text minEFText, maxEFText, minPText, maxPText;
     private int minEFIndex, maxEFIndex, minPIndex, maxPIndex;
     private int maxPlayersIndex, entryFeeIndex;
-    private int[] entryFees = { 50,100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
+    private int[] entryFees = {100,200,300,500,1000,2000,3000,5000,10000,20000,50000};
     private int[] Players = { 0,3,5,7,10,15,20,25,30,50,100,0};
     private bool isFilter;
     public static Tournament selectedTournament;
     public static int pageMax = 10, totalPages, startIndex;
     public StageObjectsModel stageObjectsModel;
+    public static PlayersInMatchResponse playersData = new PlayersInMatchResponse();
 
     private void Start()
     {
@@ -61,7 +63,7 @@ public class RoyalRumbleScript : MonoBehaviour
         isFilter = false;
     }
 
-    private void displayTournaments()
+    public void displayTournaments()
     {
         listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.width / 2.12f);
         if (FindObjectOfType<UI>().RoyalPanel.activeSelf)
@@ -125,6 +127,8 @@ public class RoyalRumbleScript : MonoBehaviour
     public void retreivePlayerList(){
         Debug.Log("Retreiving Player Data");
         Tournament thisTournament = selectedTournament;
+        Multiplayer.clearList();
+        players.Clear();
         StartCoroutine(HttpUtil.Get(HttpUtil.getPlayersInAMatch + "/" + thisTournament.id, GetPlayersInAMatchCallback));
 
     }
@@ -133,11 +137,18 @@ public class RoyalRumbleScript : MonoBehaviour
     {
         PlayersInMatchResponse playersInMatchResponse = new PlayersInMatchResponse();
         playersInMatchResponse = JsonUtility.FromJson<PlayersInMatchResponse>(response.downloadHandler.text);
+        playersData = playersInMatchResponse;
         Debug.Log("------------------------------------");
         Debug.Log(response.downloadHandler.text);
         if (playersInMatchResponse.successful || playersInMatchResponse.isSuccessful)
         {
-            
+
+            for (var index = 0; index < playersInMatchResponse.players.Count; index++)
+                {
+                    var player = playersInMatchResponse.players[index];
+                    players.Add(new Player(player.firstName, player.lastName, player.photoUrl, player.position, player.score));
+                }
+
         }
         else
         {
@@ -388,7 +399,7 @@ public class RoyalRumbleScript : MonoBehaviour
         matchEntryResponse = JsonUtility.FromJson<MatchEntryResponse>(response.downloadHandler.text);
         if (matchEntryResponse.isSuccessful || matchEntryResponse.successful)
         {
-            //tournaments.Add(newTournament);
+            displayTournaments();
             Debug.Log("this is the successful message: " + matchEntryResponse.message);
         }
         else

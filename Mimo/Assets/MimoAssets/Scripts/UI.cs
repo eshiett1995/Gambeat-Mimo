@@ -10,18 +10,20 @@ public class UI : MonoBehaviour
     public RawImage img, img2, img3, spike, spike2, bottomSpike, life, p1life, p2life, p1Avatar, p2Avatar, p1Ready, p2Ready, loading;
     private float y, y2, y3, iy, iy2, iy3;
     public Text scoreText, scoreText2, stakeText, statusText, internetText, confirmText, BottomPanelText,
-        p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText, BottomPanelButton;
+        p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText, 
+        BottomPanelButton, royalListHeader;
     private Texture2D[] lifeImages = new Texture2D[4];
     public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
     public GameObject border1, border2, border3, border4;
     public Button restart, menu, ok;
     public bool startingGame, displayingMatchUp, isDraw, oppSpawned;
-    public static bool doneLoading;
+    public static bool doneLoading, isRoyal;
     public Button single, multi, leaderboardButton, exit, start, plus, minus, cancel, rematch;
     public Button newRoyal;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
-    public GameObject BottomPanel, confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, multiMenuPanel, OneVOnePanel, RoyalPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
+    public GameObject BottomPanel, confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, 
+    multiMenuPanel, OneVOnePanel, RoyalPanel, royalListPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -32,7 +34,7 @@ public class UI : MonoBehaviour
                               20000,
                               50000
                                 };
-    public GameObject opponent, listView;
+    public GameObject opponent, listView, royalListView;
     public static int index, matchTimer = -1;
     public bool isLoading;
 
@@ -141,6 +143,10 @@ public class UI : MonoBehaviour
         UIPanel.SetActive(true);
         startingGame = true;
     }
+
+    public void closeRoyalList(){
+        royalListPanel.SetActive(false);
+    }
     public void startMultiPlayer()
     {
         FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
@@ -191,11 +197,12 @@ public class UI : MonoBehaviour
     public void setLeaderBoardData()
     {
 
+        setRoyalLeaderBoardData();
         listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.width / 2.12f);
 
         if (lbPanel.activeSelf && FindObjectOfType<GameCode>().leaderboardItems.Count == 0)
         {
-            //hasSetLeaderboard = true;
+            isRoyal = false;
             Debug.Log("Setting Leaderboard data");
             string[] defNames = new string[Multiplayer.lbNames.Count];
             int[] defScores = new int[Multiplayer.lbScores.Count];
@@ -224,6 +231,23 @@ public class UI : MonoBehaviour
             for (int i = 0; i < Multiplayer.lbNames.Count; i++)
             {
                 Instantiate(listViewChild.gameObject, GameObject.FindGameObjectWithTag("ListView").transform);
+            }
+        }
+    }
+
+     public void setRoyalLeaderBoardData()
+    {
+
+        royalListView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.width / 2.12f);
+
+        if (royalListPanel.activeSelf && FindObjectOfType<GameCode>().leaderboardItems.Count == 0)
+        {
+            isRoyal = true;
+            Debug.Log("Setting Royal Rumble Player List data");
+
+            for (int i = 0; i < RoyalRumbleScript.players.Count; i++)
+            {
+                Instantiate(listViewChild.gameObject, GameObject.FindGameObjectWithTag("RoyalList").transform);
             }
         }
     }
@@ -280,7 +304,15 @@ public class UI : MonoBehaviour
         if(!BottomPanelButton.text.Equals("OK"))
             openPlayerList();
     }
+
     public void openPlayerList(){
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
+        royalListHeader.text = "Tournament '" + RoyalRumbleScript.selectedTournament.tournamentName + "'";
+        royalListPanel.SetActive(true);
+        FindObjectOfType<GameCode>().resetLeaderboard();
+
+        doneLoading = false;
+        loaderPanel.SetActive(true);
         FindObjectOfType<RoyalRumbleScript>().retreivePlayerList(); 
     }
 
