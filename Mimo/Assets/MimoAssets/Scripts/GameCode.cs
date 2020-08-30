@@ -138,6 +138,11 @@ public class GameCode : MonoBehaviour
             PlayerPhysics.invincible--;
             Multiplayer.CheckForInternetConnection();
             Multiplayer.ui.setLeaderBoardData();
+            if(FBHolder.isLoggedIn){
+                FindObjectOfType<UI>().cashPanel.SetActive(true);
+                FindObjectOfType<UserProfile>().getData(false);
+            }else
+                FindObjectOfType<UI>().cashPanel.SetActive(false);
 
             if (life <= 0 && Multiplayer.oppLife <= 0)
             {

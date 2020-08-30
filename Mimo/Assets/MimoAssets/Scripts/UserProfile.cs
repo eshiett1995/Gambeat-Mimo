@@ -13,6 +13,7 @@ public class UserProfile : MonoBehaviour
     public RawImage avatar;
     public GameObject profile, background, walletDialog, PaymentPanel, withdrawDialog;
     public static string paymentUrl;
+    private static bool isProfile;
 
 
     void Start()
@@ -23,6 +24,14 @@ public class UserProfile : MonoBehaviour
         wallet.onClick.AddListener(() => openWallet());
         closeWal.onClick.AddListener(() => closeWallet());
         back.onClick.AddListener(() => openMenu());
+        
+        getData(true);
+    }
+
+    public void getData(bool isProfile){
+        
+        UserProfile.isProfile = isProfile;
+
         SetProfileDataFromLocalStorage();
         StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, getProfileCallback));
     }
@@ -31,33 +40,39 @@ public class UserProfile : MonoBehaviour
     {
         ProfileResponse profileResponse = new ProfileResponse();
         profileResponse = JsonUtility.FromJson<ProfileResponse>(response.downloadHandler.text);
-        Debug.Log("here comes the prodile");
+        Debug.Log("here comes the profile");
         Debug.Log(response.downloadHandler.text);
         if (profileResponse.isSuccessful || profileResponse.successful)
         {
-            username.text = $"{profileResponse.firstName} {profileResponse.lastName}";
+            if(isProfile){
+                username.text = $"{profileResponse.firstName} {profileResponse.lastName}";
 
-            fullName.text = $"{profileResponse.firstName} {profileResponse.lastName}";
-            PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), profileResponse.firstName);
-            PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), profileResponse.lastName);
+                fullName.text = $"{profileResponse.firstName} {profileResponse.lastName}";
+                PlayerPrefs.SetString(LocalStorageUtil.Keys.firstName.ToString(), profileResponse.firstName);
+                PlayerPrefs.SetString(LocalStorageUtil.Keys.lastName.ToString(), profileResponse.lastName);
 
-            email.text = profileResponse.email;
-            PlayerPrefs.SetString(LocalStorageUtil.Keys.email.ToString(), profileResponse.email);
+                email.text = profileResponse.email;
+                PlayerPrefs.SetString(LocalStorageUtil.Keys.email.ToString(), profileResponse.email);
 
-            games.text = (profileResponse.wins + profileResponse.draws + profileResponse.losses).ToString();
-            PlayerPrefs.SetFloat(LocalStorageUtil.Keys.games.ToString(), profileResponse.wins + profileResponse.draws + profileResponse.losses);
+                games.text = (profileResponse.wins + profileResponse.draws + profileResponse.losses).ToString();
+                PlayerPrefs.SetFloat(LocalStorageUtil.Keys.games.ToString(), profileResponse.wins + profileResponse.draws + profileResponse.losses);
 
-            wins.text = profileResponse.wins.ToString();
-            PlayerPrefs.SetFloat(LocalStorageUtil.Keys.wins.ToString(), profileResponse.wins);
+                wins.text = profileResponse.wins.ToString();
+                PlayerPrefs.SetFloat(LocalStorageUtil.Keys.wins.ToString(), profileResponse.wins);
 
-            draws.text = profileResponse.draws.ToString();
-            PlayerPrefs.SetFloat(LocalStorageUtil.Keys.draws.ToString(), profileResponse.draws);
+                draws.text = profileResponse.draws.ToString();
+                PlayerPrefs.SetFloat(LocalStorageUtil.Keys.draws.ToString(), profileResponse.draws);
 
-            losses.text = profileResponse.draws.ToString();
-            PlayerPrefs.SetFloat(LocalStorageUtil.Keys.losses.ToString(), profileResponse.losses);
+                losses.text = profileResponse.draws.ToString();
+                PlayerPrefs.SetFloat(LocalStorageUtil.Keys.losses.ToString(), profileResponse.losses);
 
-            cash.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
-            PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), profileResponse.walletBalance);
+                cash.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
+                PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), profileResponse.walletBalance);
+            
+            }else{
+
+                FindObjectOfType<UI>().cashText.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
+            }
         }
         else
         {

@@ -18,6 +18,7 @@ public class FBHolder : MonoBehaviour
     public Sprite faceBookLoginImage;
     public Sprite faceBookLogoutImage;
     public static Texture2D profilePic;
+    public static bool isLoggedIn;
 
 
     private void Start()
@@ -63,6 +64,7 @@ public class FBHolder : MonoBehaviour
     {
         if (FB.IsLoggedIn)
         {
+            isLoggedIn = false;
             FB.LogOut();
         }
         else
@@ -99,6 +101,8 @@ public class FBHolder : MonoBehaviour
 
     private void FetchProfileCallback(IGraphResult result)
     {
+        isLoggedIn = true;
+
         firstName = result.ResultDictionary["first_name"].ToString();
         lastName = result.ResultDictionary["last_name"].ToString();
         email = result.ResultDictionary["email"].ToString();

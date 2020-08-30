@@ -10,12 +10,12 @@ public class UI : MonoBehaviour
     public RawImage img, img2, img3, spike, spike2, bottomSpike, life, p1life, p2life, p1Avatar, p2Avatar, p1Ready, p2Ready, loading;
     private float y, y2, y3, iy, iy2, iy3;
     public Text scoreText, scoreText2, stakeText, statusText, internetText, confirmText, BottomPanelText,
-        p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, userIDText, 
-        BottomPanelButton, royalListHeader;
+        p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, 
+        BottomPanelButton, royalListHeader, cashText;
     private Texture2D[] lifeImages = new Texture2D[4];
     public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
     public GameObject border1, border2, border3, border4;
-    public Button restart, menu, ok;
+    public Button restart, menu;
     public bool startingGame, displayingMatchUp, isDraw, oppSpawned;
     public static bool doneLoading, isRoyal;
     public Button single, multi, leaderboardButton, exit, start, plus, minus, cancel, rematch;
@@ -23,7 +23,8 @@ public class UI : MonoBehaviour
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
     public GameObject BottomPanel, confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, 
-    multiMenuPanel, OneVOnePanel, RoyalPanel, royalListPanel, LeaguePanel, multiPairPanel, tutorialPanel, lbPanel;
+    multiMenuPanel, OneVOnePanel, RoyalPanel, royalListPanel, LeaguePanel, multiPairPanel, tutorialPanel,
+    cashPanel, lbPanel;
     private int[] amounts = { 100,
                               200,
                               500,
@@ -87,6 +88,8 @@ public class UI : MonoBehaviour
         RoyalPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         LeaguePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         loaderPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        cashPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+
         //confirmPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
 
         spikeY = spike.rectTransform.position.y;
