@@ -11,6 +11,7 @@ public class Tournament
     public int playerLimit;
     public bool hasStarted;
     public bool hasFinished;
+    public bool matchEnded;
     public long entryFee;
     public long startTime;
     public bool registered;
@@ -29,7 +30,7 @@ public class Tournament
         updateDatabase();
     }
 
-    public Tournament(string id,string name, int totalPlayers, int playerLimit, long entryFee, bool registered, long startTime, bool hasStarted, bool hasFinished)
+    public Tournament(string id,string name, int totalPlayers, int playerLimit, long entryFee, bool registered, long startTime, bool hasStarted, bool hasFinished, bool matchEnded)
     {
         this.id = id;
         this.tournamentName = name;
@@ -40,6 +41,7 @@ public class Tournament
         this.startTime = startTime;
         this.hasStarted = hasStarted;
         this.hasFinished = hasFinished;
+        this.matchEnded = matchEnded;
         hr = DateTime.Now.Hour;
         day = DateTime.Now.Day;
     }

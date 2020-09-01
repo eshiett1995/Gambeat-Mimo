@@ -110,7 +110,7 @@ public class RoyalRumbleScript : MonoBehaviour
         if (royalRumbleSearchResponse.successful || royalRumbleSearchResponse.isSuccessful)
         {
             royalRumbleSearchResponse.content.ForEach(tournament => {
-                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime, tournament.hasStarted, tournament.hasFinished));
+                tournaments.Add(new Tournament(tournament.id, tournament.name, tournament.numberOfCompetitors, tournament.competitorLimit, tournament.entryFee, tournament.registered, tournament.startTime, tournament.hasStarted, tournament.hasFinished, tournament.matchEnded));
             });
 
             sortPages(tournaments.Count);

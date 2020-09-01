@@ -140,7 +140,7 @@ public class GameCode : MonoBehaviour
             Multiplayer.ui.setLeaderBoardData();
             if(FBHolder.isLoggedIn){
                 FindObjectOfType<UI>().cashPanel.SetActive(true);
-                FindObjectOfType<UserProfile>().getData(false);
+              
             }else
                 FindObjectOfType<UI>().cashPanel.SetActive(false);
 

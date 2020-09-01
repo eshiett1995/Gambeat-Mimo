@@ -33,5 +33,6 @@ public class RoyalRumbleSearchResponse : ResponseModel
 
         public bool hasStarted;
         public bool hasFinished;
+        public bool matchEnded;
     }
 }
