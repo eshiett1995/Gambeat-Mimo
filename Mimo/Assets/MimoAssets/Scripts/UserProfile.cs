@@ -95,6 +95,21 @@ public class UserProfile : MonoBehaviour
         walletDialog.SetActive(false);
     }
 
+    public void CreditWallet(string amount) {
+        var amountToCredit = float.Parse(amount);
+        var availableCash = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString(), 0);
+        cash.text = $"N{((availableCash + amountToCredit)/ 100).ToString("N0")}";
+        PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), availableCash + amountToCredit);
+    }
+
+    public void DebitWallet(string amount)
+    {
+        var amountToDebit = float.Parse(amount);
+        var availableCash = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString(), 0);
+        cash.text = $"N{((availableCash - amountToDebit) / 100).ToString("N0")}";
+        PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), availableCash - amountToDebit);
+    }
+
     public void makeDeposit()
     {
         if (Application.platform == RuntimePlatform.Android)

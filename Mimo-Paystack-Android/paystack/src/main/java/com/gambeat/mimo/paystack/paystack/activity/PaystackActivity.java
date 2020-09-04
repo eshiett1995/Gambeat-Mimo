@@ -17,10 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gambeat.mimo.paystack.paystack.Constants;
 import com.gambeat.mimo.paystack.paystack.R;
 import com.gambeat.mimo.paystack.paystack.WebInterface;
+import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.HashMap;
 
-public class PaystackActivity extends AppCompatActivity {
+public class PaystackActivity extends UnityPlayerActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

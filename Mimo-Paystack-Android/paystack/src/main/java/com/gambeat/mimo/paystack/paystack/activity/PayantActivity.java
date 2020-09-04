@@ -1,10 +1,12 @@
 package com.gambeat.mimo.paystack.paystack.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -15,11 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gambeat.mimo.paystack.paystack.Constants;
 import com.gambeat.mimo.paystack.paystack.R;
-import com.gambeat.mimo.paystack.paystack.WebInterface;
+import com.unity3d.player.UnityPlayer;
+import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.HashMap;
 
-public class PayantActivity extends AppCompatActivity {
+public class PayantActivity extends UnityPlayerActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,4 +77,18 @@ public class PayantActivity extends AppCompatActivity {
         return linkData;
     }
 
+    public class WebInterface {
+        private Context mContext;
+        public WebInterface(Context c) {
+            mContext = c;
+        }
+
+        @JavascriptInterface
+        public void payantOnSuccess(int amount) {
+            UnityPlayer. UnitySendMessage("UserProfile","CreditWallet",String.valueOf(amount));
+        }
+
+        @JavascriptInterface
+        public void payantOnError() {}
+    }
 }

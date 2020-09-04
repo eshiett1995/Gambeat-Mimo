@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.gambeat.mimo.paystack.paystack.activity.PayantActivity;
 import com.gambeat.mimo.paystack.paystack.activity.PaystackActivity;
 import com.gambeat.mimo.paystack.paystack.activity.WalletAfricaActivity;
+import com.unity3d.player.UnityPlayer;
 
 
 public class AndroidBridge {
