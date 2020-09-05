@@ -67,12 +67,12 @@ public class UserProfile : MonoBehaviour
                 PlayerPrefs.SetFloat(LocalStorageUtil.Keys.losses.ToString(), profileResponse.losses);
 
                 cash.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
-                PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), profileResponse.walletBalance);
-            
+                PlayerPrefs.SetString(LocalStorageUtil.Keys.cash.ToString(), profileResponse.walletBalance.ToString());
+
         }
         else
         {
-            Debug.Log("this is the message: " + profileResponse.message);
+            
         }
     }
 
@@ -180,8 +180,9 @@ public class UserProfile : MonoBehaviour
         draws.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.draws.ToString()).ToString();
 
         losses.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.losses.ToString()).ToString();
+        long parsedWalletBalance = long.Parse(PlayerPrefs.GetString(LocalStorageUtil.Keys.cash.ToString()));
+        cash.text = $"N{(parsedWalletBalance / 100).ToString("N0")}";
 
-        cash.text = $"N{PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString()) / 100:N0}";
     }
 
     private void Update()
