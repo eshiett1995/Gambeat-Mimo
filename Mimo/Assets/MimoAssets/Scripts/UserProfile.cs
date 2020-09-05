@@ -26,27 +26,6 @@ public class UserProfile : MonoBehaviour
         back.onClick.AddListener(() => openMenu());
         
         getData(true);
-
-        AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
-        if (javaClass != null)
-        {
-            //LocalStorageUtil.getAuthKey()
-            javaClass.CallStatic("toast", activity, "in start method");
-        }
-    }
-
-    private void Awake()
-    {
-        AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
-        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
-        if (javaClass != null)
-        {
-            //LocalStorageUtil.getAuthKey()
-            javaClass.CallStatic("toast", activity, "in awake method");
-        }
     }
 
     public void getData(bool isProfile){
@@ -219,24 +198,5 @@ public class UserProfile : MonoBehaviour
         losses.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.losses.ToString()).ToString();
 
         cash.text = $"N{PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString()) / 100:N0}";
-    }
-
-    private void Update()
-    {
-        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-
-        AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-        AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
-
-        bool credit = intent.Call<bool>("getBooleanExtra", "credit");
-
-        int amount = intent.Call<int>("getIntExtra", "amount");
-
-        
-     
-            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
-            javaClass.CallStatic("toast", currentActivity, amount.ToString());
-       
     }
 }

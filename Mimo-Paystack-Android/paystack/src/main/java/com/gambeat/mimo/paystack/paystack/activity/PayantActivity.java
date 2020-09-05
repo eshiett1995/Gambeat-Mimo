@@ -78,7 +78,7 @@ public class PayantActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        UnityPlayer.currentActivity.onBackPressed();
+        super.onBackPressed();
     }
 
     public class WebInterface {
@@ -91,7 +91,6 @@ public class PayantActivity extends AppCompatActivity {
         public void payantOnSuccess(int amount) {
             Intent intent = new Intent(mContext, Constants.baseContext.getClass());
             intent.putExtra("amount", amount);
-            intent.putExtra("credit", true);
             mContext.startActivity(intent);
         }
 
