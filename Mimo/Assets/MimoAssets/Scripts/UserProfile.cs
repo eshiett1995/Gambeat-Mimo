@@ -43,8 +43,6 @@ public class UserProfile : MonoBehaviour
     {
         ProfileResponse profileResponse = new ProfileResponse();
         profileResponse = JsonUtility.FromJson<ProfileResponse>(response.downloadHandler.text);
-        Debug.Log("here comes the profile");
-        Debug.Log(response.downloadHandler.text);
         if (profileResponse.isSuccessful || profileResponse.successful)
         {
                 username.text = $"{profileResponse.firstName} {profileResponse.lastName}";
