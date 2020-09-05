@@ -26,6 +26,22 @@ public class UserProfile : MonoBehaviour
         back.onClick.AddListener(() => openMenu());
         
         getData(true);
+
+        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+
+        AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
+
+        bool credit = intent.Call<bool>("getBooleanExtra", "credit");
+
+        int amount = intent.Call<int>("getIntExtra", "amount");
+
+        Debug.Log("this is the credit " + credit);
+
+        Debug.Log("this is the amount " + amount);
+
+
     }
 
     public void getData(bool isProfile){
