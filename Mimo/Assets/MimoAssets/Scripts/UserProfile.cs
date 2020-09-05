@@ -27,21 +27,6 @@ public class UserProfile : MonoBehaviour
         
         getData(true);
 
-        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-
-        AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-
-        AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
-
-        bool credit = intent.Call<bool>("getBooleanExtra", "credit");
-
-        int amount = intent.Call<int>("getIntExtra", "amount");
-
-        Debug.Log("this is the credit " + credit);
-
-        Debug.Log("this is the amount " + amount);
-
-
     }
 
     public void getData(bool isProfile){
@@ -214,5 +199,22 @@ public class UserProfile : MonoBehaviour
         losses.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.losses.ToString()).ToString();
 
         cash.text = $"N{PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString()) / 100:N0}";
+    }
+
+    private void Update()
+    {
+        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+
+        AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+        AndroidJavaObject intent = currentActivity.Call<AndroidJavaObject>("getIntent");
+
+        bool credit = intent.Call<bool>("getBooleanExtra", "credit");
+
+        int amount = intent.Call<int>("getIntExtra", "amount");
+
+        Debug.Log("this is the credit " + credit);
+
+        Debug.Log("this is the amount " + amount);
     }
 }
