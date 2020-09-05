@@ -1,6 +1,8 @@
 ﻿using System;
+using Facebook.Unity;
 using UnityEngine;
 using UnityEngine.Android;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -41,6 +43,10 @@ public class UI : MonoBehaviour
 
     void Start()
     {
+        if (FB.IsLoggedIn)
+        {
+            StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, GetProfileCallback));
+        }
 
         iy = Screen.height / 2;
         iy2 = -Screen.height / 2;
@@ -832,5 +838,20 @@ public class UI : MonoBehaviour
         {
             javaClass.CallStatic("customToast", activity, message);
         }
-    } 
+    }
+
+    private void GetProfileCallback(UnityWebRequest response)
+    {
+        ProfileResponse profileResponse = new ProfileResponse();
+        profileResponse = JsonUtility.FromJson<ProfileResponse>(response.downloadHandler.text);
+        Debug.Log("here comes the profile");
+        Debug.Log(response.downloadHandler.text);
+        if (profileResponse.isSuccessful || profileResponse.successful)
+        {
+            
+          FindObjectOfType<UI>().cashText.text = $"N{(profileResponse.walletBalance / 100).ToString("N0")}";
+          
+        }
+  
+    }
 }

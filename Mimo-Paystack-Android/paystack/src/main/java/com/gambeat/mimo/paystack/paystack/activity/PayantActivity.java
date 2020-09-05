@@ -17,8 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.gambeat.mimo.paystack.paystack.Constants;
 import com.gambeat.mimo.paystack.paystack.R;
-import com.unity3d.player.UnityPlayer;
-import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.HashMap;
 
@@ -49,8 +47,7 @@ public class PayantActivity extends AppCompatActivity {
                 boolean shouldClose = Boolean.parseBoolean(linkData.get("shouldClose"));
                 if (shouldClose) {
                     Intent intent = new Intent(PayantActivity.this, Constants.baseContext.getClass());
-                    setResult(Activity.RESULT_OK, intent);
-                    finish();
+                    startActivity(intent);
                 } else {
                     return false;
                 }

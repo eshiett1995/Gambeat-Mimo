@@ -14,6 +14,8 @@ public class UserProfile : MonoBehaviour
     public GameObject profile, background, walletDialog, PaymentPanel, withdrawDialog;
     public static string paymentUrl;
     private static bool isProfile;
+    public float targetTime = 60.0f;
+    public bool startTimer = false;
 
 
     void Start()
@@ -25,14 +27,15 @@ public class UserProfile : MonoBehaviour
         closeWal.onClick.AddListener(() => closeWallet());
         back.onClick.AddListener(() => openMenu());
         
-        getData(true);
+        getData();
     }
 
-    public void getData(bool isProfile){
-        
-        UserProfile.isProfile = isProfile;
-
+    public void getData(){
         SetProfileDataFromLocalStorage();
+        StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, getProfileCallback));
+    }
+
+    public void GetProfileData() {
         StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, getProfileCallback));
     }
 
@@ -44,7 +47,6 @@ public class UserProfile : MonoBehaviour
         Debug.Log(response.downloadHandler.text);
         if (profileResponse.isSuccessful || profileResponse.successful)
         {
-            if(isProfile){
                 username.text = $"{profileResponse.firstName} {profileResponse.lastName}";
 
                 fullName.text = $"{profileResponse.firstName} {profileResponse.lastName}";
@@ -69,10 +71,6 @@ public class UserProfile : MonoBehaviour
                 cash.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
                 PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), profileResponse.walletBalance);
             
-            }else{
-
-                FindObjectOfType<UI>().cashText.text = $"N{(profileResponse.walletBalance/100).ToString("N0")}";
-            }
         }
         else
         {
@@ -95,23 +93,10 @@ public class UserProfile : MonoBehaviour
         walletDialog.SetActive(false);
     }
 
-    public void CreditWallet(string amount) {
-        var amountToCredit = float.Parse(amount);
-        var availableCash = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString(), 0);
-        cash.text = $"N{((availableCash + amountToCredit)/ 100).ToString("N0")}";
-        PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), availableCash + amountToCredit);
-    }
-
-    public void DebitWallet(string amount)
-    {
-        var amountToDebit = float.Parse(amount);
-        var availableCash = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString(), 0);
-        cash.text = $"N{((availableCash - amountToDebit) / 100).ToString("N0")}";
-        PlayerPrefs.SetFloat(LocalStorageUtil.Keys.cash.ToString(), availableCash - amountToDebit);
-    }
 
     public void makeDeposit()
     {
+        startTimer = true;
         if (Application.platform == RuntimePlatform.Android)
         {
             AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -127,7 +112,7 @@ public class UserProfile : MonoBehaviour
         }
         else
         {
-            //Generate URL
+         
             paymentUrl = "https://gambeat.com.ng/payant";
 
             closeWallet();
@@ -139,6 +124,7 @@ public class UserProfile : MonoBehaviour
 
     public void makeCashoutOut()
     {
+        startTimer = true;
         if (Application.platform == RuntimePlatform.Android)
         {
             AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -198,5 +184,17 @@ public class UserProfile : MonoBehaviour
         losses.text = PlayerPrefs.GetFloat(LocalStorageUtil.Keys.losses.ToString()).ToString();
 
         cash.text = $"N{PlayerPrefs.GetFloat(LocalStorageUtil.Keys.cash.ToString()) / 100:N0}";
+    }
+
+    private void Update()
+    {
+       if (startTimer) {
+          targetTime -= Time.deltaTime;
+           if (targetTime <= 0.0f)
+           {
+               GetProfileData();
+               targetTime = 60.0f;
+           }
+       }
     }
 }
