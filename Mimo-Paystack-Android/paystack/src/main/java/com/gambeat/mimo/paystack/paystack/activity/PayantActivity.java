@@ -22,7 +22,7 @@ import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.HashMap;
 
-public class PayantActivity extends UnityPlayerActivity {
+public class PayantActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,9 +78,7 @@ public class PayantActivity extends UnityPlayerActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(PayantActivity.this, Constants.baseContext.getClass());
-        startActivity(intent);
+        UnityPlayer.currentActivity.onBackPressed();
     }
 
     public class WebInterface {
@@ -92,8 +90,9 @@ public class PayantActivity extends UnityPlayerActivity {
         @JavascriptInterface
         public void payantOnSuccess(int amount) {
             Intent intent = new Intent(mContext, Constants.baseContext.getClass());
+            intent.putExtra("amount", amount);
+            intent.putExtra("credit", true);
             mContext.startActivity(intent);
-            UnityPlayer. UnitySendMessage("UserProfile","CreditWallet",String.valueOf(amount));
         }
 
         @JavascriptInterface
