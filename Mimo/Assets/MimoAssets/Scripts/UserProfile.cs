@@ -223,7 +223,7 @@ public class UserProfile : MonoBehaviour
 
     private void Update()
     {
-       /** AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 
         AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
@@ -233,14 +233,10 @@ public class UserProfile : MonoBehaviour
 
         int amount = intent.Call<int>("getIntExtra", "amount");
 
-        Debug.Log("this is the credit " + credit);
-
-        Debug.Log("this is the amount " + amount);
-        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
-        if (javaClass != null)
-        {
-            //LocalStorageUtil.getAuthKey()
-            javaClass.CallStatic("initWalletAfrica", activity, LocalStorageUtil.getAuthKey());
-        }**/
+        
+     
+            AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+            javaClass.CallStatic("toast", currentActivity, amount.ToString());
+       
     }
 }
