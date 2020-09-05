@@ -30,11 +30,10 @@ public class FBHolder : MonoBehaviour
     {
         if (firstName.Equals(""))
         {
-            Debug.Log("You need to log in first");
+            
         }
         else
         {
-            Debug.Log("Opening Profile");
             SceneManager.LoadScene("ProfileScene");
         }
     }
@@ -133,7 +132,7 @@ public class FBHolder : MonoBehaviour
             }
             else
             {
-                Debug.Log("this is the bad message: " + responseModel.message);
+                
             }
         }));
     }
