@@ -64,7 +64,6 @@ public class PayantActivity extends UnityPlayerActivity {
                 } else {
                     mimoWebview.loadUrl("init("+"'"+authKey+"'"+", 'android');");
                 }
-
             }
         });
     }
@@ -77,6 +76,13 @@ public class PayantActivity extends UnityPlayerActivity {
         return linkData;
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(PayantActivity.this, Constants.baseContext.getClass());
+        startActivity(intent);
+    }
+
     public class WebInterface {
         private Context mContext;
         public WebInterface(Context c) {
@@ -85,6 +91,8 @@ public class PayantActivity extends UnityPlayerActivity {
 
         @JavascriptInterface
         public void payantOnSuccess(int amount) {
+            Intent intent = new Intent(mContext, Constants.baseContext.getClass());
+            mContext.startActivity(intent);
             UnityPlayer. UnitySendMessage("UserProfile","CreditWallet",String.valueOf(amount));
         }
 
