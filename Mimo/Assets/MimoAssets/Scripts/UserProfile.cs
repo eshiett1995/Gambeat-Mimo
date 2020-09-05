@@ -27,6 +27,26 @@ public class UserProfile : MonoBehaviour
         
         getData(true);
 
+        AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+        if (javaClass != null)
+        {
+            //LocalStorageUtil.getAuthKey()
+            javaClass.CallStatic("toast", activity, "in start method");
+        }
+    }
+
+    private void Awake()
+    {
+        AndroidJavaClass playerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        AndroidJavaObject activity = playerClass.GetStatic<AndroidJavaObject>("currentActivity");
+        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+        if (javaClass != null)
+        {
+            //LocalStorageUtil.getAuthKey()
+            javaClass.CallStatic("toast", activity, "in awake method");
+        }
     }
 
     public void getData(bool isProfile){
@@ -203,7 +223,7 @@ public class UserProfile : MonoBehaviour
 
     private void Update()
     {
-        AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+       /** AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 
         AndroidJavaObject currentActivity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
@@ -216,5 +236,11 @@ public class UserProfile : MonoBehaviour
         Debug.Log("this is the credit " + credit);
 
         Debug.Log("this is the amount " + amount);
+        AndroidJavaObject javaClass = new AndroidJavaClass("com.gambeat.mimo.paystack.paystack.AndroidBridge");
+        if (javaClass != null)
+        {
+            //LocalStorageUtil.getAuthKey()
+            javaClass.CallStatic("initWalletAfrica", activity, LocalStorageUtil.getAuthKey());
+        }**/
     }
 }
