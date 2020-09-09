@@ -94,7 +94,7 @@ public class UI : MonoBehaviour
         RoyalPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         LeaguePanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
         loaderPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
-        cashPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
+        //cashPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
 
         //confirmPanel.transform.localScale = new Vector3(Screen.width / 720f, Screen.width / 720f, 0);
 

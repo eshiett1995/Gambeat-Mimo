@@ -37,14 +37,14 @@ public class RoyalChild : MonoBehaviour
         FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         RoyalRumbleScript.selectedTournament = tournament;
             
-        if (tournament.hasFinished)
+        if (tournament.matchEnded)
         {
-            Debug.Log("Tournament has finished");
+            Debug.Log("Match has Ended");
             FindObjectOfType<UI>().BottomPanelText.text = "Match has Ended";
             FindObjectOfType<UI>().BottomPanelButton.text = "View Results";
             FindObjectOfType<UI>().BottomPanel.SetActive(true);
-        }else if(tournament.hasStarted){
-            Debug.Log("Tournament has started");
+        }else if(tournament.hasFinished){
+            Debug.Log("Tournament has been Played");
             FindObjectOfType<UI>().BottomPanelText.text = "Awaiting Results in " + GetRemainingTime(tournament.startTime);
             FindObjectOfType<UI>().BottomPanelButton.text = "OK";
             FindObjectOfType<UI>().BottomPanel.SetActive(true);
