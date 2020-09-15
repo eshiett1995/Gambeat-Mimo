@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    
     public static float scrollSpeed;
     public RawImage img, img2, img3, spike, spike2, bottomSpike, life, p1life, p2life, p1Avatar, p2Avatar, p1Ready, p2Ready, loading;
     private float y, y2, y3, iy, iy2, iy3;
@@ -45,6 +46,8 @@ public class UI : MonoBehaviour
     {
         if (FB.IsLoggedIn)
         {
+            cashText = FindObjectOfType<UI>().cashText;
+            GetCashFromLocalStorage(cashText);
             StartCoroutine(HttpUtil.Get(HttpUtil.userProfileUrl, GetProfileCallback));
         }
 
@@ -840,6 +843,22 @@ public class UI : MonoBehaviour
         }
     }
 
+    private void GetCashFromLocalStorage(Text cashText) {
+
+        long balanceInKobo = long.Parse(PlayerPrefs.GetString(LocalStorageUtil.Keys.cash.ToString()));
+
+        if (balanceInKobo / 100 > 10000)
+        {
+            var stringValue = (balanceInKobo / 100).ToString("N0");
+            string number = stringValue.Split(',')[0].Trim();
+            cashText.text = $"N{number}k";
+        }
+        else
+        {
+            cashText.text = $"N{(balanceInKobo / 100).ToString("N0")}";
+        }
+    }
+
     private void GetProfileCallback(UnityWebRequest response)
     {
         ProfileResponse profileResponse = new ProfileResponse();
@@ -853,11 +872,11 @@ public class UI : MonoBehaviour
             {
                 var stringValue = (profileResponse.walletBalance / 100).ToString("N0");
                 string number = stringValue.Split(',')[0].Trim();
-                FindObjectOfType<UI>().cashText.text = $"N{number}k";
+                cashText.text = $"N{number}k";
             }
             else
             {
-                FindObjectOfType<UI>().cashText.text = $"N{(profileResponse.walletBalance / 100).ToString("N0")}";
+                cashText.text = $"N{(profileResponse.walletBalance / 100).ToString("N0")}";
             }
           
         }
