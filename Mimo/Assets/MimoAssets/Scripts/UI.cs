@@ -848,8 +848,17 @@ public class UI : MonoBehaviour
         Debug.Log(response.downloadHandler.text);
         if (profileResponse.isSuccessful || profileResponse.successful)
         {
-            
-          FindObjectOfType<UI>().cashText.text = $"N{(profileResponse.walletBalance / 100).ToString("N0")}";
+
+            if (profileResponse.walletBalance / 100 > 10000)
+            {
+                var stringValue = (profileResponse.walletBalance / 100).ToString("N0");
+                string number = stringValue.Split(',')[0].Trim();
+                FindObjectOfType<UI>().cashText.text = $"N{number}k";
+            }
+            else
+            {
+                FindObjectOfType<UI>().cashText.text = $"N{(profileResponse.walletBalance / 100).ToString("N0")}";
+            }
           
         }
   
