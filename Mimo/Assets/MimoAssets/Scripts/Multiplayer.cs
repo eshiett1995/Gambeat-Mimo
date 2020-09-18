@@ -25,6 +25,7 @@ public class Multiplayer : MonoBehaviour
     public static List<Spawn> objSpawns = new List<Spawn>();
     public static List<string> lbNames = new List<string>();
     public static List<int> lbScores = new List<int>();
+    public static List<string> transactions = new List<string>();
     public static LeaderBoardResponse leaderBoardData = new LeaderBoardResponse();
 
     public enum Connection
@@ -122,6 +123,14 @@ public class Multiplayer : MonoBehaviour
         lbNames.Clear();
         lbScores.Clear();
     }
+
+    public void retreiveHistory(){
+        Debug.Log("Retreiving History");
+        //Save list to Multiplayer.transactions
+       
+        UI.doneLoading = true;
+    }
+
     public void uploadHighScore()
     {
         

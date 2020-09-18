@@ -15,6 +15,11 @@ TagManager:
   - RoyalView
   - ConfirmDialog
   - RoyalList
+  - InvitesView
+  - ListView2
+  - Fruit
+  - GridView
+  - HistoryView
   layers:
   - Default
   - TransparentFX

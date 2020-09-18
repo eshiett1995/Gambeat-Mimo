@@ -15,7 +15,7 @@ public class UI : MonoBehaviour
         p1Name, p2Name, stakeText2, winningsText, info1, info2, p1GameName, p2GameName, 
         BottomPanelButton, royalListHeader, cashText;
     private Texture2D[] lifeImages = new Texture2D[4];
-    public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, leaderboard;
+    public GameObject platform1, platform2, platform3, platform4, p1Profile, p2Profile, listViewChild, historyChild, leaderboard;
     public GameObject border1, border2, border3, border4;
     public Button restart, menu;
     public bool startingGame, displayingMatchUp, isDraw, oppSpawned;
@@ -24,7 +24,7 @@ public class UI : MonoBehaviour
     public Button newRoyal;
     private float spikeY, spike2Y, lifeY, scoreY, platform1Y, platform2Y, platform3Y, platform4Y,
         p1ProfileX, p2ProfileX, p1NameX, p2NameX, stakeY, winningsY, rematchY;
-    public GameObject BottomPanel, confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, 
+    public GameObject BottomPanel, confirmPanel, loaderPanel, menuPanel, gameOverPanel, UIPanel, UIPanel2, historyPanel,
     multiMenuPanel, OneVOnePanel, RoyalPanel, royalListPanel, LeaguePanel, multiPairPanel, tutorialPanel,
     cashPanel, lbPanel;
     private int[] amounts = { 100,
@@ -153,7 +153,24 @@ public class UI : MonoBehaviour
         startingGame = true;
     }
 
+    public void openHistory(){
+        
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
+        FindObjectOfType<GameCode>().resetHistory();
+        historyPanel.SetActive(true);
+        
+        doneLoading = false;
+        loaderPanel.SetActive(true);
+        FindObjectOfType<Multiplayer>().retreiveHistory(); 
+    }
+    public void closeHistory(){
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
+        FindObjectOfType<GameCode>().resetHistory();
+        historyPanel.SetActive(false);
+    }
+
     public void closeRoyalList(){
+        FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
         royalListPanel.SetActive(false);
     }
     public void startMultiPlayer()
@@ -207,6 +224,8 @@ public class UI : MonoBehaviour
     {
 
         setRoyalLeaderBoardData();
+        setHistoryData();
+
         listView.GetComponent<VerticalLayoutGroup>().padding.left = (int)(Screen.width / 2.12f);
 
         if (lbPanel.activeSelf && FindObjectOfType<GameCode>().leaderboardItems.Count == 0)
@@ -261,6 +280,20 @@ public class UI : MonoBehaviour
         }
     }
 
+     public void setHistoryData()
+    {
+        
+        if (historyPanel.activeSelf && FindObjectOfType<GameCode>().historyItems.Count == 0)
+        {
+            Debug.Log("Setting History data");
+
+            for (int i = 0; i < Multiplayer.transactions.Count; i++)
+            {
+                Instantiate(historyChild.gameObject, GameObject.FindGameObjectWithTag("HistoryView").transform);
+            }
+        }
+    }
+
     void multiplayerOptions()
     {
         FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
@@ -268,6 +301,7 @@ public class UI : MonoBehaviour
         multiMenuPanel.SetActive(true);
 
     }
+
     void startMulti()
     {
         FindObjectOfType<GameCode>().playSound(GameCode.Sound.Button); 
