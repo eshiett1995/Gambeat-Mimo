@@ -133,7 +133,7 @@ public class Multiplayer : MonoBehaviour
             matchSearchResponse = JsonUtility.FromJson<MatchSearchResponse>(response.downloadHandler.text);
             if (matchSearchResponse.isSuccessful || matchSearchResponse.successful)
             {
-                Debug.Log("HighScore updated to server " + matchSearchResponse.message);
+                Debug.Log("name of contents " + matchSearchResponse.content[0].name);
             }
             else
             {
