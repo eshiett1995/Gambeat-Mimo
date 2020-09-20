@@ -10,6 +10,7 @@ public class HttpUtil
     static public string userProfileUrl = baseUrl + "/user";
     static public string facebookAuthUrl = baseUrl + "/auth/facebook";
     static public string royalRumbleSearch = baseUrl + "/match/royal-rumble/search";
+    static public string matchHistory = baseUrl + "/match/entered";
     static public string royalRumbleCreate = baseUrl + "/match/royal-rumble/create";
     static public string royalRumbleInit = baseUrl + "/match/royal-rumble/init";
     static public string royalRumbleJoin = baseUrl + "/match/royal-rumble/join";

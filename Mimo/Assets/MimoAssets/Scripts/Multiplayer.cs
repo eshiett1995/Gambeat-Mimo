@@ -125,9 +125,24 @@ public class Multiplayer : MonoBehaviour
     }
 
     public void retreiveHistory(){
-        Debug.Log("Retreiving History");
-        //Save list to Multiplayer.transactions
-       
+        int pageNumber = 0;
+        MatchSearchResponse matchSearchResponse = new MatchSearchResponse();
+        StartCoroutine(HttpUtil.Get($"{HttpUtil.matchHistory}/{pageNumber}", (response) =>
+        {
+            Debug.Log("the response text " + response.downloadHandler.text);
+            matchSearchResponse = JsonUtility.FromJson<MatchSearchResponse>(response.downloadHandler.text);
+            if (matchSearchResponse.isSuccessful || matchSearchResponse.successful)
+            {
+                Debug.Log("HighScore updated to server " + matchSearchResponse.message);
+            }
+            else
+            {
+                Debug.Log("this is the message: " + matchSearchResponse.message);
+            }
+        }));
+
+        Debug.Log("Uploading Highscore to database");
+
         UI.doneLoading = true;
     }
 
