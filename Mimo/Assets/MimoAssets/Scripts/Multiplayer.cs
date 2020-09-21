@@ -133,7 +133,15 @@ public class Multiplayer : MonoBehaviour
             matchSearchResponse = JsonUtility.FromJson<MatchSearchResponse>(response.downloadHandler.text);
             if (matchSearchResponse.isSuccessful || matchSearchResponse.successful)
             {
-                Debug.Log("name of contents " + matchSearchResponse.content[0].name);
+                for (var index = 0; index < matchSearchResponse.content.Count(); index++)
+                {
+                    String tournamentStat = $"Date: {matchSearchResponse.content[index].startTime}\n" +
+                                        $"Match details: {matchSearchResponse.content[index].name}\n" +
+                                        $"Entry fee: N{matchSearchResponse.content[index].entryFee/1000}\n" +
+                                        $"Price: N{(matchSearchResponse.content[index].entryFee/1000) * matchSearchResponse.content[index].numberOfCompetitors}\n" +
+                                        $"Status:{matchSearchResponse.content[index].entryFee / 1000}";
+                    transactions.Add(tournamentStat);
+                }
             }
             else
             {

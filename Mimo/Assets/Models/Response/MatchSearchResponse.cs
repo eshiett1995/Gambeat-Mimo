@@ -29,7 +29,7 @@ public class MatchSearchResponse : ResponseModel
         public int numberOfCompetitors;
         public string winners;
         public int competitorLimit;
-
+        public bool isWinner;
         public bool hasStarted;
         public bool hasFinished;
         public bool matchEnded;
