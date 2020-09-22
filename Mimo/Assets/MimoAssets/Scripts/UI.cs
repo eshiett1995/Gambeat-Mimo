@@ -288,8 +288,6 @@ public class UI : MonoBehaviour
         
         if (historyPanel.activeSelf && GameCode.historyItems.Count == 0)
         {
-            Debug.Log("Setting History data");
-
             for (int i = 0; i < Multiplayer.transactions.Count; i++)
             {
                 Instantiate(historyChild.gameObject, GameObject.FindGameObjectWithTag("HistoryView").transform);

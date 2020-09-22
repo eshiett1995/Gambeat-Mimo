@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
 using System.Net;
+using static MatchSearchResponse;
 
 public class Multiplayer : MonoBehaviour
 {
@@ -125,10 +126,52 @@ public class Multiplayer : MonoBehaviour
     }
 
     public void retreiveHistory(){
-        Debug.Log("Retreiving History");
-        //Save list to Multiplayer.transactions
-       
+        int pageNumber = 0;
+        MatchSearchResponse matchSearchResponse = new MatchSearchResponse();
+        StartCoroutine(HttpUtil.Get($"{HttpUtil.matchHistory}/{pageNumber}", (response) =>
+        {
+            Debug.Log("the response text " + response.downloadHandler.text);
+            matchSearchResponse = JsonUtility.FromJson<MatchSearchResponse>(response.downloadHandler.text);
+            if (matchSearchResponse.isSuccessful || matchSearchResponse.successful)
+            {
+                for (var index = 0; index < matchSearchResponse.content.Count(); index++)
+                {
+                    String tournamentStat = $"Date: {FromUnixTime(matchSearchResponse.content[index].startTime)}\n" +
+                                        $"Match details: {matchSearchResponse.content[index].name}\n" +
+                                        $"Entry fee: N{matchSearchResponse.content[index].entryFee/1000}\n" +
+                                        $"Price: N{(matchSearchResponse.content[index].entryFee/1000) * matchSearchResponse.content[index].numberOfCompetitors}\n" +
+                                        $"Status:{GetStatus(matchSearchResponse.content[index])}";
+                    transactions.Add(tournamentStat);
+                }
+            }
+            else
+            {
+                Debug.Log("this is the message: " + matchSearchResponse.message);
+            }
+        }));
+
+        Debug.Log("Uploading Highscore to database");
+
         UI.doneLoading = true;
+    }
+
+    public String GetStatus(FormattedMatch formattedMatch) {
+        if (formattedMatch.winner)
+        {
+            return "Winner";
+        }
+        else if (!formattedMatch.matchEnded)
+        {
+            return "Result pending";
+        }
+        else {
+            return "Losser";
+        }
+    }
+    public String FromUnixTime(long unixTime)
+    {
+        var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        return epoch.AddMilliseconds(unixTime).ToString("dd-MM-yyyy");
     }
 
     public void uploadHighScore()
