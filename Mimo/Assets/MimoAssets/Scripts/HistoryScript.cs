@@ -9,10 +9,10 @@ public class HistoryScript : MonoBehaviour
 
     void Start()
     {
-        int index = FindObjectOfType<GameCode>().historyItems.Count;
+        int index = GameCode.historyItems.Count;
         txt.text = Multiplayer.transactions[index];
 
-        FindObjectOfType<GameCode>().historyItems.Add(this.gameObject);
+        GameCode.historyItems.Add(this.gameObject);
     }
 
 }

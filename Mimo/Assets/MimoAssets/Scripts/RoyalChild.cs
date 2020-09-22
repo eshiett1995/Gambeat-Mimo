@@ -14,7 +14,7 @@ public class RoyalChild : MonoBehaviour
 
     void Start()
     {
-        index = FindObjectOfType<GameCode>().tournamentItems.Count;
+        index = GameCode.tournamentItems.Count;
         tournament = RoyalRumbleScript.currentPage[index];
         int no = RoyalRumbleScript.startIndex + index + 1;
         indexText.text = no + ".";
@@ -25,7 +25,7 @@ public class RoyalChild : MonoBehaviour
         entryFee.text = "Entry Fee : " + UI.getNaira(tournament.entryFee/100);
         prize.text = UI.getNaira(tournament.getPrize());
         timeLeft.text = GetRemainingTime(tournament.startTime);
-        FindObjectOfType<GameCode>().tournamentItems.Add(this.gameObject);    
+        GameCode.tournamentItems.Add(this.gameObject);    
         DetermineBackgroundPanelColor(tournament);
         
         select.onClick.AddListener(() => selectMatch(index));

@@ -286,7 +286,7 @@ public class UI : MonoBehaviour
      public void setHistoryData()
     {
         
-        if (historyPanel.activeSelf && FindObjectOfType<GameCode>().historyItems.Count == 0)
+        if (historyPanel.activeSelf && GameCode.historyItems.Count == 0)
         {
             Debug.Log("Setting History data");
 

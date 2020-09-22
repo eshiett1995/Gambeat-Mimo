@@ -19,8 +19,8 @@ public class GameCode : MonoBehaviour
     public static Multiplayer mp;
     public static GameCode game;
     public List<GameObject> leaderboardItems = new List<GameObject>();
-    public List<GameObject> tournamentItems = new List<GameObject>();
-    public List<GameObject> historyItems = new List<GameObject>();
+    public static List<GameObject> tournamentItems = new List<GameObject>();
+    public static List<GameObject> historyItems = new List<GameObject>();
     public AudioSource audio, audio2, music;
     public AudioClip bounceClip, dieClip, reviveClip, breakClip, buttonClip, lifeClip, m1,m2,m3,m4;
     private bool isSound = true, isMusic = true;
