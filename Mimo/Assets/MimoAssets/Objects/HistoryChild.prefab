@@ -145,8 +145,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -70.7, y: -2.6}
-  m_SizeDelta: {x: 524.5, y: 144.8}
+  m_AnchoredPosition: {x: -70.7, y: -58.3}
+  m_SizeDelta: {x: 524.5, y: 256.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1468558170670596238
 CanvasRenderer:
@@ -178,7 +178,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 584753b162a084bf1ae824948bdbf0f8, type: 3}
-    m_FontSize: 40
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -189,4 +189,5 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Elon Musk iorhion dijd jijd dijd dmdk dkmd sijd kfkkd dodod dood
+  m_Text: "Date: 12/09/20\nMatch details: RoyalRumble Tournament \u201CKill dem\u201D
+    \nEntry fee: N500 \nPrice: N6000 \nPosition: 7th/20\nStatus: Lost"

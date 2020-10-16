@@ -142,17 +142,20 @@ public class Multiplayer : MonoBehaviour
                                         $"Price: N{(matchSearchResponse.content[index].entryFee/1000) * matchSearchResponse.content[index].numberOfCompetitors}\n" +
                                         $"Status:{GetStatus(matchSearchResponse.content[index])}";
                     transactions.Add(tournamentStat);
+
+                    if(index == matchSearchResponse.content.Count()-1)
+                        UI.doneLoading = true;
                 }
             }
             else
             {
+                UI.doneLoading = true;
                 Debug.Log("this is the message: " + matchSearchResponse.message);
             }
         }));
 
         Debug.Log("Uploading Highscore to database");
 
-        UI.doneLoading = true;
     }
 
     public String GetStatus(FormattedMatch formattedMatch) {
