@@ -10223,7 +10223,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Tournaments '
+  m_Text: History
 --- !u!222 &902612460
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17816,8 +17816,6 @@ MonoBehaviour:
   highscoreText: {fileID: 273556832}
   restart: {fileID: 1066218943}
   leaderboardItems: []
-  tournamentItems: []
-  historyItems: []
   audio: {fileID: 1659779667}
   audio2: {fileID: 1659779669}
   music: {fileID: 1659779668}
@@ -19934,9 +19932,9 @@ MonoBehaviour:
     m_Left: 330
     m_Right: 0
     m_Top: 490
-    m_Bottom: 490
+    m_Bottom: 650
   m_ChildAlignment: 0
-  m_Spacing: 1030
+  m_Spacing: 1080
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
